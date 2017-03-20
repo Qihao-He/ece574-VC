@@ -1,0 +1,129 @@
+ECE574 Spring 2017 Homework #6
+
+Names of group members:Qihao He
+
+Any comments:
+
+/* sobel_before */
+real	0m1.117s
+user	0m1.024s
+sys	0m0.056s
+
+output_width=3888, output_height=2592, output_components=3
+load_jpeg time is:144729
+sobelx time is:359252
+sobely time is:329410
+Combine time is:157602
+store_jpeg time is:69300
+
+/* PAPI measure the time various subcomponents take to run */
+/* sobel_coarse */
+real	0m0.878s
+user	0m1.588s
+sys	0m0.088s
+
+output_width=3888, output_height=2592, output_components=3
+load_jpeg time is:145364
+sobelx time is:390904
+sobely time is:393308
+Combine time is:203874
+store_jpeg time is:69288
+
+/* Calculate the speedup and parallel efficiency compared to the non-parallel
+version */
+SPEEDUP=Told/Tnew=1.117/0.878=1.3
+
+/* sobel_fine 1 thread */
+real	0m1.207s
+user	0m1.116s
+sys	0m0.056s
+
+output_width=3888, output_height=2592, output_components=3
+load_jpeg time is:145587
+sobelx time is:393191
+sobelx time is:388981
+Combine time is:154862
+store_jpeg time is:69209
+
+/* sobel_fine 2 threads */
+real	0m1.303s
+user	0m2.132s
+sys	0m0.052s
+
+output_width=3888, output_height=2592, output_components=3
+load_jpeg time is:145751
+sobelx time is:503687
+sobelx time is:462290
+Combine time is:82513
+store_jpeg time is:69793
+
+/* sobel_fine 4 threads */
+real	0m1.459s
+user	0m3.692s
+sys	0m0.048s
+
+output_width=3888, output_height=2592, output_components=3
+load_jpeg time is:145612
+sobelx time is:584448
+sobelx time is:504267
+Combine time is:111355
+store_jpeg time is:74579
+
+/* sobel_fine 8 threads */
+real	0m1.472s
+user	0m4.132s
+sys	0m0.052s
+
+output_width=3888, output_height=2592, output_components=3
+load_jpeg time is:145665
+sobelx time is:571187
+sobelx time is:515697
+Combine time is:109414
+store_jpeg time is:77474
+
+/* sobel_fine 16 threads */
+real	0m1.424s
+user	0m4.656s
+sys	0m0.084s
+
+output_width=3888, output_height=2592, output_components=3
+load_jpeg time is:145846
+sobelx time is:554675
+sobelx time is:512141
+Combine time is:90924
+store_jpeg time is:74363
+
+/* sobel_fine 32 threads */
+real	0m1.761s
+user	0m8.160s
+sys	0m0.180s
+
+output_width=3888, output_height=2592, output_components=3
+load_jpeg time is:144946
+sobelx time is:697481
+sobelx time is:663502
+Combine time is:121188
+store_jpeg time is:72803
+
+/* Does changing the thread scheduler from static to dynamic change your
+performance in the 16-thread case? */
+The real time has increased after changed from static to dynamic. The dynamic
+takes longer than the static.
+/* Changed to dynamic from static */
+real	0m3.080s
+user	0m31.308s
+sys	0m0.792s
+
+output_width=3888, output_height=2592, output_components=3
+load_jpeg time is:145126
+sobelx time is:506344
+sobelx time is:520054
+Combine time is:1795860
+store_jpeg time is:70996
+
+
+Conclusion:
+OMP parallel is very easy to establish, but its performance is limited. In the
+sections, its speedup improved a little. However, in the FOR directive, its
+performance is getting worse as the threads increase, and even changing the
+dynamic seemingly would improve the performance did not work as seems.

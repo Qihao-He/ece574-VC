@@ -1,0 +1,6 @@
+output_width=3888, output_height=2592, output_components=3
+load_jpeg time is:145128
+sobelx time is:266432
+sobelx time is:259769
+Combine time is:2577470
+store_jpeg time is:68811

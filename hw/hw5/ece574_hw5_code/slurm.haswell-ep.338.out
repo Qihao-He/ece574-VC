@@ -1,0 +1,5 @@
+output_width=3888, output_height=2592, output_components=3
+Master thread exiting,validating results
+Total convolution time is:1487889802079584
+Combine time is:156945
+Store_jpeg time is:70863

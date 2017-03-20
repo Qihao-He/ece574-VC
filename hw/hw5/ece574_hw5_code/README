@@ -1,0 +1,84 @@
+ECE574 Spring 2017 Homework #5
+
+Names of group members:Qihao He	
+Results:
+
+/* IMG_1733.JPG */
+
+e574-10@haswell-ep:~/hw5/ece574_hw5_code$ cat slurm.haswell-ep.339.err 
+
+real	0m1.296s
+user	0m2.000s
+sys	0m0.080s
+
+ece574-10@haswell-ep:~/hw5/ece574_hw5_code$ cat slurm.haswell-ep.339.out 
+output_width=3888, output_height=2592, output_components=3
+Master thread exiting,validating results
+Total convolution time is:871186
+Combine time is:162418
+Store_jpeg time is:69369
+
+
+/* HW4 */
+Sobel measurements (IMG_1733):
+/*~~~ time taken  ~~~*/
+1.530354361 seconds time elapsed
+
+Any comments:
+The real time has shortened from 1.53 to 1.296.
+
+Something cool,I have made the sobel_fine that can generate 8 threads as user input.
+The processing time shortened as the threads increases. However, you said my code is
+wrong at the point that I did not allocate enough threads at the NUM_THREADS. I
+should be using the malloc. I don't know how to use that but I think my code works as
+the results are printing and the time shortened.
+
+ece574-10@haswell-ep:~/hw5/ece574_hw5_code$ ./sobel_fine IMG_1733.JPG 
+output_width=3888, output_height=2592, output_components=3
+Please select NUM_THREADS: 2
+Creating thread 0
+Creating thread 1
+Creating thread 0
+Creating thread 1
+Master thread exiting,validating results
+Total convolution time is:858420
+Combine time is:163911
+Store_jpeg time is:69358
+ece574-10@haswell-ep:~/hw5/ece574_hw5_code$ ./sobel_fine IMG_1733.JPG 
+output_width=3888, output_height=2592, output_components=3
+Please select NUM_THREADS: 4
+Creating thread 0
+Creating thread 1
+Creating thread 2
+Creating thread 3
+Creating thread 0
+Creating thread 1
+Creating thread 2
+Creating thread 3
+Master thread exiting,validating results
+Total convolution time is:311280
+Combine time is:202479
+Store_jpeg time is:69724
+ece574-10@haswell-ep:~/hw5/ece574_hw5_code$ ./sobel_fine IMG_1733.JPG 
+output_width=3888, output_height=2592, output_components=3
+Please select NUM_THREADS: 8
+Creating thread 0
+Creating thread 1
+Creating thread 2
+Creating thread 3
+Creating thread 4
+Creating thread 5
+Creating thread 6
+Creating thread 7
+Creating thread 0
+Creating thread 1
+Creating thread 2
+Creating thread 3
+Creating thread 4
+Creating thread 5
+Creating thread 6
+Creating thread 7
+Master thread exiting,validating results
+Total convolution time is:134302
+Combine time is:207614
+Store_jpeg time is:76920 
