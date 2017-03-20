@@ -1,0 +1,78 @@
+ECE574 HW#4
+
+Names of group members:Qihao He		
+
+Sobel measurements (butterfinger):
+/*~~~ time taken  ~~~*/
+0.029478503 seconds time elapsed
+
+/*~~~ L3/CYC PAPI data ~~~*/
+Sobe574-10@haswell-ep:~/hw4/ece574_hw4_code$ ./sobel butterfinger.jpg 
+output_width=320, output_height=320, output_components=3
+
+sobel_x L3 cache misses: 1540
+sobel_x cycles: 9374414
+
+sobel_y L3 cache misses: 5
+sobel_y cycles: 9268506
+
+combine L3 cache misses: 1
+combine cycles: 4779455 
+
+
+Sobel measurements (IMG_1733):
+/*~~~ time taken  ~~~*/
+1.530354361 seconds time elapsed
+
+/*~~~ L3/CYC PAPI data ~~~*/
+ece574-10@haswell-ep:~/hw4/ece574_hw4_code$ perf stat -d ./sobel IMG_1733.JPG
+output_width=3888, output_height=2592, output_components=3
+
+sobel_x L3 cache misses: 713625
+sobel_x cycles: 1547296227
+
+sobel_y L3 cache misses: 708801
+sobel_y cycles: 1533451242
+
+combine L3 cache misses: 1258513
+combine cycles: 1122534032
+
+Something cool (if any):
+	Describe what you did:
+Changing the loop ordering from the Outside loop x and inside loop y to Outside
+loop y and inside loop x.
+I find that the time and cache misses changes a lot when the loop order changes.
+
+	Measurements:
+/*~~~ L3/CYC PAPI data ~~~*/
+574-10@haswell-ep:~/hw4/ece574_hw4_code$ perf stat -d ./sobel_improved butterfinger.jpg
+output_width=320, output_height=320, output_components=3
+
+sobel_x L3 cache misses: 718
+sobel_x cycles: 9022147
+
+sobel_y L3 cache misses: 0
+sobel_y cycles: 8908157
+
+combine L3 cache misses: 1
+combine cycles: 4807940
+
+/*~~~ time taken  ~~~*/
+0.028291318 seconds time elapsed
+
+/*~~~ L3/CYC PAPI data ~~~*/
+
+/*~~574-10@haswell-ep:~/hw4/ece574_hw4_code$ perf stat -d ./sobel_improved IMG_1733.JPG
+output_width=3888, output_height=2592, output_components=3
+
+sobel_x L3 cache misses: 17868
+sobel_x cycles: 887717838
+
+sobel_y L3 cache misses: 17331
+sobel_y cycles: 887343013
+
+combine L3 cache misses: 1246208
+combine cycles: 1123724502
+
+/*~~~ time taken  ~~~*/
+1.133913745 seconds time elapsed

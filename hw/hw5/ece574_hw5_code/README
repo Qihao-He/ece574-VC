@@ -1,0 +1,14 @@
+ECE574 Spring 2017 Homework #6
+
+Names of group members: Qihao He
+
+Any comments:
+
+ece574-10@haswell-ep:~/hw6/ece574_hw6_code$ ./sobel_coarse IMG_1733.JPG 
+output_width=3888, output_height=2592, output_components=3
+load_jpeg time is:144235
+sobelx time is:838568
+sobely time is:849492
+Master thread exiting.
+Combine time is:201041
+store_jpeg time is:68636
