@@ -5,6 +5,12 @@ Reading the lec13 notes about the MPI program.
 MPI code
 Rank
 
+custom Data types
+You can creat custom data types that aren't the MPI default, sort of like
+structures.
+
+QUESTION: Can you just cast your data into integers and uncast on the other
+side.
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
