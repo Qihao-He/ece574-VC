@@ -63,9 +63,13 @@ openmp dynamic schedule.c
 • Each thread starts with one, but zero runs all the rest
 because it is so fast.
 
+QUESTION:
 If this intuitive theory would lead to the process of handling data time
 consuming, why is the static and dynamic schedule in our HW showing the opposite
 results.
+Why is the thread zero runs all the rest because it is so fast? Isn't the
+thread are sharing the processor evenly?
+
 
 
 --------------------------------------------------------------------------------

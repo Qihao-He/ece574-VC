@@ -15,4 +15,8 @@ time?
 lec11
 static and dynamic schedule
 QUESTION: Why is the Dynamic not working as fast as the static schedule in the
-test?
+test? If this intuitive theory would lead to the process of handling data time
+consuming, why is the static and dynamic schedule in our HW showing the opposite
+results.
+Why is the thread zero runs all the rest because it is so fast? Isn't the
+thread are sharing the processor evenly?
