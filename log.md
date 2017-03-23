@@ -42,6 +42,7 @@ The Linux limitations makes the Distributed System.
 MPI-Message Passing Interface
 
 lec11
+Scope
 static and dynamic schedule
 QUESTION: Why is the Dynamic not working as fast as the static schedule in the
 test?
@@ -54,11 +55,19 @@ openmp static schedule.c
 • You can see thread 0 runs through its assignment fast
 and then sits around doing nothing while the rest slowly
 finish.
+
+Dynamic schedule
+openmp dynamic schedule.c
+• Creates 100 threads with chunksize of 1.
+• Threads are assigned loop indices dynamically.
+• Each thread starts with one, but zero runs all the rest
+because it is so fast.
+
 If this intuitive theory would lead to the process of handling data time
 consuming, why is the static and dynamic schedule in our HW showing the opposite
 results.
 
-Scope
+
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
