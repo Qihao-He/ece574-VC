@@ -46,6 +46,19 @@ static and dynamic schedule
 QUESTION: Why is the Dynamic not working as fast as the static schedule in the
 test?
 
+Results:
+openmp static schedule.c
+• Creates 100 threads with chunksize of 1.
+• Threads are assigned loop indices at compile time.
+• In example, thread 0 is fastest and 4 the slowest.
+• You can see thread 0 runs through its assignment fast
+and then sits around doing nothing while the rest slowly
+finish.
+If this intuitive theory would lead to the process of handling data time
+consuming, why is the static and dynamic schedule in our HW showing the opposite
+results.
+
+Scope
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
