@@ -70,7 +70,15 @@ results.
 Why is the thread zero runs all the rest because it is so fast? Isn't the
 thread are sharing the processor evenly?
 
+Changing Chunksize
+Threads are assignned same amount of time to run.
+Spread mostly evenly but the last set of chunks, only two threads get assigned
+while the others have nothing to do.
+Switch to "guided" and the chunksize decreases over time and the ending is a bit
+more balanced.
 
+QUESTION: Why is the dynamic allocate the chunksize is leaving only two threads
+assigned and reast doing nothing. Why is the guided helping the allocating.
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------

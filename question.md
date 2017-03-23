@@ -20,3 +20,7 @@ consuming, why is the static and dynamic schedule in our HW showing the opposite
 results.
 Why is the thread zero runs all the rest because it is so fast? Isn't the
 thread are sharing the processor evenly?
+
+Changing Chunksize
+QUESTION: Why is the dynamic allocate the chunksize is leaving only two threads
+assigned and reast doing nothing. Why is the guided helping the allocating.
