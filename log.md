@@ -37,6 +37,15 @@ PAPI returns a long integer that is showing the time, but the mpi_wtime.c
 returns the the floating point. Are they measuring in cycles? or in Wall clock
 time?
 
+lec12
+The Linux limitations makes the Distributed System.
+MPI-Message Passing Interface
+
+lec11
+static and dynamic schedule
+QUESTION: Why is the Dynamic not working as fast as the static schedule in the
+test?
+
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
