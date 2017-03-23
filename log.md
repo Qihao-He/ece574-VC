@@ -11,6 +11,32 @@ structures.
 
 QUESTION: Can you just cast your data into integers and uncast on the other
 side.
+I think that because the data structure can be customized, so the data can be
+cast into integers and uncast on the other side.
+
+running the MPI code is:
+$mpiexec -n 4 ./test_mpi
+You'll often see mpirun instead. Some implementations have that, but it's not
+the official standard way.
+
+Send Example
+mpi_send.c
+Run with
+$mpirun -np 4 ./mpi_send
+
+Sends 1 millon integers(each with value of 1) to each node.
+Each adds up 1/4th then sends only the sum(a single int) back.
+Notice this is a lot like pthreads where we have to go a lot of work manually.
+
+mpi_wtime.c
+Same as previous example, but with timing.
+Unlike PAPI, the time is returned as a floating point value.
+
+QUESTION
+PAPI returns a long integer that is showing the time, but the mpi_wtime.c
+returns the the floating point. Are they measuring in cycles? or in Wall clock
+time?
+
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
