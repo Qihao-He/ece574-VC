@@ -23,4 +23,4 @@ thread are sharing the processor evenly?
 
 Changing Chunksize
 QUESTION: Why is the dynamic allocate the chunksize is leaving only two threads
-assigned and reast doing nothing. Why is the guided helping the allocating.
+assigned and reast doing nothing. Why is the guided helping the allocating?

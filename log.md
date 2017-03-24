@@ -78,7 +78,7 @@ Switch to "guided" and the chunksize decreases over time and the ending is a bit
 more balanced.
 
 QUESTION: Why is the dynamic allocate the chunksize is leaving only two threads
-assigned and reast doing nothing. Why is the guided helping the allocating.
+assigned and reast doing nothing. Why is the guided helping the allocating?
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
