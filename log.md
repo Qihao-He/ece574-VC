@@ -90,10 +90,34 @@ offload
 lec10
 OpenMP
 Shared memory multi-processing interface.
+Goal: parallelize serial code by just adding a few compiler directives here and
+there.
+No need to totally re-write code like you would with pthread or MPI.
+OpenMP interface:
+    compiler directives
+        Spawning a parallel region
+        Dividing blocks of code among threads
+        Distributing loop iterations between threads
+        Serializing sections of code
+        Synchronization of work among threads
+    library routines
+        • Need to #include <omp.h>
+        • Getting and setting the number of threads
+        • Getting a thread’s ID
+        • Getting and setting threads features
+        • Checking in in parallel region
+        • Checking nested parallelism
+        • Locking
+        • Wall clock measurements
+    environment variables
+        • Setting number of threads
+        • Configuring loop iteration division
+        • Processor bindings
+        • Nested Parallelism settings
+        • Dynamic thread settings
+        • Stack size
+        • Wait policy
 
-compiler directives
-library routines
-environment variables
 parallel directives
 variable scopes
 work-sharing constructs
