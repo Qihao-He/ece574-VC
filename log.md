@@ -80,6 +80,30 @@ more balanced.
 QUESTION: Why is the dynamic allocate the chunksize is leaving only two threads
 assigned and reast doing nothing. Why is the guided helping the allocating?
 
+Critical section
+Use for race condition.
+section
+reduction directive
+simd reduction
+offload
+
+lec10
+OpenMP
+Shared memory multi-processing interface.
+
+compiler directives
+library routines
+environment variables
+parallel directives
+variable scopes
+work-sharing constructs
+scheduling
+reductions
+OMP sections
+synchronization
+flush directive
+nested parallelism
+
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
