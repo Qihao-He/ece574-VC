@@ -121,7 +121,9 @@ OpenMP interface:
 parallel directives
 variable scopes
 work-sharing constructs
+For
 scheduling
+data dependencies
 reductions
 OMP sections
 synchronization
@@ -129,6 +131,11 @@ flush directive
 nested parallelism
 
 --------------------------------------------------------------------------------
+3/29/2017
+Deciding for final project title. Maybe making cluster machine using PI.
+Maybe joining Nicolas team. Alternative option would be using PI GPU for FFT
+algorithm enhancement.
+
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
