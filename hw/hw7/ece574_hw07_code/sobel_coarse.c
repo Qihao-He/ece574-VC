@@ -262,7 +262,23 @@ int main(int argc, char **argv) {
 	MPI_Barrier(MPI_COMM_WORLD); */
 
 	/* Send the image parameters (image.x, image.y, image.depth) to all other
-	ranks */
+	ranks, sending an array of 3 INTS */
+	MPI_Bcast(A,	/* buffer */
+		ARRAYSIZE,	/* count */
+		MPI_INT,	/* type */
+		0,		/* root source */
+		MPI_COMM_WORLD);
+
+	/* Malloc image.pixels in the non rank-0 threads */
+
+	/* Use MPI_Bcast() to broadcast the entire image data from rank0 to all the
+	other ranks. You want to broadcast “image.pixels”, not all of image (remember,
+ 	MPI you can’t send structs, just arrays). */
+	MPI_Bcast(A,	/* buffer */
+		ARRAYSIZE,	/* count */
+		MPI_INT,	/* type */
+		0,		/* root source */
+		MPI_COMM_WORLD);
 
 	/* Allocate space for output image */
 	new_image.x=image.x;
