@@ -243,10 +243,23 @@ int main(int argc, char **argv) {
 
 	start_time=MPI_Wtime();
 
+	/* Get number of tasks and our process number (rank) */
+	MPI_Comm_size(MPI_COMM_WORLD,&numtasks);
+	MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+
+	printf("R%d: Number of tasks= %d My rank= %d\n",
+		rank,numtasks,rank);
+
 	/* Load an image */
 	load_jpeg(argv[1],&image);
 
 	load_time=MPI_Wtime();
+
+	/* Only load the jpeg in rank 0 */
+	if (rank==0) {
+		printf("R0: Initializing array\n");
+		
+	}
 
 	/* Allocate space for output image */
 	new_image.x=image.x;
