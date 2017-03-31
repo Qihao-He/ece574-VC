@@ -250,16 +250,13 @@ int main(int argc, char **argv) {
 	printf("R%d: Number of tasks= %d My rank= %d\n",
 		rank,numtasks,rank);
 
-	/* Load an image */
-	load_jpeg(argv[1],&image);
-
-	load_time=MPI_Wtime();
-
 	/* Only load the jpeg in rank 0 */
 	if (rank==0) {
 		printf("R0: Initializing array\n");
-		
+		/* Load an image */
+		load_jpeg(argv[1],&image);
 	}
+		load_time=MPI_Wtime();
 
 	/* Allocate space for output image */
 	new_image.x=image.x;
