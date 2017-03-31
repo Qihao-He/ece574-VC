@@ -1,0 +1,2 @@
+3/31/2017
+QUESTION: Should here be a MPI_Barrier be waiting for all the threads?

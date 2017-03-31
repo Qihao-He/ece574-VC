@@ -256,7 +256,13 @@ int main(int argc, char **argv) {
 		/* Load an image */
 		load_jpeg(argv[1],&image);
 	}
-		load_time=MPI_Wtime();
+	load_time=MPI_Wtime();
+
+	/* QUESTION: Should here be a MPI_Barrier be waiting for all the threads?
+	MPI_Barrier(MPI_COMM_WORLD); */
+
+	/* Send the image parameters (image.x, image.y, image.depth) to all other
+	ranks */
 
 	/* Allocate space for output image */
 	new_image.x=image.x;
