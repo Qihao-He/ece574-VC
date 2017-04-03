@@ -280,6 +280,17 @@ int main(int argc, char **argv) {
 		0,		/* root source */
 		MPI_COMM_WORLD);
 
+	/* Use MPI_Gather() to get results and combine them into the results in rank 0
+	 */
+
+	/* On rank 0 alone, run combine */
+
+	/* On rank 0 alone, write the output to a file */
+
+	/* Calls MPI_wtime() to get the wallclock times for Load, Convolve, Combine,
+	and Store like we did with PAPI in the OpenMP code. You only need to record
+	and print these from rank 0. */
+
 	/* Allocate space for output image */
 	new_image.x=image.x;
 	new_image.y=image.y;
@@ -331,6 +342,7 @@ int main(int argc, char **argv) {
         printf("Store time: %lf\n",store_time-combine_time);
 	printf("Total time = %lf\n",store_time-start_time);
 
+/* MPI_Finalize at the end */
 	MPI_Finalize();
 
 	return 0;
