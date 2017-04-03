@@ -260,7 +260,8 @@ int main(int argc, char **argv) {
 		printf("R0: Initializing array\n");
 		/* Load an image */
 		load_jpeg(argv[1],&image);
-		load_time_start=MPI_Wtime();//load time start
+		//load_time_start=MPI_Wtime();//load time start
+		load_time=MPI_Wtime();
 
 		/* Send the image parameters (image.x, image.y, image.depth) to all other
 		ranks, sending an array of 3 INTS */
@@ -275,18 +276,12 @@ int main(int argc, char **argv) {
 					MPI_COMM_WORLD);
 		}
 	}
-	load_time_end=MPI_Wtime();//load time end
-
-	printf("****** R%d TIME %lf %lf %lf\n",
-		rank,
-		load_time_start,
-		load_time_end,
-		load_time_end-load_time_start);
 
 	/* QUESTION: Should here be a MPI_Barrier be waiting for all the threads?
 	MPI_Barrier(MPI_COMM_WORLD); */
 
 	/* Malloc image.pixels in the non rank-0 threads */
+	/* QUESTION: How to do Malloc in the file? */
 
 	/* Use MPI_Bcast() to broadcast the entire image data from rank0 to all the
 	other ranks. You want to broadcast “image.pixels”, not all of image (remember,
@@ -358,9 +353,9 @@ int main(int argc, char **argv) {
 	store_time=MPI_Wtime();
 
 	printf("Load time: %lf\n",load_time-start_time);
-        printf("Convolve time: %lf\n",convolve_time-load_time);
-        printf("Combine time: %lf\n",combine_time-convolve_time);
-        printf("Store time: %lf\n",store_time-combine_time);
+  printf("Convolve time: %lf\n",convolve_time-load_time);
+  printf("Combine time: %lf\n",combine_time-convolve_time);
+  printf("Store time: %lf\n",store_time-combine_time);
 	printf("Total time = %lf\n",store_time-start_time);
 
 	/* MPI_Finalize at the end */

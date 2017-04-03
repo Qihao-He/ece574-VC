@@ -1,2 +1,5 @@
 3/31/2017
 QUESTION: Should here be a MPI_Barrier be waiting for all the threads?
+
+4/3/2017
+QUESTION: How to do Malloc in the file?
