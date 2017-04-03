@@ -258,7 +258,6 @@ int main(int argc, char **argv) {
 
 	/* Only load the jpeg in rank 0 */
 	if (rank==0) {
-
 		/* Initialize Array */
 		printf("R0: Initializing array\n");
 		/* Load an image */
@@ -281,14 +280,19 @@ int main(int argc, char **argv) {
 					i,							/* destination */
 					13,							/* tag */
 					MPI_COMM_WORLD);
+
+			/* Malloc image.pixels in the non rank-0 threads */
+			printf("R0: MALLOC %d\n",i);
+			image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
+
+			new_image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
+			sobel_x.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
+			sobel_y.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 		}
 	}
 
 	/* QUESTION: Should here be a MPI_Barrier be waiting for all the threads?
 	MPI_Barrier(MPI_COMM_WORLD); */
-
-	/* Malloc image.pixels in the non rank-0 threads */
-	/* QUESTION: How to do Malloc in the file? */
 
 	/* Use MPI_Bcast() to broadcast the entire image data from rank0 to all the
 	other ranks. You want to broadcast “image.pixels”, not all of image (remember,
@@ -299,23 +303,23 @@ int main(int argc, char **argv) {
 		0,				/* root source */
 		MPI_COMM_WORLD);
 
-	/* Allocate space for output image */
-	new_image.x=image.x;
-	new_image.y=image.y;
-	new_image.depth=image.depth;
-	new_image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
-
-	/* Allocate space for output image */
-	sobel_x.x=image.x;
-	sobel_x.y=image.y;
-	sobel_x.depth=image.depth;
-	sobel_x.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
-
-	/* Allocate space for output image */
-	sobel_y.x=image.x;
-	sobel_y.y=image.y;
-	sobel_y.depth=image.depth;
-	sobel_y.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
+	// /* Allocate space for output image */
+	// new_image.x=image.x;
+	// new_image.y=image.y;
+	// new_image.depth=image.depth;
+	// new_image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
+	//
+	// /* Allocate space for output image */
+	// sobel_x.x=image.x;
+	// sobel_x.y=image.y;
+	// sobel_x.depth=image.depth;
+	// sobel_x.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
+	//
+	// /* Allocate space for output image */
+	// sobel_y.x=image.x;
+	// sobel_y.y=image.y;
+	// sobel_y.depth=image.depth;
+	// sobel_y.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 
 	/* convolution */
 	sobel_data[0].old=&image;
