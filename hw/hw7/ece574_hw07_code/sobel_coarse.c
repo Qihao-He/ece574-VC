@@ -230,6 +230,7 @@ int main(int argc, char **argv) {
 	int result;
 	int A[ARRAYSIZE]; //A Buffer
 	int B[ARRAYSIZE]; //B Buffer
+	long int arraysize_image; //arraysize of the image
 
 	/* Check command line usage */
 	if (argc<2) {
@@ -281,14 +282,23 @@ int main(int argc, char **argv) {
 					13,							/* tag */
 					MPI_COMM_WORLD);
 
-			/* Malloc image.pixels in the non rank-0 threads */
+			/* Malloc image.pixels input image in the non rank-0 threads */
 			printf("R0: MALLOC %d\n",i);
 			image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
-
-			new_image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
-			sobel_x.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
-			sobel_y.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 		}
+	}
+	/* Get the size of the	image */
+	arraysize_image=image.x*image.y*image.depth*sizeof(char);
+	/* MPI_Recv is required for other processes */
+	else {
+		/* This is run by all the non-master processes */
+		result = MPI_Recv(A,/* buffer */
+				ARRAYSIZE,			/* count */
+				MPI_INT,				/* type */
+				0,							/* source */
+				13,							/* tag */
+				MPI_COMM_WORLD,	/* communicator */
+				&Stat);					/* status */
 	}
 
 	/* QUESTION: Should here be a MPI_Barrier be waiting for all the threads?
@@ -297,29 +307,29 @@ int main(int argc, char **argv) {
 	/* Use MPI_Bcast() to broadcast the entire image data from rank0 to all the
 	other ranks. You want to broadcast “image.pixels”, not all of image (remember,
  	MPI you can’t send structs, just arrays). */
-	MPI_Bcast(A,/* buffer */
-		ARRAYSIZE,/* count */
-		MPI_INT,	/* type */
-		0,				/* root source */
+	MPI_Bcast(image.pixels,	/* buffer */
+		arraysize_image,			/* count */
+		MPI_CHAR,							/* type */
+		0,										/* root source */
 		MPI_COMM_WORLD);
 
-	// /* Allocate space for output image */
-	// new_image.x=image.x;
-	// new_image.y=image.y;
-	// new_image.depth=image.depth;
-	// new_image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
-	//
-	// /* Allocate space for output image */
-	// sobel_x.x=image.x;
-	// sobel_x.y=image.y;
-	// sobel_x.depth=image.depth;
-	// sobel_x.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
-	//
-	// /* Allocate space for output image */
-	// sobel_y.x=image.x;
-	// sobel_y.y=image.y;
-	// sobel_y.depth=image.depth;
-	// sobel_y.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
+	/* Allocate space for output image */
+	new_image.x=image.x;
+	new_image.y=image.y;
+	new_image.depth=image.depth;
+	new_image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
+
+	/* Allocate space for output image */
+	sobel_x.x=image.x;
+	sobel_x.y=image.y;
+	sobel_x.depth=image.depth;
+	sobel_x.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
+
+	/* Allocate space for output image */
+	sobel_y.x=image.x;
+	sobel_y.y=image.y;
+	sobel_y.depth=image.depth;
+	sobel_y.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 
 	/* convolution */
 	sobel_data[0].old=&image;
@@ -338,36 +348,48 @@ int main(int argc, char **argv) {
 
 	convolve_time=MPI_Wtime();
 
-	/* Use MPI_Gather() to get results and combine them into the results in rank 0
+/* Use MPI_Gather() to get results and combine them into the results in rank 0
 	 */
-	 MPI_Gather(A,/* send buffer */
- 		1,					/* count */
- 		MPI_INT,		/* type */
- 		B,					/* receive buffer */
- 		1,					/* count */
- 		MPI_INT,		/* type */
- 		0,					/* root source */
- 		MPI_COMM_WORLD);
+MPI_Gather(image.sobel_x,/* send buffer */
+	arraysize_image,					/* count */
+	MPI_CHAR,		/* type */
+	image.sobel_x,					/* receive buffer */
+	arraysize_image,					/* count */
+	MPI_CHAR,		/* type */
+	0,					/* root source */
+	MPI_COMM_WORLD);
 
-	/* On rank 0 alone, run combine */
-	/* Combine to form output */
+MPI_Gather(image.sobel_y,/* send buffer */
+	arraysize_image,					/* count */
+	MPI_CHAR,		/* type */
+	image.sobel_y,					/* receive buffer */
+	arraysize_image,					/* count */
+	MPI_CHAR,		/* type */
+	0,					/* root source */
+	MPI_COMM_WORLD);
+
+/* On rank 0 alone, run combine */
+/* Combine to form output */
+if (rank==0) {
 	combine(&sobel_x,&sobel_y,&new_image);
+}
+combine_time=MPI_Wtime();
 
-	combine_time=MPI_Wtime();
-
-	/* On rank 0 alone, write the output to a file */
-	/* Write data back out to disk */
+/* On rank 0 alone, write the output to a file */
+/* Write data back out to disk */
+if (rank==0) {
 	store_jpeg("out.jpg",&new_image);
+}
 
-	store_time=MPI_Wtime();
+store_time=MPI_Wtime();
 
-	printf("Load time: %lf\n",load_time-start_time);
-  printf("Convolve time: %lf\n",convolve_time-load_time);
-  printf("Combine time: %lf\n",combine_time-convolve_time);
-  printf("Store time: %lf\n",store_time-combine_time);
-	printf("Total time = %lf\n",store_time-start_time);
+printf("Load time: %lf\n",load_time-start_time);
+printf("Convolve time: %lf\n",convolve_time-load_time);
+printf("Combine time: %lf\n",combine_time-convolve_time);
+printf("Store time: %lf\n",store_time-combine_time);
+printf("Total time = %lf\n",store_time-start_time);
 
-	/* MPI_Finalize at the end */
-	MPI_Finalize();
-	return 0;
+/* MPI_Finalize at the end */
+MPI_Finalize();
+return 0;
 }
