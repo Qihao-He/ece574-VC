@@ -11,6 +11,7 @@
 #include <jpeglib.h>
 
 #include <mpi.h>
+#define ARRAYSIZE 3
 
 /* Filters */
 static int sobel_x_filter[3][3]={{-1,0,+1},{-2,0,+2},{-1,0,+1}};
@@ -227,6 +228,8 @@ int main(int argc, char **argv) {
 	struct convolve_data_t sobel_data[2];
 	double start_time,load_time,store_time,convolve_time,combine_time;
 	int result;
+	int A[ARRAYSIZE]; //A Buffer
+	int B[ARRAYSIZE]; //B Buffer
 
 	/* Check command line usage */
 	if (argc<2) {
@@ -265,6 +268,10 @@ int main(int argc, char **argv) {
 
 		/* Send the image parameters (image.x, image.y, image.depth) to all other
 		ranks, sending an array of 3 INTS */
+		A[0]= image.x;
+		A[1]= image.y;
+		A[2]= image.depth;
+
 		for(i=1;i<numtasks;i++) {
 			printf("R0: Sending %d ints to %d\n",
 				ARRAYSIZE,i);
@@ -291,8 +298,6 @@ int main(int argc, char **argv) {
 		MPI_INT,	/* type */
 		0,				/* root source */
 		MPI_COMM_WORLD);
-
-
 
 	/* Allocate space for output image */
 	new_image.x=image.x;
@@ -360,6 +365,5 @@ int main(int argc, char **argv) {
 
 	/* MPI_Finalize at the end */
 	MPI_Finalize();
-
 	return 0;
 }
