@@ -280,13 +280,6 @@ int main(int argc, char **argv) {
 		0,		/* root source */
 		MPI_COMM_WORLD);
 
-	/* Use MPI_Gather() to get results and combine them into the results in rank 0
-	 */
-
-	/* On rank 0 alone, run combine */
-
-	/* On rank 0 alone, write the output to a file */
-
 	/* Calls MPI_wtime() to get the wallclock times for Load, Convolve, Combine,
 	and Store like we did with PAPI in the OpenMP code. You only need to record
 	and print these from rank 0. */
@@ -326,11 +319,16 @@ int main(int argc, char **argv) {
 
 	convolve_time=MPI_Wtime();
 
+	/* Use MPI_Gather() to get results and combine them into the results in rank 0
+	 */
+
+	/* On rank 0 alone, run combine */
 	/* Combine to form output */
 	combine(&sobel_x,&sobel_y,&new_image);
 
 	combine_time=MPI_Wtime();
 
+	/* On rank 0 alone, write the output to a file */
 	/* Write data back out to disk */
 	store_jpeg("out.jpg",&new_image);
 
