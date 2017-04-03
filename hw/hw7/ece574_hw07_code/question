@@ -3,3 +3,11 @@ QUESTION: Should here be a MPI_Barrier be waiting for all the threads?
 
 4/3/2017
 QUESTION: How to do Malloc in the file?
+
+QUESTION: What does send buffer A and receive buffer B mean? Do we have to
+change the argument A and B?
+
+What is the count after the buffer, is it the amount that the send/receive
+buffer have?
+
+Why is the tag in the MPI_send() having 13 in default? What does 13 means?
