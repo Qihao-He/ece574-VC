@@ -241,6 +241,9 @@ int main(int argc, char **argv) {
 		MPI_Abort(MPI_COMM_WORLD, result);
 	}
 
+	/* Calls MPI_wtime() to get the wallclock times for Load, Convolve, Combine,
+	and Store like we did with PAPI in the OpenMP code. You only need to record
+	and print these from rank 0. */
 	start_time=MPI_Wtime();
 
 	/* Get number of tasks and our process number (rank) */
@@ -252,37 +255,49 @@ int main(int argc, char **argv) {
 
 	/* Only load the jpeg in rank 0 */
 	if (rank==0) {
+
+		/* Initialize Array */
 		printf("R0: Initializing array\n");
 		/* Load an image */
 		load_jpeg(argv[1],&image);
+		load_time_start=MPI_Wtime();//load time start
+
+		/* Send the image parameters (image.x, image.y, image.depth) to all other
+		ranks, sending an array of 3 INTS */
+		for(i=1;i<numtasks;i++) {
+			printf("R0: Sending %d ints to %d\n",
+				ARRAYSIZE,i);
+			result = MPI_Send(A,/* buffer */
+					ARRAYSIZE,			/* count */
+					MPI_INT,				/* type */
+					i,							/* destination */
+					13,							/* tag */
+					MPI_COMM_WORLD);
+		}
 	}
-	load_time=MPI_Wtime();
+	load_time_end=MPI_Wtime();//load time end
+
+	printf("****** R%d TIME %lf %lf %lf\n",
+		rank,
+		load_time_start,
+		load_time_end,
+		load_time_end-load_time_start);
 
 	/* QUESTION: Should here be a MPI_Barrier be waiting for all the threads?
 	MPI_Barrier(MPI_COMM_WORLD); */
-
-	/* Send the image parameters (image.x, image.y, image.depth) to all other
-	ranks, sending an array of 3 INTS */
-	MPI_Bcast(A,	/* buffer */
-		ARRAYSIZE,	/* count */
-		MPI_INT,	/* type */
-		0,		/* root source */
-		MPI_COMM_WORLD);
 
 	/* Malloc image.pixels in the non rank-0 threads */
 
 	/* Use MPI_Bcast() to broadcast the entire image data from rank0 to all the
 	other ranks. You want to broadcast “image.pixels”, not all of image (remember,
  	MPI you can’t send structs, just arrays). */
-	MPI_Bcast(A,	/* buffer */
-		ARRAYSIZE,	/* count */
+	MPI_Bcast(A,/* buffer */
+		ARRAYSIZE,/* count */
 		MPI_INT,	/* type */
-		0,		/* root source */
+		0,				/* root source */
 		MPI_COMM_WORLD);
 
-	/* Calls MPI_wtime() to get the wallclock times for Load, Convolve, Combine,
-	and Store like we did with PAPI in the OpenMP code. You only need to record
-	and print these from rank 0. */
+
 
 	/* Allocate space for output image */
 	new_image.x=image.x;
@@ -321,6 +336,14 @@ int main(int argc, char **argv) {
 
 	/* Use MPI_Gather() to get results and combine them into the results in rank 0
 	 */
+	 MPI_Gather(A,/* send buffer */
+ 		1,					/* count */
+ 		MPI_INT,		/* type */
+ 		B,					/* receive buffer */
+ 		1,					/* count */
+ 		MPI_INT,		/* type */
+ 		0,					/* root source */
+ 		MPI_COMM_WORLD);
 
 	/* On rank 0 alone, run combine */
 	/* Combine to form output */
@@ -340,7 +363,7 @@ int main(int argc, char **argv) {
         printf("Store time: %lf\n",store_time-combine_time);
 	printf("Total time = %lf\n",store_time-start_time);
 
-/* MPI_Finalize at the end */
+	/* MPI_Finalize at the end */
 	MPI_Finalize();
 
 	return 0;
