@@ -231,6 +231,8 @@ int main(int argc, char **argv) {
 	int A[ARRAYSIZE]; //A Buffer
 	int B[ARRAYSIZE]; //B Buffer
 	long int arraysize_image; //arraysize of the image
+	long int gather_sobel_x;
+	long int gather_sobel_y;
 
 	/* Check command line usage */
 	if (argc<2) {
@@ -350,28 +352,28 @@ int main(int argc, char **argv) {
 
 /* Use MPI_Gather() to get results and combine them into the results in rank 0
 	 */
-MPI_Gather(image.sobel_x,/* send buffer */
-	arraysize_image,					/* count */
-	MPI_CHAR,		/* type */
-	image.sobel_x,					/* receive buffer */
-	arraysize_image,					/* count */
-	MPI_CHAR,		/* type */
-	0,					/* root source */
+MPI_Gather(sobel_x,	/* send buffer */
+	arraysize_image,	/* count */
+	MPI_CHAR,					/* type */
+	gather_sobel_x,		/* receive buffer */
+	arraysize_image,	/* count */
+	MPI_CHAR,					/* type */
+	0,								/* root source */
 	MPI_COMM_WORLD);
 
-MPI_Gather(image.sobel_y,/* send buffer */
-	arraysize_image,					/* count */
-	MPI_CHAR,		/* type */
-	image.sobel_y,					/* receive buffer */
-	arraysize_image,					/* count */
-	MPI_CHAR,		/* type */
-	0,					/* root source */
+MPI_Gather(sobel_y,	/* send buffer */
+	arraysize_image,	/* count */
+	MPI_CHAR,					/* type */
+	gather_sobel_y,		/* receive buffer */
+	arraysize_image,	/* count */
+	MPI_CHAR,					/* type */
+	0,								/* root source */
 	MPI_COMM_WORLD);
 
 /* On rank 0 alone, run combine */
 /* Combine to form output */
 if (rank==0) {
-	combine(&sobel_x,&sobel_y,&new_image);
+	combine(&gather_sobel_x,&gather_sobel_y,&new_image);
 }
 combine_time=MPI_Wtime();
 
