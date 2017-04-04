@@ -11,7 +11,7 @@
 #include <jpeglib.h>
 
 #include <mpi.h>
-#define ARRAYSIZE 3
+#define ARRAYSIZE 3//image.x, image.y,image.depth are the 3 element of the array
 
 /* Filters */
 static int sobel_x_filter[3][3]={{-1,0,+1},{-2,0,+2},{-1,0,+1}};
@@ -33,7 +33,8 @@ struct convolve_data_t {
 	int yend;
 };
 
-
+/* Modify generic_convolve so it takes a range of y to operate on. Then
+calculate this y range based on the rank and size parameters. */
 /* very inefficient convolve code */
 static void *generic_convolve(void *argument) {
 
@@ -80,7 +81,6 @@ static void *generic_convolve(void *argument) {
 	     }
 	   }
 	}
-
 	return NULL;
 }
 
@@ -374,12 +374,10 @@ MPI_Gather(sobel_y,	/* send buffer */
 /* Combine to form output */
 if (rank==0) {
 	combine(&gather_sobel_x,&gather_sobel_y,&new_image);
-}
-combine_time=MPI_Wtime();
+	combine_time=MPI_Wtime();
 
 /* On rank 0 alone, write the output to a file */
 /* Write data back out to disk */
-if (rank==0) {
 	store_jpeg("out.jpg",&new_image);
 }
 
