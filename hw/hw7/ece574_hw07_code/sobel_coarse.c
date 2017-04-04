@@ -334,7 +334,9 @@ int main(int argc, char **argv) {
 	sobel_y.depth=image.depth;
 	sobel_y.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 
-	/* Calculate this y range based on the rank and size parameters. */
+	/* Calculate this y range based on the rank and size parameters. FOR loop
+	through the generic_convolve using sequential ystart and yend depend on the
+	instant numtasks.	*/
 	/* QUESTION: should the numtasks or rank should be used here? */
 	/* convolution */
 	for(i=0;i<numtasks-1;i++){
