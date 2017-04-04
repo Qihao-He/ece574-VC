@@ -14,3 +14,5 @@ Why is the tag in the MPI_send() having 13 in default? What does 13 means?
 
 When malloc image.pixels, how about the other malloc for new_image, sobel_x,
 sobel_y?
+
+/* QUESTION: should the numtasks or rank should be used here? */

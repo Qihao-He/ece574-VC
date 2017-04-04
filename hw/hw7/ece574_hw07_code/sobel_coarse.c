@@ -274,6 +274,7 @@ int main(int argc, char **argv) {
 		A[1]= image.y;
 		A[2]= image.depth;
 
+		/* QUESTION: Should we use numtasks or rank here? */
 		for(i=1;i<numtasks;i++) {
 			printf("R0: Sending %d ints to %d\n",
 				ARRAYSIZE,i);
@@ -333,25 +334,28 @@ int main(int argc, char **argv) {
 	sobel_y.depth=image.depth;
 	sobel_y.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 
+	/* Calculate this y range based on the rank and size parameters. */
+	/* QUESTION: should the numtasks or rank should be used here? */
 	/* convolution */
-	sobel_data[0].old=&image;
-	sobel_data[0].new=&sobel_x;
-	sobel_data[0].filter=&sobel_x_filter;
-	sobel_data[0].ystart=0;
-	sobel_data[0].yend=image.y;
-	generic_convolve((void *)&sobel_data[0]);
+	for(i=0;i<numtasks-1;i++){
+		sobel_data[0].old=&image;
+		sobel_data[0].new=&sobel_x;
+		sobel_data[0].filter=&sobel_x_filter;
+		sobel_data[0].ystart=i*image.y/numtasks;
+		sobel_data[0].yend=(i+1)*image.y/numtasks;
+		generic_convolve((void *)&sobel_data[0]);
 
-	sobel_data[1].old=&image;
-	sobel_data[1].new=&sobel_y;
-	sobel_data[1].filter=&sobel_y_filter;
-	sobel_data[1].ystart=0;
-	sobel_data[1].yend=image.y;
-	generic_convolve((void *)&sobel_data[1]);
+		sobel_data[1].old=&image;
+		sobel_data[1].new=&sobel_y;
+		sobel_data[1].filter=&sobel_y_filter;
+		sobel_data[1].ystart=i*image.y/numtasks;
+		sobel_data[1].yend=(i+1)*image.y/numtasks;
+		generic_convolve((void *)&sobel_data[1]);
+	}
 
 	convolve_time=MPI_Wtime();
 
-/* Use MPI_Gather() to get results and combine them into the results in rank 0
-	 */
+/* Use MPI_Gather() to gather results  in rank 0 */
 MPI_Gather(sobel_x.pixels,	/* send buffer */
 	arraysize_image,					/* count */
 	MPI_CHAR,									/* type */
@@ -370,14 +374,12 @@ MPI_Gather(sobel_y.pixels,	/* send buffer */
 	0,												/* root source */
 	MPI_COMM_WORLD);
 
-/* On rank 0 alone, run combine */
-/* Combine to form output */
+/* On rank 0 alone, run combine to form output */
 if (rank==0) {
 	combine(&gather_sobel_x,&gather_sobel_y,&new_image);
 	combine_time=MPI_Wtime();
 
 /* On rank 0 alone, write the output to a file */
-/* Write data back out to disk */
 	store_jpeg("out.jpg",&new_image);
 	store_time=MPI_Wtime();
 }
