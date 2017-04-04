@@ -45,3 +45,8 @@ for(i=1;i<numtasks;i++) {
       i,							/* destination */
       13,							/* tag */
       MPI_COMM_WORLD);
+
+/* QUESTION: WHAT IS THE DIFFERENCE OF RANK AND numtasks */
+/* Get number of tasks and our process number (rank) */
+MPI_Comm_size(MPI_COMM_WORLD,&numtasks);
+MPI_Comm_rank(MPI_COMM_WORLD,&rank);

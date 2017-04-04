@@ -255,9 +255,10 @@ int main(int argc, char **argv) {
 	and print these from rank 0. */
 	start_time=MPI_Wtime();
 
+	/* QUESTION: WHAT IS THE DIFFERENCE OF RANK AND numtasks */
 	/* Get number of tasks and our process number (rank) */
-	MPI_Comm_size(MPI_COMM_WORLD,&numtasks);
-	MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+	MPI_Comm_size(MPI_COMM_WORLD,&numtasks);//number os tasks
+	MPI_Comm_rank(MPI_COMM_WORLD,&rank);//process number(rank)
 
 	printf("R%d: Number of tasks= %d My rank= %d\n",
 		rank,numtasks,rank);
@@ -338,31 +339,33 @@ int main(int argc, char **argv) {
 	sobel_y.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 
 	/* Calculate this y range based on the rank and size parameters. FOR loop
-	through the generic_convolve using sequential ystart and yend depend on the
-	instant numtasks.	*/
+	through the generic_convolve using sequential ystart and yend with a offset
+	depend on the	instant numtasks.	*/
 	/* QUESTION: should the numtasks or rank should be used here? */
 	/* QUESTION: HOW TO RUN BOTH sobel_x AND sobel_y ON THE SUBSET FOR THAT RANK
 	WHEN THE FOR LOOP IS COUNTING USING numtasks? */
+	/* QUESTION: Does run both sobel_x and sobel_y on the subset for that rank
+	means: Under one rank */
 	/* convolution */
 	for(i=0;i<numtasks-1;i++){
 		sobel_data[0].old=&image;
 		sobel_data[0].new=&sobel_x;
 		sobel_data[0].filter=&sobel_x_filter;
-		sobel_data[0].ystart=i*image.y/numtasks;
-		sobel_data[0].yend=(i+1)*image.y/numtasks;
+		sobel_data[0].ystart=i*image.y/numtasks;//i*image_size/num of tasks
+		sobel_data[0].yend=(i+1)*image.y/numtasks;//(i+1)*image_size/num of tasks
 		generic_convolve((void *)&sobel_data[0]);
 
 		sobel_data[1].old=&image;
 		sobel_data[1].new=&sobel_y;
 		sobel_data[1].filter=&sobel_y_filter;
-		sobel_data[1].ystart=i*image.y/numtasks;
-		sobel_data[1].yend=(i+1)*image.y/numtasks;
+		sobel_data[1].ystart=i*image.y/numtasks;//i*image_size/num of tasks
+		sobel_data[1].yend=(i+1)*image.y/numtasks;//(i+1)*image_size/num of tasks
 		generic_convolve((void *)&sobel_data[1]);
 	}
 	convolve_time=MPI_Wtime();
 
 
-/* Use MPI_Gather() to gather results  in rank 0 */
+/* Use MPI_Gather() to gather results in rank 0 */
 MPI_Gather(sobel_x.pixels,	/* send buffer */
 	arraysize_image,					/* count */
 	MPI_CHAR,									/* type */
