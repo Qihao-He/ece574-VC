@@ -16,3 +16,32 @@ When malloc image.pixels, how about the other malloc for new_image, sobel_x,
 sobel_y?
 
 /* QUESTION: should the numtasks or rank should be used here? */
+/* QUESTION: HOW TO RUN BOTH sobel_x AND sobel_y ON THE SUBSET FOR THAT RANK
+WHEN THE FOR LOOP IS COUNTING USING numtasks? */
+/* convolution */
+for(i=0;i<numtasks-1;i++){
+  sobel_data[0].old=&image;
+  sobel_data[0].new=&sobel_x;
+  sobel_data[0].filter=&sobel_x_filter;
+  sobel_data[0].ystart=i*image.y/numtasks;
+  sobel_data[0].yend=(i+1)*image.y/numtasks;
+  generic_convolve((void *)&sobel_data[0]);
+
+  sobel_data[1].old=&image;
+  sobel_data[1].new=&sobel_y;
+  sobel_data[1].filter=&sobel_y_filter;
+  sobel_data[1].ystart=i*image.y/numtasks;
+  sobel_data[1].yend=(i+1)*image.y/numtasks;
+  generic_convolve((void *)&sobel_data[1]);
+}
+
+/* QUESTION: Should we use numtasks or rank here? */
+for(i=1;i<numtasks;i++) {
+  printf("R0: Sending %d ints to %d\n",
+    ARRAYSIZE,i);
+  result = MPI_Send(A,/* buffer */
+      ARRAYSIZE,			/* count */
+      MPI_INT,				/* type */
+      i,							/* destination */
+      13,							/* tag */
+      MPI_COMM_WORLD);

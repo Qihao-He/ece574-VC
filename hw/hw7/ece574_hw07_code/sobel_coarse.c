@@ -338,6 +338,8 @@ int main(int argc, char **argv) {
 	through the generic_convolve using sequential ystart and yend depend on the
 	instant numtasks.	*/
 	/* QUESTION: should the numtasks or rank should be used here? */
+	/* QUESTION: HOW TO RUN BOTH sobel_x AND sobel_y ON THE SUBSET FOR THAT RANK
+	WHEN THE FOR LOOP IS COUNTING USING numtasks? */
 	/* convolution */
 	for(i=0;i<numtasks-1;i++){
 		sobel_data[0].old=&image;
@@ -354,8 +356,8 @@ int main(int argc, char **argv) {
 		sobel_data[1].yend=(i+1)*image.y/numtasks;
 		generic_convolve((void *)&sobel_data[1]);
 	}
-
 	convolve_time=MPI_Wtime();
+
 
 /* Use MPI_Gather() to gather results  in rank 0 */
 MPI_Gather(sobel_x.pixels,	/* send buffer */
