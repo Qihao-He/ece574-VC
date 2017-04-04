@@ -50,3 +50,7 @@ for(i=1;i<numtasks;i++) {
 /* Get number of tasks and our process number (rank) */
 MPI_Comm_size(MPI_COMM_WORLD,&numtasks);
 MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+
+/* QUESTION: Is this the offset of the ystart and yend? */
+ if (ystart==0) ystart=1;
+ if (yend==old->y) yend=old->y-1;

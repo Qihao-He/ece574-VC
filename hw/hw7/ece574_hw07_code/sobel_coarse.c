@@ -62,7 +62,7 @@ static void *generic_convolve(void *argument) {
 
 	depth=old->depth;
 	width=old->x*old->depthC;
-
+/* QUESTION: Is this the offset of the ystart and yend? */
 	if (ystart==0) ystart=1;
 	if (yend==old->y) yend=old->y-1;
 
