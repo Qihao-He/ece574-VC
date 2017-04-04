@@ -34,7 +34,10 @@ struct convolve_data_t {
 };
 
 /* Modify generic_convolve so it takes a range of y to operate on. Then
-calculate this y range based on the rank and size parameters. */
+calculate this y range based on the rank and size parameters. MPI_Gather will
+gather from the *start* of each buffer and put it in the proper place in the
+results. So you hanve to modify the convolve routine to store the output
+starting at offset 0, rather than at offset ystart. */
 /* very inefficient convolve code */
 static void *generic_convolve(void *argument) {
 
