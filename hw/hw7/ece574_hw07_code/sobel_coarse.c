@@ -352,22 +352,22 @@ int main(int argc, char **argv) {
 
 /* Use MPI_Gather() to get results and combine them into the results in rank 0
 	 */
-MPI_Gather(sobel_x,	/* send buffer */
-	arraysize_image,	/* count */
-	MPI_CHAR,					/* type */
-	gather_sobel_x,		/* receive buffer */
-	arraysize_image,	/* count */
-	MPI_CHAR,					/* type */
-	0,								/* root source */
+MPI_Gather(sobel_x.pixels,	/* send buffer */
+	arraysize_image,					/* count */
+	MPI_CHAR,									/* type */
+	gather_sobel_x,						/* receive buffer */
+	arraysize_image,					/* count */
+	MPI_CHAR,									/* type */
+	0,												/* root source */
 	MPI_COMM_WORLD);
 
-MPI_Gather(sobel_y,	/* send buffer */
-	arraysize_image,	/* count */
-	MPI_CHAR,					/* type */
-	gather_sobel_y,		/* receive buffer */
-	arraysize_image,	/* count */
-	MPI_CHAR,					/* type */
-	0,								/* root source */
+MPI_Gather(sobel_y.pixels,	/* send buffer */
+	arraysize_image,					/* count */
+	MPI_CHAR,									/* type */
+	gather_sobel_y,						/* receive buffer */
+	arraysize_image,					/* count */
+	MPI_CHAR,									/* type */
+	0,												/* root source */
 	MPI_COMM_WORLD);
 
 /* On rank 0 alone, run combine */
@@ -379,9 +379,8 @@ if (rank==0) {
 /* On rank 0 alone, write the output to a file */
 /* Write data back out to disk */
 	store_jpeg("out.jpg",&new_image);
+	store_time=MPI_Wtime();
 }
-
-store_time=MPI_Wtime();
 
 printf("Load time: %lf\n",load_time-start_time);
 printf("Convolve time: %lf\n",convolve_time-load_time);
