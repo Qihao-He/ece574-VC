@@ -61,7 +61,7 @@ static void *generic_convolve(void *argument) {
 	yend=data->yend;
 
 	depth=old->depth;
-	width=old->x*old->depth;
+	width=old->x*old->depthC;
 
 	if (ystart==0) ystart=1;
 	if (yend==old->y) yend=old->y-1;
