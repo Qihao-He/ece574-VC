@@ -320,6 +320,7 @@ int main(int argc, char **argv) {
 				MPI_COMM_WORLD,	/* communicator */
 				&Stat);					/* status */
 	}
+	arraysize_image=image.x*image.y*image.depth*sizeof(char);
 
 	/* Use MPI_Bcast() to broadcast the entire image data from rank0 to all the
 	other ranks. You want to broadcast “image.pixels”, not all of image (remember,
