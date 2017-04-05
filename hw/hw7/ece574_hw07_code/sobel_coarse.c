@@ -69,7 +69,7 @@ static void *generic_convolve(void *argument) {
 	depth=old->depth;
 	width=old->x*old->depthC;
 
-	if (ystart==0) ystart=1;// avoid the edge problem
+	if (ystart==0) ystart=1;// edge problem
 	if (yend==old->y) yend=old->y-1;
 
 	for(d=0;d<3;d++) {
@@ -350,21 +350,20 @@ int main(int argc, char **argv) {
 	system */
 	/*------------------- NEED TO MODIFY ---------------------------------*/
 	/* convolution */
-	for(i=0;i<numtasks-1;i++){
-		sobel_data[0].old=&image;
-		sobel_data[0].new=&sobel_x;
-		sobel_data[0].filter=&sobel_x_filter;
-		sobel_data[0].ystart=i*image.y/numtasks;//i*image_size/num of tasks
-		sobel_data[0].yend=(i+1)*image.y/numtasks;//(i+1)*image_size/num of tasks
-		generic_convolve((void *)&sobel_data[0]);
+	sobel_data[0].old=&image;
+	sobel_data[0].new=&sobel_x;
+	sobel_data[0].filter=&sobel_x_filter;
+	sobel_data[0].ystart=0;
+	sobel_data[0].yend=image.y;
+	generic_convolve((void *)&sobel_data[0]);
 
-		sobel_data[1].old=&image;
-		sobel_data[1].new=&sobel_y;
-		sobel_data[1].filter=&sobel_y_filter;
-		sobel_data[1].ystart=i*image.y/numtasks;//i*image_size/num of tasks
-		sobel_data[1].yend=(i+1)*image.y/numtasks;//(i+1)*image_size/num of tasks
-		generic_convolve((void *)&sobel_data[1]);
-	}
+	sobel_data[1].old=&image;
+	sobel_data[1].new=&sobel_y;
+	sobel_data[1].filter=&sobel_y_filter;
+	sobel_data[1].ystart=0;
+	sobel_data[1].yend=image.y;
+	generic_convolve((void *)&sobel_data[1]);
+
 	convolve_time=MPI_Wtime();
 
 /* Use MPI_Gather() to gather results in rank 0 */
