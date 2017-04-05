@@ -320,6 +320,7 @@ int main(int argc, char **argv) {
 				MPI_COMM_WORLD,	/* communicator */
 				&Stat);					/* status */
 	}
+	/* other processes also has the arraysize_image */
 	arraysize_image=image.x*image.y*image.depth*sizeof(char);
 
 	/* Use MPI_Bcast() to broadcast the entire image data from rank0 to all the
