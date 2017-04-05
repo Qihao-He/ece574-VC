@@ -245,7 +245,6 @@ int main(int argc, char **argv) {
 	double start_time,load_time,store_time,convolve_time,combine_time;
 	int result,i;
 	int A[ARRAYSIZE]; //A Buffer
-	int B[ARRAYSIZE]; //B Buffer
 	int numtasks,rank;//# of tasks, rank index
 	MPI_Status Stat;
 	long int arraysize_image; //arraysize of the image
@@ -283,7 +282,6 @@ int main(int argc, char **argv) {
 		printf("R0: Initializing array\n");
 		/* Load an image */
 		load_jpeg(argv[1],&image);
-		//load_time_start=MPI_Wtime();//load time start
 		load_time=MPI_Wtime();
 
 		/* Send the image parameters (image.x, image.y, image.depth) to all other
@@ -306,6 +304,8 @@ int main(int argc, char **argv) {
 			printf("MALLOC R%d\n",i);
 			image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 		}
+		/* Get the size of the	image */
+		arraysize_image=image.x*image.y*image.depth*sizeof(char);
 	}
 	/* MPI_Recv is required for other processes */
 	else {
@@ -319,8 +319,7 @@ int main(int argc, char **argv) {
 				&Stat);					/* status */
 	}
 
-	/* Get the size of the	image */
-	arraysize_image=image.x*image.y*image.depth*sizeof(char);
+
 
 	/* QUESTION: Should here be a MPI_Barrier be waiting for all the threads?
 	MPI_Barrier(MPI_COMM_WORLD); */
@@ -371,8 +370,6 @@ int main(int argc, char **argv) {
 	sobel_data[1].yend=(rank+1)*image.y/numtasks;//(rank+1)*(size_img)/numtasks
 	generic_convolve((void *)&sobel_data[1]);
 
-	convolve_time=MPI_Wtime();
-
 /* Use MPI_Gather() to gather results in rank 0 */
 MPI_Gather(sobel_x.pixels,	/* send buffer */
 	arraysize_image,					/* count */
@@ -391,6 +388,8 @@ MPI_Gather(sobel_y.pixels,	/* send buffer */
 	MPI_CHAR,									/* type */
 	0,												/* root source */
 	MPI_COMM_WORLD);
+
+	convolve_time=MPI_Wtime();
 
 if (rank==0) {
 	/* On rank 0 alone, run combine to form output */
