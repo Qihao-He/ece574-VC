@@ -352,23 +352,23 @@ int main(int argc, char **argv) {
 	depend on the	instant numtasks.	*/
 
 	/* VW said that this FOR loop is following shared memory, not for Distributed
-	system */
+	system. Each rank should work on part of the image ranging form ystart to
+	yend. */
 	/*------------------- NEED TO MODIFY ---------------------------------*/
 	/* convolution */
 	sobel_data[0].old=&image;
 	sobel_data[0].new=&sobel_x;
 	sobel_data[0].filter=&sobel_x_filter;
-	sobel_data[0].ystart=0;
-	sobel_data[0].yend=image.y;
+	sobel_data[0].ystart=rank*image.y;
+	sobel_data[0].yend=(rank+1)*image.y/numtasks;
 	generic_convolve((void *)&sobel_data[0]);
 
 	sobel_data[1].old=&image;
 	sobel_data[1].new=&sobel_y;
 	sobel_data[1].filter=&sobel_y_filter;
-	sobel_data[1].ystart=0;
-	sobel_data[1].yend=image.y;
+	sobel_data[1].ystart=rank*image.y;
+	sobel_data[1].yend=(rank+1)*image.y/numtasks;
 	generic_convolve((void *)&sobel_data[1]);
-
 
 	convolve_time=MPI_Wtime();
 
