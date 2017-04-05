@@ -358,14 +358,14 @@ int main(int argc, char **argv) {
 	sobel_data[0].old=&image;
 	sobel_data[0].new=&sobel_x;
 	sobel_data[0].filter=&sobel_x_filter;
-	sobel_data[0].ystart=rank*image.y;//rank*(size_img)
+	sobel_data[0].ystart=rank*image.y/numtasks;//rank*(size_img)
 	sobel_data[0].yend=(rank+1)*image.y/numtasks;//(rank+1)*(size_img)/numtasks
 	generic_convolve((void *)&sobel_data[0]);
 
 	sobel_data[1].old=&image;
 	sobel_data[1].new=&sobel_y;
 	sobel_data[1].filter=&sobel_y_filter;
-	sobel_data[1].ystart=rank*image.y;//rank*(size_img)
+	sobel_data[1].ystart=rank*image.y/numtasks;//rank*(size_img)
 	sobel_data[1].yend=(rank+1)*image.y/numtasks;//(rank+1)*(size_img)/numtasks
 	generic_convolve((void *)&sobel_data[1]);
 
