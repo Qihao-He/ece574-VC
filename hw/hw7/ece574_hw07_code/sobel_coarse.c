@@ -39,12 +39,6 @@ gather from the *start* of each buffer and put it in the proper place in the
 results. So you hanve to modify the convolve routine to store the output
 starting at offset 0, rather than at offset ystart. */
 
-/* VW said that the generic_convolve function only handles the image.pixels at
-the offset(calculate depend on rank and numtasks), but the MPI_Gather only
-grab the image.pixels at the top, so it will make blank if the generic_convolve
-does not push the offset image.pixels to the top. */
-
-/*------------------- NEED TO MODIFY ---------------------------------*/
 /* very inefficient convolve code */
 static void *generic_convolve(void *argument) {
 
