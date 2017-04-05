@@ -1,8 +1,7 @@
 ECE574 Spring 2017 Homework #7
 
 Names of group memebers: Qihao He
-
-
+------------------------------------------------------------
 3.
 	Time taken to convolve:
 
@@ -11,6 +10,34 @@ Names of group memebers: Qihao He
 	4
 	8
 	16
+------------------------------------------------------------
+RESULTS:
+Speedup:
+Parallel efficiency:
+------------------------------------------------------------
+1 THREAD
+$ sbatch -n 1 time_coarse.sh
+real	0m2.049s
+user	0m0.012s
+sys	0m0.004s
+
+R0: Number of tasks= 1 My rank= 0
+R0: Initializing array
+output_width=3888, output_height=2592, output_components=3
+Load time: 0.152419
+Convolve time: 1.585062
+Combine time: 0.156186
+Store time: 0.069396
+Total time = 1.963063
+------------------------------------------------------------
+2 THREAD
+------------------------------------------------------------
+4 THREAD
+------------------------------------------------------------
+8 THREAD
+------------------------------------------------------------
+
+------------------------------------------------------------
 
 4.
 	Change you made
@@ -21,7 +48,7 @@ Names of group memebers: Qihao He
 	4
 	8
 	16
-
+------------------------------------------------------------
 5.
 	Time taken on Pi Cluster
 
@@ -30,5 +57,5 @@ Names of group memebers: Qihao He
 	4
 	8
 	16
-
+------------------------------------------------------------
 	Did it scale?
