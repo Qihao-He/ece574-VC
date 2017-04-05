@@ -394,7 +394,7 @@ MPI_Gather(sobel_y.pixels,	/* send buffer */
 
 if (rank==0) {
 	/* On rank 0 alone, run combine to form output */
-	combine(&gather_sobel_x,&gather_sobel_y,&new_image);
+	combine(&sobel_x,&sobel_y,&new_image);
 	combine_time=MPI_Wtime();
 
 	/* On rank 0 alone, write the output to a file */
@@ -402,11 +402,13 @@ if (rank==0) {
 	store_time=MPI_Wtime();
 }
 
-printf("Load time: %lf\n",load_time-start_time);
-printf("Convolve time: %lf\n",convolve_time-load_time);
-printf("Combine time: %lf\n",combine_time-convolve_time);
-printf("Store time: %lf\n",store_time-combine_time);
-printf("Total time = %lf\n",store_time-start_time);
+if (rank==0){
+	printf("Load time: %lf\n",load_time-start_time);
+	printf("Convolve time: %lf\n",convolve_time-load_time);
+	printf("Combine time: %lf\n",combine_time-convolve_time);
+	printf("Store time: %lf\n",store_time-combine_time);
+	printf("Total time = %lf\n",store_time-start_time);
+}
 
 /* MPI_Finalize at the end */
 MPI_Finalize();
