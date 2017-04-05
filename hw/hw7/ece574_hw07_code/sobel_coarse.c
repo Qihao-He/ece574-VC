@@ -326,14 +326,13 @@ int main(int argc, char **argv) {
 		0,										/* root source */
 		MPI_COMM_WORLD);
 
-	/* QUESTION: Should the MALLOC for the output be done in the all Ranks? */
 	/* Allocate space for output image */
-	(i=0;i<numtasks;i++) {
-		new_image.x=image.x;
-		new_image.y=image.y;
-		new_image.depth=image.depth;
-		new_image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
+	new_image.x=image.x;
+	new_image.y=image.y;
+	new_image.depth=image.depth;
+	new_image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 
+	for(i=0;i<numtasks;i++) {
 		/* Allocate space for output image */
 		sobel_x.x=image.x;
 		sobel_x.y=image.y;
@@ -347,27 +346,21 @@ int main(int argc, char **argv) {
 		sobel_y.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 	}
 
-	/* Calculate this y range based on the rank and size parameters. FOR loop
-	through the generic_convolve using sequential ystart and yend with a offset
-	depend on the	instant numtasks.	*/
-
-	/* VW said that this FOR loop is following shared memory, not for Distributed
-	system. Each rank should work on part of the image ranging form ystart to
-	yend. */
-	/*------------------- NEED TO MODIFY ---------------------------------*/
+	/* Calculate this y range based on the rank and size parameters. */
+	/* Each rank should work on part of the image ranging form ystart to yend. */
 	/* convolution */
 	sobel_data[0].old=&image;
 	sobel_data[0].new=&sobel_x;
 	sobel_data[0].filter=&sobel_x_filter;
-	sobel_data[0].ystart=rank*image.y;
-	sobel_data[0].yend=(rank+1)*image.y/numtasks;
+	sobel_data[0].ystart=rank*image.y;//rank*(size_img)
+	sobel_data[0].yend=(rank+1)*image.y/numtasks;//(rank+1)*(size_img)/numtasks
 	generic_convolve((void *)&sobel_data[0]);
 
 	sobel_data[1].old=&image;
 	sobel_data[1].new=&sobel_y;
 	sobel_data[1].filter=&sobel_y_filter;
-	sobel_data[1].ystart=rank*image.y;
-	sobel_data[1].yend=(rank+1)*image.y/numtasks;
+	sobel_data[1].ystart=rank*image.y;//rank*(size_img)
+	sobel_data[1].yend=(rank+1)*image.y/numtasks;//(rank+1)*(size_img)/numtasks
 	generic_convolve((void *)&sobel_data[1]);
 
 	convolve_time=MPI_Wtime();
