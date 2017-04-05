@@ -282,7 +282,6 @@ int main(int argc, char **argv) {
 		printf("R0: Initializing array\n");
 		/* Load an image */
 		load_jpeg(argv[1],&image);
-		load_time=MPI_Wtime();
 
 		/* Send the image parameters (image.x, image.y, image.depth) to all other
 		ranks, sending an array of 3 INTS */
@@ -304,6 +303,7 @@ int main(int argc, char **argv) {
 			printf("MALLOC R%d\n",i);
 			image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 		}
+		load_time=MPI_Wtime();
 		/* Get the size of the	image */
 		arraysize_image=image.x*image.y*image.depth*sizeof(char);
 		gather_sobel_x=malloc(arraysize_image);//dynamically allocate Memory
