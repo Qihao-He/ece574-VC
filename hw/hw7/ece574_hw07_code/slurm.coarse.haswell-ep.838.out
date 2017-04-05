@@ -1,0 +1,6 @@
+R0: Number of tasks= 2 My rank= 0
+R0: Initializing array
+R1: Number of tasks= 2 My rank= 1
+output_width=3888, output_height=2592, output_components=3
+R0: Sending 3 ints to 1
+MALLOC R1

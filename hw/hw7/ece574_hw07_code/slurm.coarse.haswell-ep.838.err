@@ -1,0 +1,7 @@
+Fatal error in PMPI_Bcast: Invalid count, error stack:
+PMPI_Bcast(1600): MPI_Bcast(buf=0x7fecde7b84f0, count=-1515181632, MPI_CHAR, root=0, MPI_COMM_WORLD) failed
+PMPI_Bcast(1559): Negative count, value is -1515181632
+
+real	0m0.211s
+user	0m0.000s
+sys	0m0.008s
