@@ -385,7 +385,7 @@ MPI_Gather(sobel_y.pixels,	/* send buffer */
 	MPI_CHAR,									/* type */
 	0,												/* root source */
 	MPI_COMM_WORLD);
-	
+
 if (rank==0){
 	convolve_time=MPI_Wtime();
 
