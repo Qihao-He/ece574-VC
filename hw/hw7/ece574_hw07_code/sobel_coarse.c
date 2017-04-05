@@ -247,7 +247,7 @@ int main(int argc, char **argv) {
 	int A[ARRAYSIZE]; //A Buffer
 	int numtasks,rank;//# of tasks, rank index
 	MPI_Status Stat;
-	unsigned long int arraysize_image; //arraysize of the image
+	unsigned double arraysize_image; //arraysize of the image
 	int *gather_sobel_x=NULL;//receive buffer for soble_x
 	int *gather_sobel_y=NULL;//receive buffer for soble_y
 
