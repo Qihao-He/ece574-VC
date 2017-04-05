@@ -43,6 +43,7 @@ starting at offset 0, rather than at offset ystart. */
 the offset(calculate depend on rank and numtasks), but the MPI_Gather only
 grab the image.pixels at the top, so it will make blank if the generic_convolve
 does not push the offset image.pixels to the top. */
+
 /*------------------- NEED TO MODIFY ---------------------------------*/
 /* very inefficient convolve code */
 static void *generic_convolve(void *argument) {
@@ -50,6 +51,7 @@ static void *generic_convolve(void *argument) {
 	int x,y,k,l,d;
 	uint32_t color;
 	int sum,depth,width;
+	int i;
 
 	struct image_t *old;
 	struct image_t *new;
@@ -63,8 +65,6 @@ static void *generic_convolve(void *argument) {
 	new=data->new;
 	filter=data->filter;
 
-/* QUESTION: Using the parameters of the rank and numtasks before the main
-function calls for MPI_Comm_size, MPI_Comm_rank, is it going to be a problem? */
 	ystart=data->ystart;
 	yend=data->yend;
 
@@ -89,8 +89,14 @@ function calls for MPI_Comm_size, MPI_Comm_rank, is it going to be a problem? */
 		if (sum>255) sum=255;
 
 		new->pixels[(y*width)+x*depth+d]=sum;
+
 	     }
 	   }
+	}
+	/* Moving the range from ystart to yend to offset 0. */
+	for(y=ystart;y<yend;y++){
+		new->pixels[((y-ystart+1)*width)+x*depth+d]=
+		new->pixels[(y*width)+x*depth+d];
 	}
 	return NULL;
 }
@@ -384,12 +390,12 @@ MPI_Gather(sobel_y.pixels,	/* send buffer */
 	0,												/* root source */
 	MPI_COMM_WORLD);
 
-/* On rank 0 alone, run combine to form output */
 if (rank==0) {
+	/* On rank 0 alone, run combine to form output */
 	combine(&gather_sobel_x,&gather_sobel_y,&new_image);
 	combine_time=MPI_Wtime();
 
-/* On rank 0 alone, write the output to a file */
+	/* On rank 0 alone, write the output to a file */
 	store_jpeg("out.jpg",&new_image);
 	store_time=MPI_Wtime();
 }
