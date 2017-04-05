@@ -38,6 +38,12 @@ calculate this y range based on the rank and size parameters. MPI_Gather will
 gather from the *start* of each buffer and put it in the proper place in the
 results. So you hanve to modify the convolve routine to store the output
 starting at offset 0, rather than at offset ystart. */
+
+/* VW said that the generic_convolve function only handles the image.pixels at
+the offset(calculate depend on rank and numtasks), but the MPI_Gather only
+grab the image.pixels at the top, so it will make blank if the generic_convolve
+does not push the offset image.pixels to the top. */
+/*------------------- NEED TO MODIFY ---------------------------------*/
 /* very inefficient convolve code */
 static void *generic_convolve(void *argument) {
 
@@ -339,8 +345,10 @@ int main(int argc, char **argv) {
 	/* Calculate this y range based on the rank and size parameters. FOR loop
 	through the generic_convolve using sequential ystart and yend with a offset
 	depend on the	instant numtasks.	*/
+
 	/* VW said that this FOR loop is following shared memory, not for Distributed
 	system */
+	/*------------------- NEED TO MODIFY ---------------------------------*/
 	/* convolution */
 	for(i=0;i<numtasks-1;i++){
 		sobel_data[0].old=&image;
@@ -359,10 +367,6 @@ int main(int argc, char **argv) {
 	}
 	convolve_time=MPI_Wtime();
 
-/* VW said that the generic_convolve function only handles the image.pixels at
-the offset(calculate depend on rank and numtasks), but the MPI_Gather only
-grab the image.pixels at the top, so it will make blank if the generic_convolve
-does not push the offset image.pixels to the top. */
 /* Use MPI_Gather() to gather results in rank 0 */
 MPI_Gather(sobel_x.pixels,	/* send buffer */
 	arraysize_image,					/* count */
