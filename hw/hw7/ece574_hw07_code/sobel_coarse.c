@@ -248,11 +248,8 @@ int main(int argc, char **argv) {
 	int numtasks,rank;//# of tasks, rank index
 	MPI_Status Stat;
 	long int arraysize_image; //arraysize of the image
-	int *gather_sobel_x;
-	int *gather_sobel_y;
-	// int gather_sobel_x[arraysize_image];//receive buffer for soble_x
-	// int gather_sobel_y[arraysize_image];//receive buffer for soble_y
-
+	int *gather_sobel_x;//receive buffer for soble_x
+	int *gather_sobel_y;//receive buffer for soble_y
 
 	/* Check command line usage */
 	if (argc<2) {
@@ -324,11 +321,6 @@ int main(int argc, char **argv) {
 				&Stat);					/* status */
 	}
 
-
-
-	/* QUESTION: Should here be a MPI_Barrier be waiting for all the threads?
-	MPI_Barrier(MPI_COMM_WORLD); */
-
 	/* Use MPI_Bcast() to broadcast the entire image data from rank0 to all the
 	other ranks. You want to broadcast “image.pixels”, not all of image (remember,
  	MPI you can’t send structs, just arrays). */
@@ -393,10 +385,10 @@ MPI_Gather(sobel_y.pixels,	/* send buffer */
 	MPI_CHAR,									/* type */
 	0,												/* root source */
 	MPI_COMM_WORLD);
-
+	
+if (rank==0){
 	convolve_time=MPI_Wtime();
 
-if (rank==0) {
 	/* On rank 0 alone, run combine to form output */
 	combine(&sobel_x,&sobel_y,&new_image);
 	combine_time=MPI_Wtime();
@@ -404,9 +396,7 @@ if (rank==0) {
 	/* On rank 0 alone, write the output to a file */
 	store_jpeg("out.jpg",&new_image);
 	store_time=MPI_Wtime();
-}
 
-if (rank==0){
 	printf("Load time: %lf\n",load_time-start_time);
 	printf("Convolve time: %lf\n",convolve_time-load_time);
 	printf("Combine time: %lf\n",combine_time-convolve_time);
