@@ -249,8 +249,8 @@ int main(int argc, char **argv) {
 	int numtasks,rank;//# of tasks, rank index
 	MPI_Status Stat;
 	long int arraysize_image; //arraysize of the image
-	long int gather_sobel_x;//receive buffer for soble_x
-	long int gather_sobel_y;//receive buffer for soble_y
+	int gather_sobel_x[arraysize_image];//receive buffer for soble_x
+	int gather_sobel_y[arraysize_image];//receive buffer for soble_y
 
 	/* Check command line usage */
 	if (argc<2) {
