@@ -51,7 +51,6 @@ static void *generic_convolve(void *argument) {
 	int x,y,k,l,d;
 	uint32_t color;
 	int sum,depth,width;
-	int i;
 
 	struct image_t *old;
 	struct image_t *new;
@@ -69,7 +68,7 @@ static void *generic_convolve(void *argument) {
 	yend=data->yend;
 
 	depth=old->depth;
-	width=old->x*old->depthC;
+	width=old->x*old->depth;
 
 	if (ystart==0) ystart=1;// edge problem
 	if (yend==old->y) yend=old->y-1;
@@ -244,7 +243,7 @@ int main(int argc, char **argv) {
 	struct image_t image,sobel_x,sobel_y,new_image;
 	struct convolve_data_t sobel_data[2];
 	double start_time,load_time,store_time,convolve_time,combine_time;
-	int result;
+	int result,i;
 	int A[ARRAYSIZE]; //A Buffer
 	int B[ARRAYSIZE]; //B Buffer
 	long int arraysize_image; //arraysize of the image
@@ -306,8 +305,6 @@ int main(int argc, char **argv) {
 			image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 		}
 	}
-	/* Get the size of the	image */
-	arraysize_image=image.x*image.y*image.depth*sizeof(char);
 	/* MPI_Recv is required for other processes */
 	else {
 		/* This is run by all the non-master processes */
@@ -319,6 +316,9 @@ int main(int argc, char **argv) {
 				MPI_COMM_WORLD,	/* communicator */
 				&Stat);					/* status */
 	}
+
+	/* Get the size of the	image */
+	arraysize_image=image.x*image.y*image.depth*sizeof(char);
 
 	/* QUESTION: Should here be a MPI_Barrier be waiting for all the threads?
 	MPI_Barrier(MPI_COMM_WORLD); */
