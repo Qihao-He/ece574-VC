@@ -1,0 +1,17 @@
+R1: Number of tasks= 2 My rank= 1
+R0: Number of tasks= 2 My rank= 0
+R0: Initializing array
+output_width=3888, output_height=2592, output_components=3
+R0: Sending 3 ints to 1
+MALLOC R1
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   PID 17122 RUNNING AT haswell-ep
+=   EXIT CODE: 11
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
+YOUR APPLICATION TERMINATED WITH THE EXIT STRING: Segmentation fault (signal 11)
+This typically refers to a problem with your application.
+Please see the FAQ page for debugging suggestions
