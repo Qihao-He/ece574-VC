@@ -316,8 +316,9 @@ int main(int argc, char **argv) {
 	}
 	/* other processes also has the arraysize_image */
 	arraysize_image=image.x*image.y*image.depth*sizeof(char);
+
 	/* debug for negative count */
-	printf("R%dThe arraysize_image is:%lu\n",rank,arraysize_image);
+	printf("R%d The arraysize_image is:%lu\n",rank,arraysize_image);
 
 	/* Use MPI_Bcast() to broadcast the entire image data from rank0 to all the
 	other ranks. You want to broadcast “image.pixels”, not all of image (remember,
