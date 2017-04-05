@@ -296,13 +296,15 @@ int main(int argc, char **argv) {
 			/* Malloc image.pixels input image in the non rank-0 threads */
 			printf("MALLOC R%d\n",i);
 			image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
-			printf("Report error after malloc\n");
+			printf("Report error after malloc 0\n");
 		}
 		load_time=MPI_Wtime();
 		/* Get the size of the	image */
 		arraysize_image=image.x*image.y*image.depth*sizeof(char);
+		printf("Report error after malloc 1\n");
 		gather_sobel_x=malloc(arraysize_image);//dynamically allocate Memory
 		gather_sobel_y=malloc(arraysize_image);//dynamically allocate Memory
+		printf("Report error after malloc 2\n");
 	}
 	/* MPI_Recv is required for other processes */
 	else {
