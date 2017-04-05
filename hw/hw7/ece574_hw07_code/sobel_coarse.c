@@ -248,8 +248,11 @@ int main(int argc, char **argv) {
 	int numtasks,rank;//# of tasks, rank index
 	MPI_Status Stat;
 	long int arraysize_image; //arraysize of the image
-	int gather_sobel_x[arraysize_image];//receive buffer for soble_x
-	int gather_sobel_y[arraysize_image];//receive buffer for soble_y
+	int *gather_sobel_x;
+	int *gather_sobel_y;
+	// int gather_sobel_x[arraysize_image];//receive buffer for soble_x
+	// int gather_sobel_y[arraysize_image];//receive buffer for soble_y
+
 
 	/* Check command line usage */
 	if (argc<2) {
@@ -306,6 +309,8 @@ int main(int argc, char **argv) {
 		}
 		/* Get the size of the	image */
 		arraysize_image=image.x*image.y*image.depth*sizeof(char);
+		gather_sobel_x=malloc(arraysize_image);//dynamically allocate Memory
+		gather_sobel_y=malloc(arraysize_image);//dynamically allocate Memory
 	}
 	/* MPI_Recv is required for other processes */
 	else {
