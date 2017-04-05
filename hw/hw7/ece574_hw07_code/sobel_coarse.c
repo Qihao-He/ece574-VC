@@ -328,6 +328,8 @@ int main(int argc, char **argv) {
 		0,										/* root source */
 		MPI_COMM_WORLD);
 
+printf("Report error after malloc 1\n");
+
 	/* Allocate space for output image */
 	new_image.x=image.x;
 	new_image.y=image.y;
