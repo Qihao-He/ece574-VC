@@ -246,6 +246,7 @@ int main(int argc, char **argv) {
 	int result,i;
 	int A[ARRAYSIZE]; //A Buffer
 	int B[ARRAYSIZE]; //B Buffer
+	int numtasks,rank;//# of tasks, rank index
 	long int arraysize_image; //arraysize of the image
 	long int gather_sobel_x;//receive buffer for soble_x
 	long int gather_sobel_y;//receive buffer for soble_y
