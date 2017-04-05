@@ -63,6 +63,8 @@ static void *generic_convolve(void *argument) {
 	new=data->new;
 	filter=data->filter;
 
+/* QUESTION: Using the parameters of the rank and numtasks before the main
+function calls for MPI_Comm_size, MPI_Comm_rank, is it going to be a problem? */
 	ystart=data->ystart;
 	yend=data->yend;
 
@@ -294,7 +296,7 @@ int main(int argc, char **argv) {
 					MPI_COMM_WORLD);
 
 			/* Malloc image.pixels input image in the non rank-0 threads */
-			printf("R0: MALLOC %d\n",i);
+			printf("MALLOC R%d\n",i);
 			image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 		}
 	}
@@ -324,23 +326,26 @@ int main(int argc, char **argv) {
 		0,										/* root source */
 		MPI_COMM_WORLD);
 
+	/* QUESTION: Should the MALLOC for the output be done in the all Ranks? */
 	/* Allocate space for output image */
-	new_image.x=image.x;
-	new_image.y=image.y;
-	new_image.depth=image.depth;
-	new_image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
+	(i=0;i<numtasks;i++) {
+		new_image.x=image.x;
+		new_image.y=image.y;
+		new_image.depth=image.depth;
+		new_image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 
-	/* Allocate space for output image */
-	sobel_x.x=image.x;
-	sobel_x.y=image.y;
-	sobel_x.depth=image.depth;
-	sobel_x.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
+		/* Allocate space for output image */
+		sobel_x.x=image.x;
+		sobel_x.y=image.y;
+		sobel_x.depth=image.depth;
+		sobel_x.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 
-	/* Allocate space for output image */
-	sobel_y.x=image.x;
-	sobel_y.y=image.y;
-	sobel_y.depth=image.depth;
-	sobel_y.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
+		/* Allocate space for output image */
+		sobel_y.x=image.x;
+		sobel_y.y=image.y;
+		sobel_y.depth=image.depth;
+		sobel_y.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
+	}
 
 	/* Calculate this y range based on the rank and size parameters. FOR loop
 	through the generic_convolve using sequential ystart and yend with a offset
@@ -363,6 +368,7 @@ int main(int argc, char **argv) {
 	sobel_data[1].ystart=0;
 	sobel_data[1].yend=image.y;
 	generic_convolve((void *)&sobel_data[1]);
+
 
 	convolve_time=MPI_Wtime();
 
