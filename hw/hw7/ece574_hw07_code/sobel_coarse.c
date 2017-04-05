@@ -290,7 +290,7 @@ int main(int argc, char **argv) {
 		A[2]= image.depth;
 
 		for(i=1;i<numtasks;i++) {
-			printf("R0: Sending %d ints to %d\n",
+			printf("R0: Sending %d ints to Rank%d\n",
 				ARRAYSIZE,i);
 			result = MPI_Send(A,/* buffer */
 					ARRAYSIZE,			/* count */
