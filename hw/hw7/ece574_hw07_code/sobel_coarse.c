@@ -302,6 +302,7 @@ int main(int argc, char **argv) {
 			/* Malloc image.pixels input image in the non rank-0 threads */
 			printf("MALLOC R%d\n",i);
 			image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
+			printf("Report error after malloc\n");
 		}
 		load_time=MPI_Wtime();
 		/* Get the size of the	image */
