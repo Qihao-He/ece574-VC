@@ -92,7 +92,6 @@ static void *generic_convolve(void *argument) {
 			 for(y=ystart;y<yend;y++) {
 				 new->pixels[((y-ystart+1)*width)+x*depth+d]=
 				 new->pixels[(y*width)+x*depth+d];
-
 			 }
 		 }
 	}
