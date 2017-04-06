@@ -292,10 +292,6 @@ int main(int argc, char **argv) {
 					i,							/* destination */
 					13,							/* tag */
 					MPI_COMM_WORLD);
-
-			/* Malloc image.pixels input image in the non rank-0 threads */
-			printf("MALLOC R%d\n",i);
-			image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 		}
 		load_time=MPI_Wtime();
 
@@ -320,6 +316,10 @@ int main(int argc, char **argv) {
 		image.y=A[1];
 		image.depth=A[2];
 		arraysize_image=image.x*image.y*image.depth*sizeof(char);
+
+		/* Malloc image.pixels input image in the non rank-0 threads */
+		printf("MALLOC R%d\n",rank);
+		image.pixels=malloc(arraysize_image);
 	}
 
 	/* other processes also has the arraysize_image */
