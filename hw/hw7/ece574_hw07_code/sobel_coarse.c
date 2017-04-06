@@ -369,7 +369,7 @@ printf("R%d Report error 0\n",rank);
 		0,										/* root source */
 		MPI_COMM_WORLD);
 
-printf("Report error 1\n");
+printf("R%d Report error 1\n",rank);
 
 	/* Allocate space for output image */
 	new_image.x=image.x;
