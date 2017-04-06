@@ -316,6 +316,9 @@ int main(int argc, char **argv) {
 				MPI_COMM_WORLD,	/* communicator */
 				&Stat);					/* status */
 
+		image.x=A[0];
+		image.y=A[1];
+		image.depth=A[2];
 		arraysize_image=image.x*image.y*image.depth*sizeof(char);
 	}
 
