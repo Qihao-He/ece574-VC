@@ -341,14 +341,11 @@ int main(int argc, char **argv) {
 
 printf("R%d Report error 1\n",rank);
 
-// if(rank==0){
-	/* Only on Rank 0 allocate Memory for new_image */
 	/* Allocate space for output image */
 	new_image.x=image.x;
 	new_image.y=image.y;
 	new_image.depth=image.depth;
 	new_image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
-// }
 
 	/* Allocate space for output image */
 	sobel_x.x=image.x;
@@ -385,7 +382,7 @@ printf("R%d Report error 3\n",rank);
 
 /* Use MPI_Gather() to gather results in rank 0 */
 MPI_Gather(sobel_x.pixels,	/* send buffer */
-	arraysize_image,					/* count */
+	arraysize_image/numtasks,	/* count */
 	MPI_CHAR,									/* type */
 	gather_sobel_x,						/* receive buffer */
 	arraysize_image,					/* count */
@@ -394,7 +391,7 @@ MPI_Gather(sobel_x.pixels,	/* send buffer */
 	MPI_COMM_WORLD);
 
 MPI_Gather(sobel_y.pixels,	/* send buffer */
-	arraysize_image,					/* count */
+	arraysize_image/numtasks,	/* count */
 	MPI_CHAR,									/* type */
 	gather_sobel_y,						/* receive buffer */
 	arraysize_image,					/* count */
@@ -421,7 +418,6 @@ if (rank==0){
 	printf("Store time: %lf\n",store_time-combine_time);
 	printf("Total time = %lf\n",store_time-start_time);
 }
-
 /* MPI_Finalize at the end */
 MPI_Finalize();
 return 0;
