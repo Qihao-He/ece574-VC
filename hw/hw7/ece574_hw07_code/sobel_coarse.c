@@ -298,8 +298,10 @@ int main(int argc, char **argv) {
 			image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 		}
 		load_time=MPI_Wtime();
-		/* Get the size of the	image */
+
+		/* In Rank 0, get the size of the image */
 		arraysize_image=image.x*image.y*image.depth*sizeof(char);
+
 		/* In rank 0 printf the arraysize_image pixels */
 		printf("1st R%d The arraysize_image is:%lu\n",rank,arraysize_image);
 
@@ -317,11 +319,9 @@ int main(int argc, char **argv) {
 				MPI_COMM_WORLD,	/* communicator */
 				&Stat);					/* status */
 	}
+
 	/* other processes also has the arraysize_image */
-	// for(rank=1;rank<numtasks+1;rank++){
-		// arraysize_image=image.x*image.y*image.depth*sizeof(char);
 		printf("R%d buffer A[0] is %d, A[1] is %d, A[2] is %d",rank,A[0],A[1],A[2]);
-	// }
 
 	/* debug for negative count */
 	printf("2nd R%d The arraysize_image is:%lu\n",rank,arraysize_image);
