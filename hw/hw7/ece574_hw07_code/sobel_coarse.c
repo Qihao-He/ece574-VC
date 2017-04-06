@@ -362,6 +362,8 @@ printf("R%d Report error 1\n",rank);
 	sobel_y.depth=image.depth;
 	sobel_y.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 
+printf("R%d Report error 2\n",rank);
+
 	/* Calculate this y range based on the rank and size parameters. */
 	/* Each rank should work on part of the image ranging form ystart to yend. */
 	/* convolution */
@@ -378,6 +380,8 @@ printf("R%d Report error 1\n",rank);
 	sobel_data[1].ystart=rank*image.y/numtasks;//rank*(size_img)
 	sobel_data[1].yend=(rank+1)*image.y/numtasks;//(rank+1)*(size_img)/numtasks
 	generic_convolve((void *)&sobel_data[1]);
+
+printf("R%d Report error 3\n",rank);
 
 /* Use MPI_Gather() to gather results in rank 0 */
 MPI_Gather(sobel_x.pixels,	/* send buffer */
@@ -397,6 +401,8 @@ MPI_Gather(sobel_y.pixels,	/* send buffer */
 	MPI_CHAR,									/* type */
 	0,												/* root source */
 	MPI_COMM_WORLD);
+
+printf("R%d Report error 4\n",rank);
 
 if (rank==0){
 	convolve_time=MPI_Wtime();
