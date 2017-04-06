@@ -302,9 +302,6 @@ int main(int argc, char **argv) {
 		/* In Rank 0, get the size of the image */
 		arraysize_image=image.x*image.y*image.depth*sizeof(char);
 
-		/* In rank 0 printf the arraysize_image pixels */
-		printf("1st R%d The arraysize_image is:%lu\n",rank,arraysize_image);
-
 		gather_sobel_x=malloc(arraysize_image);//dynamically allocate Memory
 		gather_sobel_y=malloc(arraysize_image);//dynamically allocate Memory
 	}
@@ -323,7 +320,7 @@ int main(int argc, char **argv) {
 	}
 
 	/* other processes also has the arraysize_image */
-		printf("R%d buffer A[0] is %d, A[1] is %d, A[2] is %d",rank,A[0],A[1],A[2]);
+		printf("R%d buffer A[0] is %d, A[1] is %d, A[2] is %d\n",rank,A[0],A[1],A[2]);
 
 	/* debug for negative count */
 	printf("2nd R%d The arraysize_image is:%lu\n",rank,arraysize_image);
