@@ -373,7 +373,7 @@ MPI_Gather(sobel_x.pixels,	/* send buffer */
 	arraysize_image/numtasks,	/* count */
 	MPI_CHAR,									/* type */
 	gather_sobel_x,						/* receive buffer */
-	arraysize_image,					/* count */
+	arraysize_image/numtasks,					/* count */
 	MPI_CHAR,									/* type */
 	0,												/* root source */
 	MPI_COMM_WORLD);
@@ -384,7 +384,7 @@ MPI_Gather(sobel_y.pixels,	/* send buffer */
 	arraysize_image/numtasks,	/* count */
 	MPI_CHAR,									/* type */
 	gather_sobel_y,						/* receive buffer */
-	arraysize_image,					/* count */
+	arraysize_image/numtasks,					/* count */
 	MPI_CHAR,									/* type */
 	0,												/* root source */
 	MPI_COMM_WORLD);
