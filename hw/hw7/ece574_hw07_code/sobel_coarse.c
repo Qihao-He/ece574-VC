@@ -318,6 +318,8 @@ int main(int argc, char **argv) {
 				13,							/* tag */
 				MPI_COMM_WORLD,	/* communicator */
 				&Stat);					/* status */
+
+		arraysize_image=image.x*image.y*image.depth*sizeof(char);
 	}
 
 	/* other processes also has the arraysize_image */
@@ -362,7 +364,7 @@ Please see the FAQ page for debugging suggestions
 	/* Use MPI_Bcast() to broadcast the entire image data from rank0 to all the
 	other ranks. You want to broadcast “image.pixels”, not all of image (remember,
  	MPI you can’t send structs, just arrays). */
-	printf("R%d Report error 0\n",rank);
+printf("R%d Report error 0\n",rank);
 
 	MPI_Bcast(image.pixels,	/* buffer */
 		arraysize_image,			/* count */
@@ -378,19 +380,17 @@ printf("Report error 1\n");
 	new_image.depth=image.depth;
 	new_image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 
-	for(i=0;i<numtasks;i++) {
-		/* Allocate space for output image */
-		sobel_x.x=image.x;
-		sobel_x.y=image.y;
-		sobel_x.depth=image.depth;
-		sobel_x.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
+	/* Allocate space for output image */
+	sobel_x.x=image.x;
+	sobel_x.y=image.y;
+	sobel_x.depth=image.depth;
+	sobel_x.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 
-		/* Allocate space for output image */
-		sobel_y.x=image.x;
-		sobel_y.y=image.y;
-		sobel_y.depth=image.depth;
-		sobel_y.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
-	}
+	/* Allocate space for output image */
+	sobel_y.x=image.x;
+	sobel_y.y=image.y;
+	sobel_y.depth=image.depth;
+	sobel_y.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 
 	/* Calculate this y range based on the rank and size parameters. */
 	/* Each rank should work on part of the image ranging form ystart to yend. */
