@@ -351,13 +351,13 @@ printf("R%d Report error 1\n",rank);
 	sobel_x.x=image.x;
 	sobel_x.y=image.y;
 	sobel_x.depth=image.depth;
-	sobel_x.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
+	sobel_x.pixels=malloc(image.x*image.y*image.depth*sizeof(char)/numtasks);
 
 	/* Allocate space for output image */
 	sobel_y.x=image.x;
 	sobel_y.y=image.y;
 	sobel_y.depth=image.depth;
-	sobel_y.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
+	sobel_y.pixels=malloc(image.x*image.y*image.depth*sizeof(char)/numtasks);
 
 printf("R%d Report error 2\n",rank);
 
