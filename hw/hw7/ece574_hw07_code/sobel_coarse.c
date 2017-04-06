@@ -341,14 +341,14 @@ int main(int argc, char **argv) {
 
 printf("R%d Report error 1\n",rank);
 
-if(rank==0){
+// if(rank==0){
 	/* Only on Rank 0 allocate Memory for new_image */
 	/* Allocate space for output image */
 	new_image.x=image.x;
 	new_image.y=image.y;
 	new_image.depth=image.depth;
 	new_image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
-}
+// }
 
 	/* Allocate space for output image */
 	sobel_x.x=image.x;
