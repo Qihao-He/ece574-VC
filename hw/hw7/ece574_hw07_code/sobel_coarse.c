@@ -323,15 +323,15 @@ int main(int argc, char **argv) {
 	}
 
 	/* other processes also has the arraysize_image */
-	printf("R%d buffer A[0] is %d, A[1] is %d, A[2] is %d\n",rank,A[0],A[1],A[2]);
+	// printf("R%d buffer A[0] is %d, A[1] is %d, A[2] is %d\n",rank,A[0],A[1],A[2]);
 
 	/* debug for negative count */
-	printf("R%d The arraysize_image is:%lu\n",rank,arraysize_image);
+	// printf("R%d The arraysize_image is:%lu\n",rank,arraysize_image);
 
 	/* Use MPI_Bcast() to broadcast the entire image data from rank0 to all the
 	other ranks. You want to broadcast “image.pixels”, not all of image (remember,
  	MPI you can’t send structs, just arrays). */
-	printf("R%d Report error 0\n",rank);
+	// printf("R%d Report error 0\n",rank);
 
 	MPI_Bcast(image.pixels,	/* buffer */
 		arraysize_image,			/* count */
@@ -339,7 +339,7 @@ int main(int argc, char **argv) {
 		0,										/* root source */
 		MPI_COMM_WORLD);
 
-printf("R%d Report error 1\n",rank);
+// printf("R%d Report error 1\n",rank);
 
 	/* Allocate space for output image */
 	new_image.x=image.x;
@@ -359,7 +359,7 @@ printf("R%d Report error 1\n",rank);
 	sobel_y.depth=image.depth;
 	sobel_y.pixels=malloc(image.x*image.y*image.depth*sizeof(char)/numtasks);
 
-printf("R%d Report error 2\n",rank);
+// printf("R%d Report error 2\n",rank);
 
 	/* Calculate this y range based on the rank and size parameters. */
 	/* Each rank should work on part of the image ranging form ystart to yend. */
