@@ -1,42 +1,66 @@
 ECE574 Spring 2017 Homework #7
 
 Names of group memebers: Qihao He
+md5sum is not correct, image is black.
 ------------------------------------------------------------
 3.
 	Time taken to convolve:
 
-	1
-	2
-	4
-	8
-	16
+	1 2.197595
+	2 1.655498
+	4 0.839794
+	8 0.442964
+	16 0.401469
 ------------------------------------------------------------
 RESULTS:
 Speedup:
+1 1
+2 1.33
+4 2.62
+8 4.96
+16 5.47
+
 Parallel efficiency:
+1 1
+2 0.67
+4 0.655
+8 0.62
+16 0.34
 ------------------------------------------------------------
 1 THREAD
-$ sbatch -n 1 time_coarse.sh
-real	0m2.049s
-user	0m0.012s
-sys	0m0.004s
-
-R0: Number of tasks= 1 My rank= 0
-R0: Initializing array
-output_width=3888, output_height=2592, output_components=3
-Load time: 0.152419
-Convolve time: 1.585062
-Combine time: 0.156186
-Store time: 0.069396
-Total time = 1.963063
+Load time: 0.215630
+Convolve time: 2.197595
+Combine time: 0.228642
+Store time: 0.126753
+Total time = 2.768620
 ------------------------------------------------------------
-2 THREAD
+2 THREADS
+Load time: 0.212311
+Convolve time: 1.655498
+Combine time: 0.224447
+Store time: 0.102309
+Total time = 2.194566
 ------------------------------------------------------------
-4 THREAD
+4 THREADS
+Load time: 0.249921
+Convolve time: 0.839794
+Combine time: 0.224590
+Store time: 0.091397
+Total time = 1.405703
 ------------------------------------------------------------
-8 THREAD
+8 THREADS
+Load time: 0.297053
+Convolve time: 0.442964
+Combine time: 0.223536
+Store time: 0.084896
+Total time = 1.048449
 ------------------------------------------------------------
-
+16 THREADS
+Load time: 0.437022
+Convolve time: 0.401469
+Combine time: 0.224277
+Store time: 0.081894
+Total time = 1.144662
 ------------------------------------------------------------
 
 4.
