@@ -275,6 +275,7 @@ int main(int argc, char **argv) {
 	printf("R%d: Number of tasks= %d My rank= %d\n",
 		rank,numtasks,rank);
 
+/* Reading the image from all nodes rather than just rank 0 */
 	/* Only load the jpeg in rank 0 */
 	if (rank==0) {
 		/* Initialize Array */
@@ -397,6 +398,7 @@ if (rank==0){
 
 	convolve_time=MPI_Wtime();
 
+/* Paralleize the combine code */
 	/* On rank 0 alone, run combine to form output */
 	combine(&sobel_x,&sobel_y,&new_image);
 	combine_time=MPI_Wtime();
