@@ -1,66 +1,66 @@
 ECE574 Spring 2017 Homework #7
 
 Names of group memebers: Qihao He
-md5sum is not correct, image is black.
+md5sum is not correct, but the out.jpg is looking right.
 ------------------------------------------------------------
 3.
 	Time taken to convolve:
 
-	1 2.197595
-	2 1.655498
-	4 0.839794
-	8 0.442964
-	16 0.401469
+	1 2.065594
+	2 1.338625
+	4 0.581977
+	8 0.273505
+	16 0.201834
 ------------------------------------------------------------
 RESULTS:
 Speedup:
 1 1
-2 1.33
-4 2.62
-8 4.96
-16 5.47
+2 1.54
+4 3.55
+8 7.55
+16 10.23
 
 Parallel efficiency:
 1 1
-2 0.67
-4 0.655
-8 0.62
-16 0.34
+2 0.77
+4 0.89
+8 0.94
+16 0.64
 ------------------------------------------------------------
 1 THREAD
-Load time: 0.215630
-Convolve time: 2.197595
-Combine time: 0.228642
-Store time: 0.126753
-Total time = 2.768620
+Load time: 0.153537
+Convolve time: 2.065594
+Combine time: 0.155766
+Store time: 0.068662
+Total time = 2.443560
 ------------------------------------------------------------
 2 THREADS
-Load time: 0.212311
-Convolve time: 1.655498
-Combine time: 0.224447
-Store time: 0.102309
-Total time = 2.194566
+Load time: 0.153598
+Convolve time: 1.338625
+Combine time: 0.155014
+Store time: 0.068737
+Total time = 1.715975
 ------------------------------------------------------------
 4 THREADS
-Load time: 0.249921
-Convolve time: 0.839794
-Combine time: 0.224590
-Store time: 0.091397
-Total time = 1.405703
+Load time: 0.152962
+Convolve time: 0.581977
+Combine time: 0.166286
+Store time: 0.075128
+Total time = 0.976352
 ------------------------------------------------------------
 8 THREADS
-Load time: 0.297053
-Convolve time: 0.442964
-Combine time: 0.223536
-Store time: 0.084896
-Total time = 1.048449
+Load time: 0.153257
+Convolve time: 0.273505
+Combine time: 0.178257
+Store time: 0.078667
+Total time = 0.683686
 ------------------------------------------------------------
 16 THREADS
-Load time: 0.437022
-Convolve time: 0.401469
-Combine time: 0.224277
-Store time: 0.081894
-Total time = 1.144662
+Load time: 0.207553
+Convolve time: 0.201834
+Combine time: 0.194574
+Store time: 0.085114
+Total time = 0.689075
 ------------------------------------------------------------
 
 4.
