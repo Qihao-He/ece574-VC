@@ -323,7 +323,7 @@ int main(int argc, char **argv) {
 	/* Use MPI_Bcast() to broadcast the entire image data from rank0 to all the
 	other ranks. You want to broadcast “image.pixels”, not all of image (remember,
  	MPI you can’t send structs, just arrays). */
-	printf("Report error after malloc 0\n");
+	printf("Report error 0\n");
 
 	MPI_Bcast(image.pixels,	/* buffer */
 		arraysize_image,			/* count */
@@ -331,7 +331,7 @@ int main(int argc, char **argv) {
 		0,										/* root source */
 		MPI_COMM_WORLD);
 
-printf("Report error after malloc 1\n");
+printf("Report error 1\n");
 
 	/* Allocate space for output image */
 	new_image.x=image.x;
