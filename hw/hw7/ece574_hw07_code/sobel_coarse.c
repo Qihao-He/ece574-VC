@@ -301,7 +301,7 @@ int main(int argc, char **argv) {
 		/* Get the size of the	image */
 		arraysize_image=image.x*image.y*image.depth*sizeof(char);
 		/* In rank 0 printf the arraysize_image pixels */
-		printf("R%d The arraysize_image is:%lu\n",rank,arraysize_image);
+		printf("1st R%d The arraysize_image is:%lu\n",rank,arraysize_image);
 
 		gather_sobel_x=malloc(arraysize_image);//dynamically allocate Memory
 		gather_sobel_y=malloc(arraysize_image);//dynamically allocate Memory
@@ -321,7 +321,7 @@ int main(int argc, char **argv) {
 	arraysize_image=image.x*image.y*image.depth*sizeof(char);
 
 	/* debug for negative count */
-	printf("R%d The arraysize_image is:%lu\n",rank,arraysize_image);
+	printf("2nd R%d The arraysize_image is:%lu\n",rank,arraysize_image);
 
 	/* Use MPI_Bcast() to broadcast the entire image data from rank0 to all the
 	other ranks. You want to broadcast “image.pixels”, not all of image (remember,
