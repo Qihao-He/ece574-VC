@@ -319,7 +319,8 @@ int main(int argc, char **argv) {
 	}
 	/* other processes also has the arraysize_image */
 	for(rank=1;rank<numtasks+1;rank++){
-		arraysize_image=image.x*image.y*image.depth*sizeof(char);
+		// arraysize_image=image.x*image.y*image.depth*sizeof(char);
+		printf("R%d buffer A[0] is %d, A[1] is %d, A[2] is %d",rank,A[0],A[1],A[2]);
 	}
 
 	/* debug for negative count */
