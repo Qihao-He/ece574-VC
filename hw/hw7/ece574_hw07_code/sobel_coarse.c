@@ -390,6 +390,8 @@ MPI_Gather(sobel_x.pixels,	/* send buffer */
 	0,												/* root source */
 	MPI_COMM_WORLD);
 
+printf("R%d Report error 4\n",rank);
+
 MPI_Gather(sobel_y.pixels,	/* send buffer */
 	arraysize_image/numtasks,	/* count */
 	MPI_CHAR,									/* type */
@@ -399,7 +401,7 @@ MPI_Gather(sobel_y.pixels,	/* send buffer */
 	0,												/* root source */
 	MPI_COMM_WORLD);
 
-printf("R%d Report error 4\n",rank);
+printf("R%d Report error 5\n",rank);
 
 if (rank==0){
 	convolve_time=MPI_Wtime();
