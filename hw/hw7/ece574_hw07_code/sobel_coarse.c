@@ -87,10 +87,16 @@ static void *generic_convolve(void *argument) {
 	   }
 	}
 	/* Moving the range from ystart to yend to offset 0. */
-	for(y=ystart;y<yend;y++){
-		new->pixels[((y-ystart+1)*width)+x*depth+d]=
-		new->pixels[(y*width)+x*depth+d];
+	for(d=0;d<3;d++) {
+		 for(x=1;x<old->x-1;x++) {
+			 for(y=ystart;y<yend;y++) {
+				 new->pixels[((y-ystart+1)*width)+x*depth+d]=
+				 new->pixels[(y*width)+x*depth+d];
+
+			 }
+		 }
 	}
+
 	return NULL;
 }
 
@@ -371,7 +377,7 @@ MPI_Gather(sobel_x.pixels,	/* send buffer */
 	arraysize_image/numtasks,	/* count */
 	MPI_CHAR,									/* type */
 	gather_sobel_x,						/* receive buffer */
-	arraysize_image/numtasks,					/* count */
+	arraysize_image/numtasks,	/* count */
 	MPI_CHAR,									/* type */
 	0,												/* root source */
 	MPI_COMM_WORLD);
@@ -380,7 +386,7 @@ MPI_Gather(sobel_y.pixels,	/* send buffer */
 	arraysize_image/numtasks,	/* count */
 	MPI_CHAR,									/* type */
 	gather_sobel_y,						/* receive buffer */
-	arraysize_image/numtasks,					/* count */
+	arraysize_image/numtasks,	/* count */
 	MPI_CHAR,									/* type */
 	0,												/* root source */
 	MPI_COMM_WORLD);
