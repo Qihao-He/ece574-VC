@@ -305,8 +305,8 @@ int main(int argc, char **argv) {
 		gather_sobel_x=malloc(arraysize_image);//dynamically allocate Memory
 		gather_sobel_y=malloc(arraysize_image);//dynamically allocate Memory
 	}
-	/* MPI_Recv is required for other processes */
 	else {
+		/* MPI_Recv is required for other processes */
 		/* This is run by all the non-master processes */
 		result = MPI_Recv(A,/* buffer */
 				ARRAYSIZE,			/* count */
