@@ -300,6 +300,9 @@ int main(int argc, char **argv) {
 		load_time=MPI_Wtime();
 		/* Get the size of the	image */
 		arraysize_image=image.x*image.y*image.depth*sizeof(char);
+		/* In rank 0 printf the arraysize_image pixels */
+		printf("R%d The arraysize_image is:%lu\n",rank,arraysize_image);
+
 		gather_sobel_x=malloc(arraysize_image);//dynamically allocate Memory
 		gather_sobel_y=malloc(arraysize_image);//dynamically allocate Memory
 	}
