@@ -328,43 +328,10 @@ int main(int argc, char **argv) {
 	/* debug for negative count */
 	printf("2nd R%d The arraysize_image is:%lu\n",rank,arraysize_image);
 
-/* BUG: R0 AND R1 HAVE DIFFERENT arraysize_image:
-
-$ cat slurm.coarse.haswell-ep.1053.err
-
-real	0m0.253s
-user	0m0.004s
-sys	0m0.012s
-ece574-10@haswell-ep:~/QH_repository/ece574-VC/hw/hw7/ece574_hw07_code$ cat slurm.coarse.haswell-ep.1053.out
-R0: Number of tasks= 2 My rank= 0
-R0: Initializing array
-R1: Number of tasks= 2 My rank= 1
-output_width=3888, output_height=2592, output_components=3
-R0: Sending 3 ints to Rank1
-MALLOC R1
-1st R0 The arraysize_image is:30233088
-2nd R0 The arraysize_image is:30233088
-R0 Report error 0
-2nd R1 The arraysize_image is:1410377472
-R1 Report error 0
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 22414 RUNNING AT haswell-ep
-=   EXIT CODE: 11
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-YOUR APPLICATION TERMINATED WITH THE EXIT STRING: Segmentation fault (signal 11)
-This typically refers to a problem with your application.
-Please see the FAQ page for debugging suggestions
-
-*/
-
 	/* Use MPI_Bcast() to broadcast the entire image data from rank0 to all the
 	other ranks. You want to broadcast “image.pixels”, not all of image (remember,
  	MPI you can’t send structs, just arrays). */
-printf("R%d Report error 0\n",rank);
+	printf("R%d Report error 0\n",rank);
 
 	MPI_Bcast(image.pixels,	/* buffer */
 		arraysize_image,			/* count */
