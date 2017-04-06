@@ -1,0 +1,17 @@
+R1: Number of tasks= 4 My rank= 1
+R2: Number of tasks= 4 My rank= 2
+R0: Number of tasks= 4 My rank= 0
+R0: Initializing array
+output_width=3888, output_height=2592, output_components=3
+R3: Number of tasks= 4 My rank= 3
+R0: Sending 3 ints to Rank1
+R0: Sending 3 ints to Rank2
+MALLOC R1
+R0: Sending 3 ints to Rank3
+MALLOC R2
+MALLOC R3
+Load time: 0.249921
+Convolve time: 0.839794
+Combine time: 0.224590
+Store time: 0.091397
+Total time = 1.405703
