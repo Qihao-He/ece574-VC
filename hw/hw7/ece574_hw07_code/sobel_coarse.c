@@ -323,6 +323,23 @@ int main(int argc, char **argv) {
 	/* debug for negative count */
 	printf("2nd R%d The arraysize_image is:%lu\n",rank,arraysize_image);
 
+/* BUG: R0 AND R1 HAVE DIFFERENT arraysize_image:
+
+$ cat slurm.coarse.haswell-ep.976.out
+R0: Number of tasks= 2 My rank= 0
+R0: Initializing array
+output_width=3888, output_height=2592, output_components=3
+R1: Number of tasks= 2 My rank= 1
+R0: Sending 3 ints to Rank1
+MALLOC R1
+1st R0 The arraysize_image is:30233088
+2nd R0 The arraysize_image is:30233088
+Report error 0
+2nd R1 The arraysize_image is:18446744073142527616
+Report error 0
+
+*/
+
 	/* Use MPI_Bcast() to broadcast the entire image data from rank0 to all the
 	other ranks. You want to broadcast “image.pixels”, not all of image (remember,
  	MPI you can’t send structs, just arrays). */
