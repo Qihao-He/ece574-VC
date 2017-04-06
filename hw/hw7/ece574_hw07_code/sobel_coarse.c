@@ -326,7 +326,7 @@ int main(int argc, char **argv) {
 	printf("R%d buffer A[0] is %d, A[1] is %d, A[2] is %d\n",rank,A[0],A[1],A[2]);
 
 	/* debug for negative count */
-	printf("2nd R%d The arraysize_image is:%lu\n",rank,arraysize_image);
+	printf("R%d The arraysize_image is:%lu\n",rank,arraysize_image);
 
 	/* Use MPI_Bcast() to broadcast the entire image data from rank0 to all the
 	other ranks. You want to broadcast “image.pixels”, not all of image (remember,
@@ -341,11 +341,14 @@ int main(int argc, char **argv) {
 
 printf("R%d Report error 1\n",rank);
 
+if(rank==0){
+	/* Only on Rank 0 allocate Memory for new_image */
 	/* Allocate space for output image */
 	new_image.x=image.x;
 	new_image.y=image.y;
 	new_image.depth=image.depth;
 	new_image.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
+}
 
 	/* Allocate space for output image */
 	sobel_x.x=image.x;
