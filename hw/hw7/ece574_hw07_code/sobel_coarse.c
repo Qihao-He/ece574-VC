@@ -366,8 +366,6 @@ int main(int argc, char **argv) {
 	sobel_data[1].yend=(rank+1)*image.y/numtasks;//(rank+1)*(size_img)/numtasks
 	generic_convolve((void *)&sobel_data[1]);
 
-printf("R%d Report error 3\n",rank);
-
 /* Use MPI_Gather() to gather results in rank 0 */
 MPI_Gather(sobel_x.pixels,	/* send buffer */
 	arraysize_image/numtasks,	/* count */
@@ -378,8 +376,6 @@ MPI_Gather(sobel_x.pixels,	/* send buffer */
 	0,												/* root source */
 	MPI_COMM_WORLD);
 
-printf("R%d Report error 4\n",rank);
-
 MPI_Gather(sobel_y.pixels,	/* send buffer */
 	arraysize_image/numtasks,	/* count */
 	MPI_CHAR,									/* type */
@@ -388,8 +384,6 @@ MPI_Gather(sobel_y.pixels,	/* send buffer */
 	MPI_CHAR,									/* type */
 	0,												/* root source */
 	MPI_COMM_WORLD);
-
-printf("R%d Report error 5\n",rank);
 
 if (rank==0){
 	convolve_time=MPI_Wtime();
