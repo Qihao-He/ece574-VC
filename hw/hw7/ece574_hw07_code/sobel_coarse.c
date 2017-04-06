@@ -341,13 +341,13 @@ int main(int argc, char **argv) {
 	sobel_x.x=image.x;
 	sobel_x.y=image.y;
 	sobel_x.depth=image.depth;
-	sobel_x.pixels=malloc(image.x*image.y*image.depth*sizeof(char)/numtasks);
+	sobel_x.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 
 	/* Allocate space for output image */
 	sobel_y.x=image.x;
 	sobel_y.y=image.y;
 	sobel_y.depth=image.depth;
-	sobel_y.pixels=malloc(image.x*image.y*image.depth*sizeof(char)/numtasks);
+	sobel_y.pixels=malloc(image.x*image.y*image.depth*sizeof(char));
 
 	/* Calculate this y range based on the rank and size parameters. */
 	/* Each rank should work on part of the image ranging form ystart to yend. */
