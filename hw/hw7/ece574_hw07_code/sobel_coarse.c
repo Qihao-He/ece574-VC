@@ -343,7 +343,7 @@ Report error 0
 	/* Use MPI_Bcast() to broadcast the entire image data from rank0 to all the
 	other ranks. You want to broadcast “image.pixels”, not all of image (remember,
  	MPI you can’t send structs, just arrays). */
-	printf("Report error 0\n");
+	printf("R%d Report error 0\n",rank);
 
 	MPI_Bcast(image.pixels,	/* buffer */
 		arraysize_image,			/* count */
