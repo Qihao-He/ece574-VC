@@ -392,8 +392,9 @@ MPI_Gather(sobel_y.pixels,	/* send buffer */
 
 if (rank==0){
 	/* Put array gather_sobel_x, gather_sobel_y in structure sobel_x, sobel_y */
-	sobel_x->pixels=gather_sobel_x;
-	sobel_y->pixels=gather_sobel_y;
+	sobel_x.pixels=gather_sobel_x;
+	sobel_y.pixels=gather_sobel_y;
+
 	convolve_time=MPI_Wtime();
 
 	/* On rank 0 alone, run combine to form output */
