@@ -1,0 +1,29 @@
+R7: Number of tasks= 8 My rank= 7
+R5: Number of tasks= 8 My rank= 5
+R4: Number of tasks= 8 My rank= 4
+R0: Number of tasks= 8 My rank= 0
+R0: Initializing array
+R3: Number of tasks= 8 My rank= 3
+R2: Number of tasks= 8 My rank= 2
+R6: Number of tasks= 8 My rank= 6
+output_width=3888, output_height=2592, output_components=3
+R1: Number of tasks= 8 My rank= 1
+R0: Sending 3 ints to Rank1
+R0: Sending 3 ints to Rank2
+R0: Sending 3 ints to Rank3
+R0: Sending 3 ints to Rank4
+R0: Sending 3 ints to Rank5
+R0: Sending 3 ints to Rank6
+R0: Sending 3 ints to Rank7
+MALLOC R1
+MALLOC R2
+MALLOC R3
+MALLOC R4
+MALLOC R6
+MALLOC R7
+MALLOC R5
+Load time: 0.153257
+Convolve time: 0.273505
+Combine time: 0.178257
+Store time: 0.078667
+Total time = 0.683686

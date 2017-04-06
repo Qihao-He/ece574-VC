@@ -1,0 +1,53 @@
+R12: Number of tasks= 16 My rank= 12
+R15: Number of tasks= 16 My rank= 15
+R0: Number of tasks= 16 My rank= 0
+R0: Initializing array
+R3: Number of tasks= 16 My rank= 3
+output_width=3888, output_height=2592, output_components=3
+R10: Number of tasks= 16 My rank= 10
+R9: Number of tasks= 16 My rank= 9
+R1: Number of tasks= 16 My rank= 1
+R2: Number of tasks= 16 My rank= 2
+R4: Number of tasks= 16 My rank= 4
+R5: Number of tasks= 16 My rank= 5
+R6: Number of tasks= 16 My rank= 6
+R7: Number of tasks= 16 My rank= 7
+R8: Number of tasks= 16 My rank= 8
+R11: Number of tasks= 16 My rank= 11
+R13: Number of tasks= 16 My rank= 13
+R14: Number of tasks= 16 My rank= 14
+R0: Sending 3 ints to Rank1
+R0: Sending 3 ints to Rank2
+R0: Sending 3 ints to Rank3
+R0: Sending 3 ints to Rank4
+R0: Sending 3 ints to Rank5
+R0: Sending 3 ints to Rank6
+R0: Sending 3 ints to Rank7
+R0: Sending 3 ints to Rank8
+R0: Sending 3 ints to Rank9
+R0: Sending 3 ints to Rank10
+R0: Sending 3 ints to Rank11
+R0: Sending 3 ints to Rank12
+R0: Sending 3 ints to Rank13
+R0: Sending 3 ints to Rank14
+R0: Sending 3 ints to Rank15
+MALLOC R1
+MALLOC R2
+MALLOC R3
+MALLOC R4
+MALLOC R5
+MALLOC R6
+MALLOC R7
+MALLOC R8
+MALLOC R9
+MALLOC R10
+MALLOC R11
+MALLOC R12
+MALLOC R13
+MALLOC R14
+MALLOC R15
+Load time: 0.207553
+Convolve time: 0.201834
+Combine time: 0.194574
+Store time: 0.085114
+Total time = 0.689075

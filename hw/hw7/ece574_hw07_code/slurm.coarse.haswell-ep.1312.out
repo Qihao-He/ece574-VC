@@ -1,0 +1,8 @@
+R0: Number of tasks= 1 My rank= 0
+R0: Initializing array
+output_width=3888, output_height=2592, output_components=3
+Load time: 0.153537
+Convolve time: 2.065594
+Combine time: 0.155766
+Store time: 0.068662
+Total time = 2.443560
