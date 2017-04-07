@@ -1,7 +1,8 @@
 ECE574 Spring 2017 Homework #7
 
 Names of group memebers: Qihao He
-md5sum is not correct, but the out.jpg is looking right.
+md5sum is not correct, but the out.jpg is looking right.Maybe there is something
+ wrong with the offset reset to 0 by one pixel.
 ------------------------------------------------------------
 3.
 	Time taken to convolve:
@@ -64,14 +65,41 @@ Total time = 0.689075
 ------------------------------------------------------------
 
 4.
-	Change you made
+Again the md5sum is not correct, but the out.jpg looks right.
+Maybe there is something wrong with the offset reset to 0 by one pixel.
+	Change you made:
+	Reading the image from all nodes rather than just rank 0
+------------------------------------------------------------
+Before change: Reading the image from all nodes rather than just rank 0
+	Total time taken:
+	1 2.443560
+	2 1.715975
+	4 0.976352
+	8 0.683686
+	16 0.689075
+------------------------------------------------------------
+After change:
+	Total Time taken:
+	1 2.465625
+	2 1.669096
+	4 0.952419
+	8 0.713561
+	16 0.787153
 
-	Time taken:
-	1
-	2
-	4
-	8
-	16
+Speedup:
+1 1
+2 1.48
+4 2.59
+8 3.46
+16 3.13
+
+Parallel efficiency:
+1 1
+2 0.74
+4 0.65
+8 0.43
+16 0.20
+
 ------------------------------------------------------------
 5.
 	Time taken on Pi Cluster

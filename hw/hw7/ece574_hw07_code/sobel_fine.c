@@ -276,7 +276,6 @@ int main(int argc, char **argv) {
 		rank,numtasks,rank);
 
 /* Reading the image from all nodes rather than just rank 0 */
-
 		load_jpeg(argv[1],&image);
 
 		load_time=MPI_Wtime();
