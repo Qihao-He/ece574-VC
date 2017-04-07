@@ -106,14 +106,31 @@ I selected sobel_fine.
 	Time taken on Pi Cluster
 
 Total time taken:
-	1 2.463197
-	2 1.675722
-	4 0.962535
-	8 0.734855
-	16 0.787004
+	1 30.629453
+	2 21.225708
+	4 16.233111
+	8 17.119644
+	16 16.456682
+
+Speedup:
+1 1
+2 1.44
+4 1.89
+8 1.79
+16 1.86
+
+Parallel efficiency:
+1 1
+2 0.72
+4 0.95
+8 0.89
+16 0.93
 
 ------------------------------------------------------------
-	Did it scale?
-	Yes it did scale, the speedup is obvious but the Parallel efficiency is
-	decending as more cores are	added. Pi's performance: the total time taken is
-	similar to the Haswell machine that I run sobel_fine code.
+Did it scale?
+Yes it did scale, the speedup is obvious but the Parallel efficiency is
+decending as more cores are	added on the Haswell machine. But for Pi cluster,
+the Speedup is limited, however, parallel efficiency maintain in the very good
+level as the more cores are added. Pi's performance: the total time taken way
+longer than the Haswell machine that I run sobel_fine code. Pi's speedup is
+limited compare wit the haswell machine speedup.
