@@ -242,10 +242,10 @@ int main(int argc, char **argv) {
 	struct image_t image,sobel_x,sobel_y,new_image;
 	struct convolve_data_t sobel_data[2];
 	double start_time,load_time=0,store_time,convolve_time=0,combine_time;
-	int result,i;
-	int A[ARRAYSIZE]; //A Buffer
+	int result;
+	// int A[ARRAYSIZE]; //A Buffer
 	int numtasks,rank;//# of tasks, rank index
-	MPI_Status Stat;
+	// MPI_Status Stat;
 	unsigned long int arraysize_image; //arraysize of the image
 	unsigned char *gather_sobel_x=NULL;//receive buffer for soble_x
 	unsigned char *gather_sobel_y=NULL;//receive buffer for soble_y
