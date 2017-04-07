@@ -29,5 +29,5 @@ clean:
 
 
 submit:
-	tar -czvf hw06_submit.tar.gz Makefile README *.c
+	tar -czvf hw07_submit.tar.gz Makefile README *.c
 
