@@ -277,28 +277,28 @@ int main(int argc, char **argv) {
 
 /* Reading the image from all nodes rather than just rank 0 */
 	/* Only load the jpeg in rank 0 */
-	if (rank==0) {
+	// if (rank==0) {
 		/* Initialize Array */
-		printf("R0: Initializing array\n");
+		// printf("R0: Initializing array\n");
 		/* Load an image */
 		load_jpeg(argv[1],&image);
 
 		/* Send the image parameters (image.x, image.y, image.depth) to all other
 		ranks, sending an array of 3 INTS */
-		A[0]= image.x;
-		A[1]= image.y;
-		A[2]= image.depth;
+		// A[0]= image.x;
+		// A[1]= image.y;
+		// A[2]= image.depth;
 
-		for(i=1;i<numtasks;i++) {
-			printf("R0: Sending %d ints to Rank%d\n",
-				ARRAYSIZE,i);
-			result = MPI_Send(A,/* buffer */
-					ARRAYSIZE,			/* count */
-					MPI_INT,				/* type */
-					i,							/* destination */
-					13,							/* tag */
-					MPI_COMM_WORLD);
-		}
+		// for(i=1;i<numtasks;i++) {
+		// 	printf("R0: Sending %d ints to Rank%d\n",
+		// 		ARRAYSIZE,i);
+		// 	result = MPI_Send(A,/* buffer */
+		// 			ARRAYSIZE,			/* count */
+		// 			MPI_INT,				/* type */
+		// 			i,							/* destination */
+		// 			13,							/* tag */
+		// 			MPI_COMM_WORLD);
+		// }
 		load_time=MPI_Wtime();
 
 		/* In Rank 0, get the size of the image */
@@ -306,36 +306,36 @@ int main(int argc, char **argv) {
 
 		gather_sobel_x=malloc(arraysize_image);//dynamically allocate Memory
 		gather_sobel_y=malloc(arraysize_image);//dynamically allocate Memory
-	}
-	else {
+	// }
+	// else {
 		/* MPI_Recv is required for other processes */
 		/* This is run by all the non-master processes */
-		result = MPI_Recv(A,/* buffer */
-				ARRAYSIZE,			/* count */
-				MPI_INT,				/* type */
-				0,							/* source */
-				13,							/* tag */
-				MPI_COMM_WORLD,	/* communicator */
-				&Stat);					/* status */
+		// result = MPI_Recv(A,/* buffer */
+		// 		ARRAYSIZE,			/* count */
+		// 		MPI_INT,				/* type */
+		// 		0,							/* source */
+		// 		13,							/* tag */
+		// 		MPI_COMM_WORLD,	/* communicator */
+		// 		&Stat);					/* status */
 
-		image.x=A[0];
-		image.y=A[1];
-		image.depth=A[2];
-		arraysize_image=image.x*image.y*image.depth*sizeof(char);
+		// image.x=A[0];
+		// image.y=A[1];
+		// image.depth=A[2];
+		// arraysize_image=image.x*image.y*image.depth*sizeof(char);
 
 		/* Malloc image.pixels input image in the non rank-0 threads */
-		printf("MALLOC R%d\n",rank);
-		image.pixels=malloc(arraysize_image);
-	}
+		// printf("MALLOC R%d\n",rank);
+		// image.pixels=malloc(arraysize_image);
+	// }
 
 	/* Use MPI_Bcast() to broadcast the entire image data from rank0 to all the
 	other ranks. You want to broadcast “image.pixels”, not all of image (remember,
  	MPI you can’t send structs, just arrays). */
-	MPI_Bcast(image.pixels,	/* buffer */
-		arraysize_image,			/* count */
-		MPI_CHAR,							/* type */
-		0,										/* root source */
-		MPI_COMM_WORLD);
+	// MPI_Bcast(image.pixels,	/* buffer */
+	// 	arraysize_image,			/* count */
+	// 	MPI_CHAR,							/* type */
+	// 	0,										/* root source */
+	// 	MPI_COMM_WORLD);
 
 	/* Allocate space for output image */
 	new_image.x=image.x;
