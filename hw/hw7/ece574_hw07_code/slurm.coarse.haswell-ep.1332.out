@@ -1,0 +1,9 @@
+R0: Number of tasks= 2 My rank= 0
+R1: Number of tasks= 2 My rank= 1
+output_width=3888, output_height=2592, output_components=3
+output_width=3888, output_height=2592, output_components=3
+Load time: 0.165120
+Convolve time: 1.281363
+Combine time: 0.158718
+Store time: 0.070520
+Total time = 1.675722
