@@ -41,7 +41,7 @@ void cuda_generic_convolve (int n, char *in, int *matrix, char *out) {
 }
 
 __global__
-void cuda_combine (int n, unsigned char *in_x,
+void cuda_combine (int n, unsigned char *in_x, 
 		unsigned char *in_y, unsigned char *out) {
 }
 
@@ -105,7 +105,7 @@ static int combine(struct image_t *s_x,
 	int out;
 
 	for(i=0;i<( s_x->depth * s_x->x * s_x->y );i++) {
-
+ 
 		out=sqrt(
 			(s_x->pixels[i]*s_x->pixels[i])+
 			(s_y->pixels[i]*s_y->pixels[i])
@@ -116,7 +116,7 @@ static int combine(struct image_t *s_x,
 	}
 
 	return 0;
-}
+} 
 
 static int load_jpeg(char *filename, struct image_t *image) {
 
