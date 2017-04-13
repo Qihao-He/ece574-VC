@@ -220,7 +220,12 @@ to the processors.
 
 ________________________________________________________________________________
 4/12/2017
-
+Reading
+How I setup a Raspberry Pi 3 Cluster Using The New Docker Swarm Mode In 29 Minutes
+Malcolm JonesFollow
+TONY DARK. Black Tony Stark. DevOps Engineer @Behance (acq’d by @Adobe). NUPE, WAHOO. Commonly referred to as #heron, SON OF BABYLON, Le #Hyena. I build shit.
+Jul 10, 2016
+https://medium.com/@bossjones/how-i-setup-a-raspberry-pi-3-cluster-using-the-new-docker-swarm-mode-in-29-minutes-aa0e4f3b1768
 ________________________________________________________________________________
 ________________________________________________________________________________
 ________________________________________________________________________________
