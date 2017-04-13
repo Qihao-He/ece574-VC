@@ -248,6 +248,35 @@ QUESTION: What does a Autocomlete do?
 
 Installation Of Docker 1.12.0-rc3 On Each Node
 QUESTION: What does a docker do in the cluser for all the nodes.
+
+SSH to machine, run docker version and you should see something like this:
+Looks pretty eazy for grabing the information of the system and the software.
+
+Bootstrap The Master!
+$ ssh pirate@scarlett-kub-master.local docker swarm init
+Swarm initialized: current node (1njlvzi9rk2syv3xojw217o0g) is now a manager.
+
+$ docker node ls
+ID HOSTNAME MEMBERSHIP STATUS AVAILABILITY MANAGER STATUS
+al55dh1yjho2wojhagzksdqwu * scarlett-kub-master Accepted Ready Active Leader
+
+Time To Bootstrap Some Nodes!
+$ function getip() { (traceroute $1 2>&1 | head -n 1 | cut -d\( -f 2 | cut -d\) -f 1) }
+$ export MASTER=$(getip scarlett-kub-master.local)
+$ ssh pirate@scarlett-kub-slave1.local docker swarm join $MASTER:2377
+
+Let’s bring up a container that simply pings google’s DNS server:
+
+Scale up the number of tasks running! How about 10 of these bad boys? No problem, let’s run this:
+
+ Sit Back In Awe.
+
+QUESTION: When trying to add a remote node to VW's cluster, is the HypriotOS and Docker
+matters for using different docker and HypriotOS(preset the RPis)? I think it
+should maintain the same docker, but the hypriotOS is not that strictly required.
+
+
+
 ________________________________________________________________________________
 ________________________________________________________________________________
 ________________________________________________________________________________
