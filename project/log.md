@@ -227,6 +227,27 @@ TONY DARK. Black Tony Stark. DevOps Engineer @Behance (acq’d by @Adobe). NUPE,
 Jul 10, 2016
 https://medium.com/@bossjones/how-i-setup-a-raspberry-pi-3-cluster-using-the-new-docker-swarm-mode-in-29-minutes-aa0e4f3b1768
 ________________________________________________________________________________
+4/13/2017
+My setup: Hardware
+RPi * N, microUSB * N, N-ports USB 2.0 HUB, N-ports Ethernet switch router,
+Ethernet cable * N.
+
+EZ pre-setup for SD card:
+Preparation Step — Flash Micro SD Cards With Hypriot v0.8.0
+This little guy takes care of image customization very efficiently before the Raspberry Pi is even turned on. Here you can predefine a proper hostname, WIFI settings, and more. On top of that, it has error handling built into it, handles unmounting the SD card for writing, and prompts you when everything is done. Must have tool. For each SD card, I ran the command below with the following host names, scarlett-kub-master, scarlett-kub-slave1, scarlett-kub-slave2, scarlett-kub-slave3. (NOTE: Hostnames remain the same as when I was working on k8s).
+
+SSH connection (essential)
+When dealing w/ multiple nodes and SSH Access, using SSH keys to connect to remote machines is a must.
+To set up passwordless authentication I did the following (NOTE: This assumes that you have a private key created already; if you don’t, see this guide on how to get setup http://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/):
+
+Now to test that everything works, I ran:
+$ ssh pirate@scarlett-kub-master.local
+
+ (Optional) Set up SSH Autocomplete
+QUESTION: What does a Autocomlete do?
+
+Installation Of Docker 1.12.0-rc3 On Each Node
+QUESTION: What does a docker do in the cluser for all the nodes.
 ________________________________________________________________________________
 ________________________________________________________________________________
 ________________________________________________________________________________
