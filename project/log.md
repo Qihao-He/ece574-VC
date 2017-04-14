@@ -274,10 +274,17 @@ Scale up the number of tasks running! How about 10 of these bad boys? No problem
 QUESTION: When trying to add a remote node to VW's cluster, is the HypriotOS and Docker
 matters for using different docker and HypriotOS(preset the RPis)? I think it
 should maintain the same docker, but the hypriotOS is not that strictly required.
-
-
-
 ________________________________________________________________________________
+4/14/2017
+Raspberry Pi
+Performance Benchmarking
+Justin Moore
+Salish Kootenai College
+In Page 10, the cluster software tuning.
+How do we distribute the matrix multiplication?
+• MPI used to distribute blocks to nodes
+It briefly says that each node will get a part of the matrix evenly divided.
+
 ________________________________________________________________________________
 ________________________________________________________________________________
 ________________________________________________________________________________
