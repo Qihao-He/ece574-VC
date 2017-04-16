@@ -76,3 +76,8 @@ Malcolm JonesFollow
 TONY DARK. Black Tony Stark. DevOps Engineer @Behance (acq’d by @Adobe). NUPE, WAHOO. Commonly referred to as #heron, SON OF BABYLON, Le #Hyena. I build shit.
 Jul 10, 2016
 https://medium.com/@bossjones/how-i-setup-a-raspberry-pi-3-cluster-using-the-new-docker-swarm-mode-in-29-minutes-aa0e4f3b1768
+
+
+Build a Compact 4 Node Raspberry Pi Cluster
+By Alasdair Allan Time Required: 3-8 HoursDifficulty: Moderate
+http://makezine.com/projects/build-a-compact-4-node-raspberry-pi-cluster/

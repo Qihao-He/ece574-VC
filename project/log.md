@@ -286,6 +286,43 @@ How do we distribute the matrix multiplication?
 It briefly says that each node will get a part of the matrix evenly divided.
 
 ________________________________________________________________________________
+4/16/2017
+Reading:
+Build a Compact 4 Node Raspberry Pi Cluster
+By Alasdair Allan Time Required: 3-8 HoursDifficulty: Moderate
+http://makezine.com/projects/build-a-compact-4-node-raspberry-pi-cluster/
+
+Building the hardware (now I am having 1RPi, there is 1 resting in the lab, may
+  need a another one, need to ask Bruce.)
+KEY POINT: N RPIS, USB HUB POWER, ROUTER, Ethernet
+
+Configuring the cluster:
+allocate the ip address
+generate ssh keys for ssh between the nodes without having to repetitively type
+my password all the time.
+
+NOTE: file system for the cluster is very important.
+Adding a disk:
+mount a usb stick, and enable the automatically mount on boot.
+However I wanted to go a bit further and make this disk available to all four of the nodes. To do this I used NFS and autofs. On all four of the nodes you’ll need to go ahead and install the NFS client software,
+NOTE: Network File System (NFS) is a distributed file system protocol
+Master node should be installed with the NFS server software.
+Slave nodes should be installed with the NFS client software, also need to create
+a mount point.
+
+to add the three compute nodes. After doing that you’ll need to restart the RPC services,
+NOTE: RPC
+In distributed computing a remote procedure call (RPC) is when a computer program causes a procedure to execute in another address space,
+autofs is a program for automatically mounting directories on an as-needed basis. Auto-mounts are mounted only as they are accessed, and are unmounted after a period of inactivity.
+
+Instead of directly connecting the Ethernet switch to the external network, and having my home router allocate IP addresses for each of the nodes, as a next step I’m going to add a USB Ethernet adaptor to the head node.
+The first will connect to the external network, giving the head node — and hence the cluster — an ‘external’ IP address.The second will connect to the cluster’s Ethernet switch. We can then configure the head node as a DHCP server for other three ‘internal’ nodes attached to the switch, creating a second network visible only to the cluster.
+
+Add a LCD
+Add a second Ethernet connection.
+
+Monitoring and testing:
+From here there are a couple of things we could do, the most obvious next step would be to add some SNMP monitoring, and an external facing ‘status’ dashboard on the head node to monitor the cluster health.
 ________________________________________________________________________________
 ________________________________________________________________________________
 ________________________________________________________________________________
