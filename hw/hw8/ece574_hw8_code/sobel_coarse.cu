@@ -260,12 +260,22 @@ int main(int argc, char **argv) {
 	load_time=PAPI_get_real_usec();
 
 /* Allocate device buffers for sobelx, sobely, and the output using cudaMalloc() */
+
+/* Allocate vectors on CPU */
+x=(float *)malloc(N*sizeof(float));
+y=(float *)malloc(N*sizeof(float));
+
+/* Allocate vectors on GPU */
+cudaMalloc((void **)&dev_x,N*sizeof(float));
+cudaMalloc((void **)&dev_y,N*sizeof(float));
+
 	/* Allocate space for output image */
 	new_image.x=image.x;
 	new_image.y=image.y;
 	new_image.depth=image.depth;
 	// new_image.pixels=(unsigned char *)malloc(image.x*image.y*image.depth*sizeof(char));
 	new_image.pixels=(unsigned char *)cudaMalloc(image.x*image.y*image.depth*sizeof(char));
+
 
 	/* Allocate space for output image */
 	sobel_x.x=image.x;
@@ -284,8 +294,9 @@ int main(int argc, char **argv) {
 	cudaMalloc_time=PAPI_get_real_usec();
 
 /* Copy the local sobel_x.pixels and sobel_y.pixels to the device using cudaMemcpy() */
-	cudaMemcpyHostToDevice(sobel_x.pixels);
-	cudaMemcpyHostToDevice(sobel_y.pixels);
+	cudaMemcpy(dev_x,x,sobel_x.pixels,cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_y,y,sobel_y.pixels,cudaMemcpyHostToDevice);
+
 	cudaMemcpyHostToDevice_time=PAPI_get_real_usec();
 
 /* Run the kernel */
@@ -307,12 +318,15 @@ int main(int argc, char **argv) {
 	convolve_time=PAPI_get_real_usec();
 
 /* Copy the results back into new_image.pixels using cudaMemcpy() (be sure to get the direction right) */
-	cudaMemcpyDeviceToHost(new_image.pixels)
+	cudaMemcpy(host,device,new_image.pixels,cudaMemcpyDeviceToHost)
 	cudaMemcpyDeviceToHost_time=PAPI_get_real_usec();
 
 	/* Combine to form output */
 
 	combine(&sobel_x,&sobel_y,&new_image);
+
+	/*  Some hints: to debug that your kernel works, you can first set all output to 0xff and verify you get an all-white image back. */
+	new_image.pixels=0xff;
 
 	/* REPLACE THE ABOVE WITH YOUR CODE */
 	/* IT SHOULD ALLOCATE SPACE ON DEVICE */
@@ -336,6 +350,8 @@ int main(int argc, char **argv) {
         printf("Combine time: %lld\n",combine_after-combine_before);
         printf("Store time: %lld\n",store_after-store_before);
 	printf("Total time = %lld\n",store_after-start_time);
+
+	cudaFree();
 
 	return 0;
 }
