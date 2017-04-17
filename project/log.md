@@ -324,6 +324,32 @@ Add a second Ethernet connection.
 Monitoring and testing:
 From here there are a couple of things we could do, the most obvious next step would be to add some SNMP monitoring, and an external facing ‘status’ dashboard on the head node to monitor the cluster health.
 ________________________________________________________________________________
+4/17/2017
+MPI for RPi cluster:
+
+TECHNOLOGY
+Installing MPI for Python on a Raspberry Pi Cluster
+26 Jan 2015 3:59pm, by akshay pai
+https://thenewstack.io/installing-mpi-python-raspberry-pi-cluster-runs-docker/
+
+Installing MPI for Python
+
+Checking the MPI version:
+$ mpiexec --version
+HYDRA build details:
+    Version:                                 3.1
+    Release Date:                            Thu Feb 20 11:41:13 CST 2014
+    CC:                              gcc -D_FORTIFY_SOURCE=2 -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wl,-z,relro
+    CXX:                             g++ -D_FORTIFY_SOURCE=2 -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wl,-z,relro
+    F77:                             gfortran -g -O2 -fstack-protector-strong -Wl,-z,relro
+    F90:                             gfortran -g -O2 -fstack-protector-strong -Wl,-z,relro
+    Configure options:                       '--disable-option-checking' '--prefix=/usr' '--build=arm-linux-gnueabihf' '--includedir=${prefix}/include' '--mandir=${prefix}/share/man' '--infodir=${prefix}/share/info' '--sysconfdir=/etc' '--localstatedir=/var' '--libdir=${prefix}/lib/arm-linux-gnueabihf' '--libexecdir=${prefix}/lib/arm-linux-gnueabihf' '--disable-maintainer-mode' '--disable-dependency-tracking' '--enable-shared' '--enable-fc' '--disable-rpath' '--disable-wrapper-rpath' '--sysconfdir=/etc/mpich' '--libdir=/usr/lib/arm-linux-gnueabihf' '--includedir=/usr/include/mpich' '--docdir=/usr/share/doc/mpich' '--with-hwloc-prefix=system' 'build_alias=arm-linux-gnueabihf' 'MPICHLIB_CFLAGS=-g -O2 -fstack-protector-strong -Wformat -Werror=format-security' 'MPICHLIB_CXXFLAGS=-g -O2 -fstack-protector-strong -Wformat -Werror=format-security' 'MPICHLIB_FFLAGS=-g -O2 -fstack-protector-strong' 'MPICHLIB_FCFLAGS=-g -O2 -fstack-protector-strong' 'CFLAGS=-g -O2 -fstack-protector-strong -Wformat -Werror=format-security -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -O2' 'LDFLAGS=-Wl,-z,relro ' 'CPPFLAGS=-D_FORTIFY_SOURCE=2 -I/build/mpich-nW7vHl/mpich-3.1/src/mpl/include -I/build/mpich-nW7vHl/mpich-3.1/src/mpl/include -I/build/mpich-nW7vHl/mpich-3.1/src/openpa/src -I/build/mpich-nW7vHl/mpich-3.1/src/openpa/src -I/build/mpich-nW7vHl/mpich-3.1/src/mpi/romio/include' 'CXXFLAGS=-g -O2 -fstack-protector-strong -Wformat -Werror=format-security -g -O2 -fstack-protector-strong -Wformat -Werror=format-security' 'F77=gfortran' 'FFLAGS=-g -O2 -fstack-protector-strong -g -O2 -fstack-protector-strong -O2' 'FC=gfortran' 'FCFLAGS=-g -O2 -fstack-protector-strong -g -O2 -fstack-protector-strong' '--cache-file=/dev/null' '--srcdir=.' 'CC=gcc' 'LIBS=-lrt -lpthread '
+    Process Manager:                         pmi
+    Launchers available:                     ssh rsh fork slurm ll lsf sge manual persist
+    Topology libraries available:            hwloc
+    Resource management kernels available:   user slurm ll lsf sge pbs cobalt
+    Checkpointing libraries available:       blcr
+    Demux engines available:                 poll select
 ________________________________________________________________________________
 ________________________________________________________________________________
 ________________________________________________________________________________
