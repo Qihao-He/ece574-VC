@@ -41,7 +41,7 @@ void cuda_generic_convolve (int n, char *in, int *matrix, char *out) {
 }
 
 __global__
-void cuda_combine (int n, unsigned char *in_x, 
+void cuda_combine (int n, unsigned char *in_x,
 		unsigned char *in_y, unsigned char *out) {
 }
 
@@ -105,7 +105,7 @@ static int combine(struct image_t *s_x,
 	int out;
 
 	for(i=0;i<( s_x->depth * s_x->x * s_x->y );i++) {
- 
+
 		out=sqrt(
 			(s_x->pixels[i]*s_x->pixels[i])+
 			(s_y->pixels[i]*s_y->pixels[i])
@@ -116,7 +116,7 @@ static int combine(struct image_t *s_x,
 	}
 
 	return 0;
-} 
+}
 
 static int load_jpeg(char *filename, struct image_t *image) {
 
@@ -259,24 +259,36 @@ int main(int argc, char **argv) {
 
 	load_time=PAPI_get_real_usec();
 
+/* Allocate device buffers for sobelx, sobely, and the output using cudaMalloc() */
 	/* Allocate space for output image */
 	new_image.x=image.x;
 	new_image.y=image.y;
 	new_image.depth=image.depth;
-	new_image.pixels=(unsigned char *)malloc(image.x*image.y*image.depth*sizeof(char));
+	// new_image.pixels=(unsigned char *)malloc(image.x*image.y*image.depth*sizeof(char));
+	new_image.pixels=(unsigned char *)cudaMalloc(image.x*image.y*image.depth*sizeof(char));
 
 	/* Allocate space for output image */
 	sobel_x.x=image.x;
 	sobel_x.y=image.y;
 	sobel_x.depth=image.depth;
-	sobel_x.pixels=(unsigned char *)malloc(image.x*image.y*image.depth*sizeof(char));
+	// sobel_x.pixels=(unsigned char *)malloc(image.x*image.y*image.depth*sizeof(char));
+	sobel_x.pixels=(unsigned char *)cudaMalloc(image.x*image.y*image.depth*sizeof(char));
 
 	/* Allocate space for output image */
 	sobel_y.x=image.x;
 	sobel_y.y=image.y;
 	sobel_y.depth=image.depth;
-	sobel_y.pixels=(unsigned char *)malloc(image.x*image.y*image.depth*sizeof(char));
+	// sobel_y.pixels=(unsigned char *)malloc(image.x*image.y*image.depth*sizeof(char));
+	sobel_y.pixels=(unsigned char *)cudaMalloc(image.x*image.y*image.depth*sizeof(char));
 
+	cudaMalloc_time=PAPI_get_real_usec();
+
+/* Copy the local sobel_x.pixels and sobel_y.pixels to the device using cudaMemcpy() */
+	cudaMemcpyHostToDevice(sobel_x.pixels);
+	cudaMemcpyHostToDevice(sobel_y.pixels);
+	cudaMemcpyHostToDevice_time=PAPI_get_real_usec();
+
+/* Run the kernel */
 	/* convolution */
 	sobel_data[0].old=&image;
 	sobel_data[0].newt=&sobel_x;
@@ -293,6 +305,10 @@ int main(int argc, char **argv) {
 	generic_convolve((void *)&sobel_data[1]);
 
 	convolve_time=PAPI_get_real_usec();
+
+/* Copy the results back into new_image.pixels using cudaMemcpy() (be sure to get the direction right) */
+	cudaMemcpyDeviceToHost(new_image.pixels)
+	cudaMemcpyDeviceToHost_time=PAPI_get_real_usec();
 
 	/* Combine to form output */
 
