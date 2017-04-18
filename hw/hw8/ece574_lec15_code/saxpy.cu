@@ -66,7 +66,7 @@ int main(int argc, char **argv) {
 		printf("CUDA error: %s\n", cudaGetErrorString(error));
 		exit(-1);
  	}
-	
+
 	cudaMemcpy(y,dev_y,N*sizeof(float),cudaMemcpyDeviceToHost);
 
 	/* results */
@@ -87,4 +87,3 @@ int main(int argc, char **argv) {
 
 	return 0;
 }
-

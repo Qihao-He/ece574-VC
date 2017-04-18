@@ -300,6 +300,8 @@ int main(int argc, char **argv) {
 	cudaMemcpy(device,host,sobel_y.pixels,cudaMemcpyHostToDevice);
 	cudaMemcpyHostToDevice_time=PAPI_get_real_usec();
 
+
+/*=============== PROBLEM CALLING KERNEL ===================  */
 /* Run the kernel */
 	/* convolution */
 	sobel_data[0].old=&image;
@@ -308,7 +310,6 @@ int main(int argc, char **argv) {
 	sobel_data[0].ystart=0;
 	sobel_data[0].yend=image.y;
 	// generic_convolve((void *)&sobel_data[0]);
-	/*=============== PROBLEM CALLING KERNEL ===================  */
 	//cuda_generic_convolve (int n, char *in, int *matrix, char *out)
 	cuda_generic_convolve<<<dimGrid, dimBlock>>>(int n, char *in, int *matrix,
 		char *out);// first inside brackets is number of blocks, second is threads per block
@@ -362,6 +363,7 @@ int main(int argc, char **argv) {
         printf("Combine time: %lld\n",combine_after-combine_before);
         printf("Store time: %lld\n",store_after-store_before);
 	printf("Total time = %lld\n",store_after-start_time);
+
 /*=============== PROBLEM DEVICE NAME ===================  */
 	cudaFree(device);//cudaFree device name
 
