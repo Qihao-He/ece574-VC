@@ -34,18 +34,19 @@ struct convolve_data_t {
 	int yend;
 };
 
-#if 0
 __global__
 void cuda_generic_convolve (int n, char *in, int *matrix, char *out) {
+//Can get block number with blockIdx.x and thread index with threadIdx.x
 
 }
 
 __global__
-void cuda_combine (int n, unsigned char *in_x,
-		unsigned char *in_y, unsigned char *out) {
+void cuda_combine (int n, unsigned char *in_x,unsigned char *in_y,
+	unsigned char *out) {
+//Can get block number with blockIdx.x and thread index with threadIdx.x
+
 }
 
-#endif
 
 
 /* very inefficient convolve code */
@@ -244,6 +245,10 @@ int main(int argc, char **argv) {
 	long long copy_before,copy_after,copy2_before,copy2_after;
 	long long store_after,store_before;
 
+/*=============== PROBLEM NAME DEVICE ===================  */
+	float *x, *y, *dev_x, *dev_y;// Pointer to host & device arrays
+	long long N=(1000*1000*8),loops=1;// Number of elements in arrays
+
 	/* Check command line usage */
 	if (argc<2) {
 		fprintf(stderr,"Usage: %s image_file\n",argv[0]);
@@ -259,15 +264,10 @@ int main(int argc, char **argv) {
 
 	load_time=PAPI_get_real_usec();
 
+/*=============== PROBLEM ALLOCATE DEVICE ===================  */
 /* Allocate device buffers for sobelx, sobely, and the output using cudaMalloc() */
-
-/* Allocate vectors on CPU */
-x=(float *)malloc(N*sizeof(float));
-y=(float *)malloc(N*sizeof(float));
-
-/* Allocate vectors on GPU */
-cudaMalloc((void **)&dev_x,N*sizeof(float));
-cudaMalloc((void **)&dev_y,N*sizeof(float));
+	cudaMalloc((void **)&dev_x,N*sizeof(float));
+	cudaMalloc((void **)&dev_y,N*sizeof(float));
 
 	/* Allocate space for output image */
 	new_image.x=image.x;
@@ -291,12 +291,16 @@ cudaMalloc((void **)&dev_y,N*sizeof(float));
 	// sobel_y.pixels=(unsigned char *)malloc(image.x*image.y*image.depth*sizeof(char));
 	sobel_y.pixels=(unsigned char *)cudaMalloc(image.x*image.y*image.depth*sizeof(char));
 
+/*=============== PROBLEM HAVING IMPLEMENTING cudaMalloc ===================  */
+	cudaMalloc( (void**)&ad, csize );
+	cudaMalloc( (void**)&bd, isize );
+
 	cudaMalloc_time=PAPI_get_real_usec();
 
 /* Copy the local sobel_x.pixels and sobel_y.pixels to the device using cudaMemcpy() */
-	cudaMemcpy(dev_x,x,sobel_x.pixels,cudaMemcpyHostToDevice);
-	cudaMemcpy(dev_y,y,sobel_y.pixels,cudaMemcpyHostToDevice);
-
+/*=============== PROBLEM DEVICE NAME cudaMemcpy ===================  */
+	cudaMemcpy(device,host,sobel_x.pixels,cudaMemcpyHostToDevice);
+	cudaMemcpy(device,host,sobel_y.pixels,cudaMemcpyHostToDevice);
 	cudaMemcpyHostToDevice_time=PAPI_get_real_usec();
 
 /* Run the kernel */
@@ -306,14 +310,23 @@ cudaMalloc((void **)&dev_y,N*sizeof(float));
 	sobel_data[0].filter=&sobel_x_filter;
 	sobel_data[0].ystart=0;
 	sobel_data[0].yend=image.y;
-	generic_convolve((void *)&sobel_data[0]);
+	// generic_convolve((void *)&sobel_data[0]);
+	/*=============== PROBLEM CALLING KERNEL ===================  */
+	//cuda_generic_convolve (int n, char *in, int *matrix, char *out)
+	cuda_generic_convolve<<<dimGrid, dimBlock>>>(int n, char *in, int *matrix,
+		char *out);// first inside brackets is number of blocks, second is threads per block
 
 	sobel_data[1].old=&image;
 	sobel_data[1].newt=&sobel_y;
 	sobel_data[1].filter=&sobel_y_filter;
 	sobel_data[1].ystart=0;
 	sobel_data[1].yend=image.y;
-	generic_convolve((void *)&sobel_data[1]);
+	// generic_convolve((void *)&sobel_data[1]);
+	cuda_generic_convolve<<<dimGrid, dimBlock>>>(int n, char *in, int *matrix,
+		char *out);
+
+	// make the host block until the device is finished
+	cudaDeviceSynchronize();
 
 	convolve_time=PAPI_get_real_usec();
 
@@ -322,8 +335,10 @@ cudaMalloc((void **)&dev_y,N*sizeof(float));
 	cudaMemcpyDeviceToHost_time=PAPI_get_real_usec();
 
 	/* Combine to form output */
-
-	combine(&sobel_x,&sobel_y,&new_image);
+	// combine(&sobel_x,&sobel_y,&new_image);
+	// cuda_combine (int n, unsigned char *in_x,	unsigned char *in_y, unsigned char *out)
+	cuda_combine<<<dimGrid, dimBlock>>>(int n, unsigned char *in_x,
+		unsigned char *in_y, unsigned char *out);
 
 	/*  Some hints: to debug that your kernel works, you can first set all output to 0xff and verify you get an all-white image back. */
 	new_image.pixels=0xff;
@@ -350,8 +365,8 @@ cudaMalloc((void **)&dev_y,N*sizeof(float));
         printf("Combine time: %lld\n",combine_after-combine_before);
         printf("Store time: %lld\n",store_after-store_before);
 	printf("Total time = %lld\n",store_after-start_time);
-
-	cudaFree();
+/*=============== PROBLEM DEVICE NAME ===================  */
+	cudaFree(device);//cudaFree device name
 
 	return 0;
 }
