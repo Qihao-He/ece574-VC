@@ -43,11 +43,8 @@ void cuda_generic_convolve (int n, char *in, int *matrix, char *out) {
 __global__
 void cuda_combine (int n, unsigned char *in_x,unsigned char *in_y,
 	unsigned char *out) {
-//Can get block number with blockIdx.x and thread index with threadIdx.x
 
 }
-
-
 
 /* very inefficient convolve code */
 static void *generic_convolve(void *argument) {
