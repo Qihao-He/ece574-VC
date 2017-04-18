@@ -4,3 +4,7 @@ How do we know how many elements should be contained in the array?
 
 When cudaMalloc(), is it getting the address of the device and allocate it with
 the N?
+
+How to get the grid/block/thread count right:
+int blockId = blockIdx.y* gridDim.x+ blockIdx.x;
+int i = blockId * blockDim.x + threadIdx.x;

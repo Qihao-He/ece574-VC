@@ -34,15 +34,20 @@ struct convolve_data_t {
 	int yend;
 };
 
-__global__
+#if 0
+/* For the generic convolve, you will also need to upload the sobelx and sobely matrices to the
+device. A simple array of 9 ints is probably best. */
+__global__ //fine grained
 void cuda_generic_convolve (int n, char *in, int *matrix, char *out) {
 //Can get block number with blockIdx.x and thread index with threadIdx.x
 
 }
-
-__global__
-void cuda_combine (int n, unsigned char *in_x,unsigned char *in_y,
-	unsigned char *out) {
+#endif
+/* How to get the grid/block/thread count right:
+int blockId = blockIdx.y* gridDim.x+ blockIdx.x;
+int i = blockId * blockDim.x + threadIdx.x; */
+__global__ //coarse grained
+void cuda_combine (int n, unsigned char *in_x,unsigned char *in_y,unsigned char *out) {
 
 }
 
@@ -263,8 +268,8 @@ int main(int argc, char **argv) {
 
 /*=============== PROBLEM ALLOCATE DEVICE ===================  */
 /* Allocate device buffers for sobelx, sobely, and the output using cudaMalloc() */
-	cudaMalloc((void **)&dev_x,N*sizeof(float));//&device name,
-	cudaMalloc((void **)&dev_y,N*sizeof(float));
+	// cudaMalloc((void **)&dev_x,N*sizeof(float));//&device name,
+	// cudaMalloc((void **)&dev_y,N*sizeof(float));
 
 	/* Allocate space for output image */
 	new_image.x=image.x;
@@ -272,7 +277,6 @@ int main(int argc, char **argv) {
 	new_image.depth=image.depth;
 	new_image.pixels=(unsigned char *)malloc(image.x*image.y*image.depth*sizeof(char));
 	// new_image.pixels=(unsigned char *)cudaMalloc(image.x*image.y*image.depth*sizeof(char));
-
 
 	/* Allocate space for output image */
 	sobel_x.x=image.x;
@@ -289,17 +293,17 @@ int main(int argc, char **argv) {
 	// sobel_y.pixels=(unsigned char *)cudaMalloc(image.x*image.y*image.depth*sizeof(char));
 
 /*=============== PROBLEM HAVING IMPLEMENTING cudaMalloc ===================  */
-	cudaMalloc( (void**)&ad, csize );
-	cudaMalloc( (void**)&bd, isize );
+/* Allocate vectors on GPU */
+	 cudaMalloc( (void**)&dev_x,N*sizeof(float));
+	 cudaMalloc( (void**)&dev_y,N*sizeof(float));
 
 	cudaMalloc_time=PAPI_get_real_usec();
 
 /* Copy the local sobel_x.pixels and sobel_y.pixels to the device using cudaMemcpy() */
 /*=============== PROBLEM DEVICE NAME cudaMemcpy ===================  */
-	cudaMemcpy(device,host,sobel_x.pixels,cudaMemcpyHostToDevice);
-	cudaMemcpy(device,host,sobel_y.pixels,cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_x,sobel_x.pixels,N*sizeof(unsigned char),cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_y,sobel_y.pixels,N*sizeof(unsigned char),cudaMemcpyHostToDevice);
 	cudaMemcpyHostToDevice_time=PAPI_get_real_usec();
-
 
 /*=============== PROBLEM CALLING KERNEL ===================  */
 /* PERFORM KERNEL: cuda_generic_convolve */
@@ -309,19 +313,18 @@ int main(int argc, char **argv) {
 	sobel_data[0].filter=&sobel_x_filter;
 	sobel_data[0].ystart=0;
 	sobel_data[0].yend=image.y;
-	// generic_convolve((void *)&sobel_data[0]);
+	generic_convolve((void *)&sobel_data[0]);
 	//cuda_generic_convolve (int n, char *in, int *matrix, char *out)
-	cuda_generic_convolve<<<dimGrid, dimBlock>>>(int n, char *in, int *matrix,
-		char *out);// first inside brackets is number of blocks, second is threads per block
+	// first inside brackets is number of blocks, second is threads per block
+	// cuda_generic_convolve<<<dimGrid, dimBlock>>>(int n, char *in, int *matrix,	char *out);
 
 	sobel_data[1].old=&image;
 	sobel_data[1].newt=&sobel_y;
 	sobel_data[1].filter=&sobel_y_filter;
 	sobel_data[1].ystart=0;
 	sobel_data[1].yend=image.y;
-	// generic_convolve((void *)&sobel_data[1]);
-	cuda_generic_convolve<<<dimGrid, dimBlock>>>(int n, char *in, int *matrix,
-		char *out);
+	generic_convolve((void *)&sobel_data[1]);
+	// cuda_generic_convolve<<<dimGrid, dimBlock>>>(int n, char *in, int *matrix,	char *out);
 
 	// make the host block until the device is finished
 	cudaDeviceSynchronize();
@@ -335,8 +338,8 @@ int main(int argc, char **argv) {
 	/* Combine to form output */
 	// combine(&sobel_x,&sobel_y,&new_image);
 	// cuda_combine (int n, unsigned char *in_x,	unsigned char *in_y, unsigned char *out)
-	cuda_combine<<<dimGrid, dimBlock>>>(int n, unsigned char *in_x,
-		unsigned char *in_y, unsigned char *out);
+	// first inside brackets is number of blocks, second is threads per block
+	cuda_combine<<<dimGrid, dimBlock>>>(int n, unsigned char *in_x,unsigned char *in_y, unsigned char *out);
 
 	/*  Some hints: to debug that your kernel works, you can first set all output to 0xff and verify you get an all-white image back. */
 	new_image.pixels=0xff;
