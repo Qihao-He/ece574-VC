@@ -263,30 +263,30 @@ int main(int argc, char **argv) {
 
 /*=============== PROBLEM ALLOCATE DEVICE ===================  */
 /* Allocate device buffers for sobelx, sobely, and the output using cudaMalloc() */
-	cudaMalloc((void **)&dev_x,N*sizeof(float));
+	cudaMalloc((void **)&dev_x,N*sizeof(float));//&device name,
 	cudaMalloc((void **)&dev_y,N*sizeof(float));
 
 	/* Allocate space for output image */
 	new_image.x=image.x;
 	new_image.y=image.y;
 	new_image.depth=image.depth;
-	// new_image.pixels=(unsigned char *)malloc(image.x*image.y*image.depth*sizeof(char));
-	new_image.pixels=(unsigned char *)cudaMalloc(image.x*image.y*image.depth*sizeof(char));
+	new_image.pixels=(unsigned char *)malloc(image.x*image.y*image.depth*sizeof(char));
+	// new_image.pixels=(unsigned char *)cudaMalloc(image.x*image.y*image.depth*sizeof(char));
 
 
 	/* Allocate space for output image */
 	sobel_x.x=image.x;
 	sobel_x.y=image.y;
 	sobel_x.depth=image.depth;
-	// sobel_x.pixels=(unsigned char *)malloc(image.x*image.y*image.depth*sizeof(char));
-	sobel_x.pixels=(unsigned char *)cudaMalloc(image.x*image.y*image.depth*sizeof(char));
+	sobel_x.pixels=(unsigned char *)malloc(image.x*image.y*image.depth*sizeof(char));
+	// sobel_x.pixels=(unsigned char *)cudaMalloc(image.x*image.y*image.depth*sizeof(char));
 
 	/* Allocate space for output image */
 	sobel_y.x=image.x;
 	sobel_y.y=image.y;
 	sobel_y.depth=image.depth;
-	// sobel_y.pixels=(unsigned char *)malloc(image.x*image.y*image.depth*sizeof(char));
-	sobel_y.pixels=(unsigned char *)cudaMalloc(image.x*image.y*image.depth*sizeof(char));
+	sobel_y.pixels=(unsigned char *)malloc(image.x*image.y*image.depth*sizeof(char));
+	// sobel_y.pixels=(unsigned char *)cudaMalloc(image.x*image.y*image.depth*sizeof(char));
 
 /*=============== PROBLEM HAVING IMPLEMENTING cudaMalloc ===================  */
 	cudaMalloc( (void**)&ad, csize );
@@ -302,7 +302,7 @@ int main(int argc, char **argv) {
 
 
 /*=============== PROBLEM CALLING KERNEL ===================  */
-/* Run the kernel */
+/* PERFORM KERNEL: cuda_generic_convolve */
 	/* convolution */
 	sobel_data[0].old=&image;
 	sobel_data[0].newt=&sobel_x;
