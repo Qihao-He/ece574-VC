@@ -268,8 +268,6 @@ int main(int argc, char **argv) {
 
 /*=============== PROBLEM ALLOCATE DEVICE ===================  */
 /* Allocate device buffers for sobelx, sobely, and the output using cudaMalloc() */
-	// cudaMalloc((void **)&dev_x,N*sizeof(float));//&device name,
-	// cudaMalloc((void **)&dev_y,N*sizeof(float));
 
 	/* Allocate space for output image */
 	new_image.x=image.x;

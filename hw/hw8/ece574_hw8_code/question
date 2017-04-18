@@ -8,3 +8,8 @@ the N?
 How to get the grid/block/thread count right:
 int blockId = blockIdx.y* gridDim.x+ blockIdx.x;
 int i = blockId * blockDim.x + threadIdx.x;
+
+What does the cudaMalloc allocate?
+Allocate vector. Size of an array?
+If allocate the size of an array, so the host name can be the sobel_x.pixels
+and the device name is dev_x, size would be the size of the array?
