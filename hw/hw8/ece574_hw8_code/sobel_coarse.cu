@@ -247,7 +247,6 @@ int main(int argc, char **argv) {
 	long long copy_before,copy_after,copy2_before,copy2_after;
 	long long store_after,store_before;
 
-/*=============== PROBLEM NAME DEVICE ===================  */
 	float *x, *y, *dev_x, *dev_y;// Pointer to host & device arrays
 	long long N=(1000*1000*8),loops=1;// Number of elements in arrays
 
@@ -266,9 +265,7 @@ int main(int argc, char **argv) {
 
 	load_time=PAPI_get_real_usec();
 
-/*=============== PROBLEM ALLOCATE DEVICE ===================  */
 /* Allocate device buffers for sobelx, sobely, and the output using cudaMalloc() */
-
 	/* Allocate space for output image */
 	new_image.x=image.x;
 	new_image.y=image.y;
@@ -290,20 +287,17 @@ int main(int argc, char **argv) {
 	sobel_y.pixels=(unsigned char *)malloc(image.x*image.y*image.depth*sizeof(char));
 	// sobel_y.pixels=(unsigned char *)cudaMalloc(image.x*image.y*image.depth*sizeof(char));
 
-/*=============== PROBLEM HAVING IMPLEMENTING cudaMalloc ===================  */
 /* Allocate vectors on GPU */
-	 cudaMalloc( (void**)&dev_x,N*sizeof(float));
-	 cudaMalloc( (void**)&dev_y,N*sizeof(float));
+	 cudaMalloc((void**)&dev_x,image.x*image.y*image.depth*sizeof(char));
+	 cudaMalloc((void**)&dev_y,image.x*image.y*image.depth*sizeof(char));
 
 	cudaMalloc_time=PAPI_get_real_usec();
 
 /* Copy the local sobel_x.pixels and sobel_y.pixels to the device using cudaMemcpy() */
-/*=============== PROBLEM DEVICE NAME cudaMemcpy ===================  */
-	cudaMemcpy(dev_x,sobel_x.pixels,N*sizeof(unsigned char),cudaMemcpyHostToDevice);
-	cudaMemcpy(dev_y,sobel_y.pixels,N*sizeof(unsigned char),cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_x,sobel_x.pixels,image.x*image.y*image.depth*sizeof(char),cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_y,sobel_y.pixels,image.x*image.y*image.depth*sizeof(char),cudaMemcpyHostToDevice);
 	cudaMemcpyHostToDevice_time=PAPI_get_real_usec();
 
-/*=============== PROBLEM CALLING KERNEL ===================  */
 /* PERFORM KERNEL: cuda_generic_convolve */
 	/* convolution */
 	sobel_data[0].old=&image;
@@ -329,18 +323,19 @@ int main(int argc, char **argv) {
 
 	convolve_time=PAPI_get_real_usec();
 
-/* Copy the results back into new_image.pixels using cudaMemcpy() (be sure to get the direction right) */
-	cudaMemcpy(host,device,new_image.pixels,cudaMemcpyDeviceToHost)
-	cudaMemcpyDeviceToHost_time=PAPI_get_real_usec();
+	/*  Some hints: to debug that your kernel works, you can first set all output to 0xff and verify you get an all-white image back. */
+	new_image.pixels=0xff;
 
 	/* Combine to form output */
 	// combine(&sobel_x,&sobel_y,&new_image);
 	// cuda_combine (int n, unsigned char *in_x,	unsigned char *in_y, unsigned char *out)
 	// first inside brackets is number of blocks, second is threads per block
-	cuda_combine<<<dimGrid, dimBlock>>>(int n, unsigned char *in_x,unsigned char *in_y, unsigned char *out);
+	cuda_combine<<<(N+256)/256, 256>>>(N,a,dev_x,dev_y);
 
-	/*  Some hints: to debug that your kernel works, you can first set all output to 0xff and verify you get an all-white image back. */
-	new_image.pixels=0xff;
+	/* Copy the results back into new_image.pixels using cudaMemcpy() (be sure to get the direction right) */
+		cudaMemcpy(sobel_x.pixels,dev_x,image.x*image.y*image.depth*sizeof(char),cudaMemcpyDeviceToHost)
+		cudaMemcpy(sobel_y.pixels,dev_y,image.x*image.y*image.depth*sizeof(char),cudaMemcpyDeviceToHost)
+		cudaMemcpyDeviceToHost_time=PAPI_get_real_usec();
 
 	/* REPLACE THE ABOVE WITH YOUR CODE */
 	/* IT SHOULD ALLOCATE SPACE ON DEVICE */
@@ -365,7 +360,6 @@ int main(int argc, char **argv) {
         printf("Store time: %lld\n",store_after-store_before);
 	printf("Total time = %lld\n",store_after-start_time);
 
-/*=============== PROBLEM DEVICE NAME ===================  */
 	cudaFree(device);//cudaFree device name
 
 	return 0;
