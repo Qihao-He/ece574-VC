@@ -50,14 +50,13 @@ int i = blockId * blockDim.x + threadIdx.x; */
 __global__ //coarse grained
 void cuda_combine (int n, unsigned char *in_x,unsigned char *in_y,unsigned char *out) {
 
-int i=blockIdx.x*blockDim.x+threadIdx.x;
-	out=sqrt(double(
+int i=blockIdx.in_x*blockDim.in_x+threadIdx.in_x;
+	out[i]=sqrt(double(
 		(in_x[i]*in_x[i])+
 		(in_y[i]*in_y[i])
 	));
-	if (out>255) out=255;
-	if (out<0) out=0;
-	out[i]=out;
+	if (out[i]>255) out[i]=255;
+	if (out[i]<0) out[i]=0;
 }
 
 
@@ -258,7 +257,7 @@ int main(int argc, char **argv) {
 	long long store_after,store_before;
 
 	unsigned char *dev_x, *dev_y;// Pointer to host & device arrays
-	unsigned char *n=NULL;// Number of pixels in a picture
+	unsigned char n;// Number of pixels in a picture
 
 	/* Check command line usage */
 	if (argc<2) {
