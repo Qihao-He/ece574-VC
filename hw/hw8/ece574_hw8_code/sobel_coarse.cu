@@ -328,6 +328,7 @@ int main(int argc, char **argv) {
 /* Allocate arrays on GPU */
 	cudaMalloc((void**)&dev_x,n*sizeof(unsigned char));
 	cudaMalloc((void**)&dev_y,n*sizeof(unsigned char));
+	cudaMalloc((void**)&out,n*sizeof(unsigned char));
 
 	cudaMalloc_time=PAPI_get_real_usec();
 
