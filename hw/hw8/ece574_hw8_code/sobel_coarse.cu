@@ -256,6 +256,8 @@ int main(int argc, char **argv) {
 	long long copy_before,copy_after,copy2_before,copy2_after;
 	long long store_after,store_before;
 
+	long long cudaMalloc_time,cudaMemcpyHostToDevice_time,cudaMemcpyDeviceToHost_time;
+
 	unsigned char *dev_x, *dev_y;// Pointer to host & device arrays
 	unsigned char n;// Number of pixels in a picture
 
