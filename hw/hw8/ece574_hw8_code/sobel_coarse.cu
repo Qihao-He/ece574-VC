@@ -48,22 +48,21 @@ void cuda_generic_convolve (int n, char *in, int *matrix, char *out) {
 int blockId = blockIdx.y* gridDim.x+ blockIdx.x;
 int i = blockId * blockDim.x + threadIdx.x; */
 __global__ //coarse grained
-void cuda_combine (int n, unsigned char *in_x,unsigned char *in_y,unsigned char *newt) {
+void cuda_combine (int n, unsigned char *in_x,unsigned char *in_y,unsigned char *out) {
 
 int i=blockIdx.x*blockDim.x+threadIdx.x;
-int out;
+double combine_out;
 
 for(i=0;i<( in_x->depth * in_x->x * in_x->y );i++) {
 
-	out=sqrt(double(
-		(in_x->pixels[i]*in_x->pixels[i])+
-		(in_y->pixels[i]*in_y->pixels[i])
+	combine_out=sqrt(double(
+		(in_x[i]*in_x[i])+
+		(in_y[i]*in_y[i])
 	));
-	if (out>255) out=255;
-	if (out<0) out=0;
-	newt->pixels[i]=out;
+	if (combine_out>255) combine_out=255;
+	if (combine_out<0) combine_out=0;
+	out[i]=combine_out;
 }
-return 0;
 }
 
 /* very inefficient convolve code */
