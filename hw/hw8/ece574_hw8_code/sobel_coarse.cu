@@ -110,25 +110,25 @@ static void *generic_convolve(void *argument) {
 	return NULL;
 }
 
-static int combine(struct image_t *s_x,
-			struct image_t *s_y,
-			struct image_t *newt) {
-	int i;
-	int out;
-
-	for(i=0;i<( s_x->depth * s_x->x * s_x->y );i++) {
-
-		out=sqrt(
-			(s_x->pixels[i]*s_x->pixels[i])+
-			(s_y->pixels[i]*s_y->pixels[i])
-			);
-		if (out>255) out=255;
-		if (out<0) out=0;
-		newt->pixels[i]=out;
-	}
-
-	return 0;
-}
+// static int combine(struct image_t *s_x,
+// 			struct image_t *s_y,
+// 			struct image_t *newt) {
+// 	int i;
+// 	int out;
+//
+// 	for(i=0;i<( s_x->depth * s_x->x * s_x->y );i++) {
+//
+// 		out=sqrt(
+// 			(s_x->pixels[i]*s_x->pixels[i])+
+// 			(s_y->pixels[i]*s_y->pixels[i])
+// 			);
+// 		if (out>255) out=255;
+// 		if (out<0) out=0;
+// 		newt->pixels[i]=out;
+// 	}
+//
+// 	return 0;
+// }
 
 static int load_jpeg(char *filename, struct image_t *image) {
 
@@ -255,8 +255,6 @@ int main(int argc, char **argv) {
 	long long combine_after,combine_before;
 	long long copy_before,copy_after,copy2_before,copy2_after;
 	long long store_after,store_before;
-
-	long long cudaMalloc_time;
 
 	unsigned char *dev_x, *dev_y,*out;// Pointer to host & device arrays
 	unsigned char n;// Number of pixels in a picture
