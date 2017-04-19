@@ -377,6 +377,7 @@ int main(int argc, char **argv) {
 
 	cudaFree(dev_x);//cudaFree device name
 	cudaFree(dev_y);
+	cudaFree(out);
 
 	return 0;
 }
