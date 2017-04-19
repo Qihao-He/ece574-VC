@@ -51,12 +51,13 @@ __global__ //coarse grained
 void cuda_combine (int n, unsigned char *in_x,unsigned char *in_y,unsigned char *out) {
 
 int i=blockIdx.x*blockDim.x+threadIdx.x;
-	out[i]=sqrt(double(
-		(in_x[i]*in_x[i])+
-		(in_y[i]*in_y[i])
-	));
-	if (out[i]>255) out[i]=255;
+	// out[i]=sqrt(double(
+	// 	(in_x[i]*in_x[i])+
+	// 	(in_y[i]*in_y[i])
+	// ));
+	// if (out[i]>255) out[i]=255;
 	// if (out[i]<0) out[i]=0;
+	out[i]=0xff;
 }
 
 
