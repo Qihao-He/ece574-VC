@@ -4,6 +4,9 @@ Names of group memebers: Qihao He
 
 
 3.b
+I have the combine part working, but the output image is black. I have set the
+output to be 0xff to make it white. But it is still black. I wonder if the cudaMemcpy
+is not copying back right from the device.
 	butterfinger.jpg time
 
 	sobel_before:
