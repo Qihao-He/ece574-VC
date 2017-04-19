@@ -256,7 +256,7 @@ int main(int argc, char **argv) {
 	long long copy_before,copy_after,copy2_before,copy2_after;
 	long long store_after,store_before;
 
-	long long cudaMalloc_time,cudaMemcpyHostToDevice_time,cudaMemcpyDeviceToHost_time;
+	long long cudaMalloc_time;
 
 	unsigned char *dev_x, *dev_y,*out;// Pointer to host & device arrays
 	unsigned char n;// Number of pixels in a picture
@@ -333,10 +333,10 @@ int main(int argc, char **argv) {
 	cudaMalloc_time=PAPI_get_real_usec();
 
 /* Copy the local sobel_x.pixels and sobel_y.pixels to the device using cudaMemcpy() */
+	copy_before=PAPI_get_real_usec();
 	cudaMemcpy(dev_x,sobel_x.pixels,n*sizeof(unsigned char),cudaMemcpyHostToDevice);
 	cudaMemcpy(dev_y,sobel_y.pixels,n*sizeof(unsigned char),cudaMemcpyHostToDevice);
-
-	cudaMemcpyHostToDevice_time=PAPI_get_real_usec();
+	copy_after=PAPI_get_real_usec();
 
 	/*  Some hints: to debug that your kernel works, you can first set all output to 0xff and verify you get an all-white image back. */
 	// new_image.pixels=0xff;
@@ -345,12 +345,14 @@ int main(int argc, char **argv) {
 	// combine(&sobel_x,&sobel_y,&new_image);
 	// cuda_combine (int n, unsigned char *in_x,	unsigned char *in_y, unsigned char *out)
 	// first inside brackets is number of blocks, second is threads per block
+	combine_before=PAPI_get_real_usec();
 	cuda_combine<<<(n+256)/256, 256>>>(n,dev_x,dev_y,out);
+	combine_after=PAPI_get_real_usec();
 
 	/* Copy the results back into new_image.pixels using cudaMemcpy() (be sure to get the direction right) */
+	copy2_before=PAPI_get_real_usec();
 	cudaMemcpy(new_image.pixels,out,n*sizeof(unsigned char),cudaMemcpyDeviceToHost);
-
-	cudaMemcpyDeviceToHost_time=PAPI_get_real_usec();
+	copy2_after=PAPI_get_real_usec();
 
 	/* REPLACE THE ABOVE WITH YOUR CODE */
 	/* IT SHOULD ALLOCATE SPACE ON DEVICE */
@@ -358,11 +360,9 @@ int main(int argc, char **argv) {
 	/* RUN THE KERNEL */
 	/* THEN COPY THE RESULTS BACK */
 
-	store_before=PAPI_get_real_usec();
-
 	/* Write data back out to disk */
+	store_before=PAPI_get_real_usec();
 	store_jpeg("out.jpg",&new_image);
-
 	store_after=PAPI_get_real_usec();
 
 	/* Print timing results */
