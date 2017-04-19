@@ -48,22 +48,21 @@ void cuda_generic_convolve (int n, char *in, int *matrix, char *out) {
 int blockId = blockIdx.y* gridDim.x+ blockIdx.x;
 int i = blockId * blockDim.x + threadIdx.x; */
 __global__ //coarse grained
-void cuda_combine (int n, unsigned char *in_x,unsigned char *in_y,unsigned char *out) {
+void cuda_combine (int n, unsigned char *in_x,unsigned char *in_y,unsigned char *newt) {
 
 int i=blockIdx.x*blockDim.x+threadIdx.x;
 int out;
 
-for(i=0;i<( s_x->depth * s_x->x * s_x->y );i++) {
+for(i=0;i<( in_x->depth * in_x->x * in_x->y );i++) {
 
 	out=sqrt(double(
-		(s_x->pixels[i]*s_x->pixels[i])+
-		(s_y->pixels[i]*s_y->pixels[i])
+		(in_x->pixels[i]*in_x->pixels[i])+
+		(in_y->pixels[i]*in_y->pixels[i])
 	));
 	if (out>255) out=255;
 	if (out<0) out=0;
 	newt->pixels[i]=out;
 }
-
 return 0;
 }
 
@@ -352,7 +351,7 @@ int main(int argc, char **argv) {
 	cuda_combine<<<(n+256)/256, 256>>>(n,dev_x,dev_y,out);
 
 	/* Copy the results back into new_image.pixels using cudaMemcpy() (be sure to get the direction right) */
-	cudaMemcpy(new_image.pixels,out,n*sizeof(unsigned char),cudaMemcpyDeviceToHost);
+	cudaMemcpy(new_image.pixels,newt,n*sizeof(unsigned char),cudaMemcpyDeviceToHost);
 
 	cudaMemcpyDeviceToHost_time=PAPI_get_real_usec();
 
