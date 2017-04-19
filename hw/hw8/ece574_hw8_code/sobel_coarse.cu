@@ -258,7 +258,7 @@ int main(int argc, char **argv) {
 
 	long long cudaMalloc_time,cudaMemcpyHostToDevice_time,cudaMemcpyDeviceToHost_time;
 
-	unsigned char *dev_x, *dev_y;// Pointer to host & device arrays
+	unsigned char *dev_x, *dev_y,*out;// Pointer to host & device arrays
 	unsigned char n;// Number of pixels in a picture
 
 	/* Check command line usage */
@@ -328,7 +328,6 @@ int main(int argc, char **argv) {
 /* Allocate arrays on GPU */
 	cudaMalloc((void**)&dev_x,n*sizeof(unsigned char));
 	cudaMalloc((void**)&dev_y,n*sizeof(unsigned char));
-	cudaMalloc((void**)&newt,n*sizeof(unsigned char));
 
 	cudaMalloc_time=PAPI_get_real_usec();
 
