@@ -323,7 +323,6 @@ int main(int argc, char **argv) {
 
 	// make the host block until the device is finished
 	cudaDeviceSynchronize();
-
 	convolve_time=PAPI_get_real_usec();
 
 /* Allocate arrays on GPU */
