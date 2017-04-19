@@ -50,7 +50,7 @@ int i = blockId * blockDim.x + threadIdx.x; */
 __global__ //coarse grained
 void cuda_combine (int n, unsigned char *in_x,unsigned char *in_y,unsigned char *out) {
 
-int i=blockIdx.in_x*blockDim.in_x+threadIdx.in_x;
+int i=blockIdx.x*blockDim.x+threadIdx.x;
 	out[i]=sqrt(double(
 		(in_x[i]*in_x[i])+
 		(in_y[i]*in_y[i])
