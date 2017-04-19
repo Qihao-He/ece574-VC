@@ -43,13 +43,14 @@ void cuda_generic_convolve (int n, char *in, int *matrix, char *out) {
 
 }
 #endif
+
 /* How to get the grid/block/thread count right:
 int blockId = blockIdx.y* gridDim.x+ blockIdx.x;
 int i = blockId * blockDim.x + threadIdx.x; */
 __global__ //coarse grained
 void cuda_combine (int n, unsigned char *in_x,unsigned char *in_y,unsigned char *out) {
+
 int i=blockIdx.x*blockDim.x+threadIdx.x;
-// int i;
 int out;
 
 for(i=0;i<( s_x->depth * s_x->x * s_x->y );i++) {
@@ -262,7 +263,7 @@ int main(int argc, char **argv) {
 	long long copy_before,copy_after,copy2_before,copy2_after;
 	long long store_after,store_before;
 
-	float *x, *y, *dev_x, *dev_y;// Pointer to host & device arrays
+	unsigned char *dev_x, *dev_y;// Pointer to host & device arrays
 	unsigned char *n=NULL;// Number of pixels in a picture
 
 	/* Check command line usage */
@@ -304,12 +305,6 @@ int main(int argc, char **argv) {
 
 	n=image.x*image.y*image.depth*sizeof(char);
 
-/* Allocate vectors on GPU */
-	 cudaMalloc((void**)&dev_x,n*sizeof(unsigned char));
-	 cudaMalloc((void**)&dev_y,n*sizeof(unsigned char));
-
-	cudaMalloc_time=PAPI_get_real_usec();
-
 /* PERFORM KERNEL: cuda_generic_convolve */
 	/* convolution */
 	sobel_data[0].old=&image;
@@ -335,9 +330,16 @@ int main(int argc, char **argv) {
 
 	convolve_time=PAPI_get_real_usec();
 
+/* Allocate arrays on GPU */
+	cudaMalloc((void**)&dev_x,n*sizeof(unsigned char));
+	cudaMalloc((void**)&dev_y,n*sizeof(unsigned char));
+
+	cudaMalloc_time=PAPI_get_real_usec();
+
 /* Copy the local sobel_x.pixels and sobel_y.pixels to the device using cudaMemcpy() */
 	cudaMemcpy(dev_x,sobel_x.pixels,n*sizeof(unsigned char),cudaMemcpyHostToDevice);
 	cudaMemcpy(dev_y,sobel_y.pixels,n*sizeof(unsigned char),cudaMemcpyHostToDevice);
+
 	cudaMemcpyHostToDevice_time=PAPI_get_real_usec();
 
 	/*  Some hints: to debug that your kernel works, you can first set all output to 0xff and verify you get an all-white image back. */
@@ -350,7 +352,8 @@ int main(int argc, char **argv) {
 	cuda_combine<<<(n+256)/256, 256>>>(n,dev_x,dev_y,out);
 
 	/* Copy the results back into new_image.pixels using cudaMemcpy() (be sure to get the direction right) */
-	cudaMemcpy(new_image.pixels,out,n*sizeof(unsigned char),cudaMemcpyDeviceToHost)
+	cudaMemcpy(new_image.pixels,out,n*sizeof(unsigned char),cudaMemcpyDeviceToHost);
+
 	cudaMemcpyDeviceToHost_time=PAPI_get_real_usec();
 
 	/* REPLACE THE ABOVE WITH YOUR CODE */
@@ -377,5 +380,6 @@ int main(int argc, char **argv) {
 
 	cudaFree(dev_x);//cudaFree device name
 	cudaFree(dev_y);
+
 	return 0;
 }
