@@ -324,11 +324,11 @@ int main(int argc, char **argv) {
 	convolve_time=PAPI_get_real_usec();
 
 /* Allocate arrays on GPU */
+	cudaMalloc_before=PAPI_get_real_usec();
 	cudaMalloc((void**)&dev_x,n*sizeof(unsigned char));
 	cudaMalloc((void**)&dev_y,n*sizeof(unsigned char));
 	cudaMalloc((void**)&out,n*sizeof(unsigned char));
-
-	cudaMalloc_time=PAPI_get_real_usec();
+	cudaMalloc_after=PAPI_get_real_usec();
 
 /* Copy the local sobel_x.pixels and sobel_y.pixels to the device using cudaMemcpy() */
 	copy_before=PAPI_get_real_usec();
@@ -365,11 +365,11 @@ int main(int argc, char **argv) {
 
 	/* Print timing results */
 	printf("Load time: %lld\n",load_time-start_time);
-        printf("Convolve time: %lld\n",convolve_time-load_time);
-	printf("Copy time: %lld\n",(copy_after-copy_before)+
-				(copy2_after-copy2_before));
-        printf("Combine time: %lld\n",combine_after-combine_before);
-        printf("Store time: %lld\n",store_after-store_before);
+  printf("Convolve time: %lld\n",convolve_time-load_time);
+	printf("cudaMalloc time: %lld\n",cudaMalloc_after-cudaMalloc_before);
+	printf("Copy time: %lld\n",(copy_after-copy_before)+(copy2_after-copy2_before));
+  printf("Combine time: %lld\n",combine_after-combine_before);
+  printf("Store time: %lld\n",store_after-store_before);
 	printf("Total time = %lld\n",store_after-start_time);
 
 	cudaFree(dev_x);//cudaFree device name
