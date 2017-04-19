@@ -59,7 +59,7 @@ int i=blockIdx.x*blockDim.x+threadIdx.x;
 	if (out<0) out=0;
 	out[i]=out;
 }
-}
+
 
 /* very inefficient convolve code */
 static void *generic_convolve(void *argument) {
