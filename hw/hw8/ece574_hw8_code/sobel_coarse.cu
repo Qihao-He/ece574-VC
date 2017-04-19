@@ -258,7 +258,7 @@ int main(int argc, char **argv) {
 
 	long long cudaMalloc_time,cudaMemcpyHostToDevice_time,cudaMemcpyDeviceToHost_time;
 
-	unsigned char *dev_x, *dev_y,*newt;// Pointer to host & device arrays
+	unsigned char *dev_x, *dev_y;// Pointer to host & device arrays
 	unsigned char n;// Number of pixels in a picture
 
 	/* Check command line usage */
@@ -345,10 +345,10 @@ int main(int argc, char **argv) {
 	// combine(&sobel_x,&sobel_y,&new_image);
 	// cuda_combine (int n, unsigned char *in_x,	unsigned char *in_y, unsigned char *out)
 	// first inside brackets is number of blocks, second is threads per block
-	cuda_combine<<<(n+256)/256, 256>>>(n,dev_x,dev_y,newt);
+	cuda_combine<<<(n+256)/256, 256>>>(n,dev_x,dev_y,out);
 
 	/* Copy the results back into new_image.pixels using cudaMemcpy() (be sure to get the direction right) */
-	cudaMemcpy(new_image.pixels,newt,n*sizeof(unsigned char),cudaMemcpyDeviceToHost);
+	cudaMemcpy(new_image.pixels,out,n*sizeof(unsigned char),cudaMemcpyDeviceToHost);
 
 	cudaMemcpyDeviceToHost_time=PAPI_get_real_usec();
 
