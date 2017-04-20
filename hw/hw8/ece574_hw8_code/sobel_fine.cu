@@ -35,18 +35,31 @@ struct convolve_data_t {
 };
 
 #if 0
-__global__
+/* For the generic convolve, you will also need to upload the sobelx and sobely matrices to the
+device. A simple array of 9 ints is probably best. */
+__global__ //fine grained
 void cuda_generic_convolve (int n, char *in, int *matrix, char *out) {
+//Can get block number with blockIdx.x and thread index with threadIdx.x
 
 }
-
-__global__
-void cuda_combine (int n, unsigned char *in_x, 
-		unsigned char *in_y, unsigned char *out) {
-}
-
 #endif
 
+//some noise pixels
+/* How to get the grid/block/thread count right:
+int blockId = blockIdx.y* gridDim.x+ blockIdx.x;
+int i = blockId * blockDim.x + threadIdx.x; */
+__global__ //coarse grained
+void cuda_combine (int n, unsigned char *in_x,unsigned char *in_y,unsigned char *out) {
+
+int i=blockIdx.x*blockDim.x+threadIdx.x;
+	out[i]=sqrt(double(
+		(in_x[i]*in_x[i])+
+		(in_y[i]*in_y[i])
+	));
+	if (out[i]>255) out[i]=255;
+	if (out[i]<0) out[i]=0;
+	// out[i]=0xff;
+}
 
 /* very inefficient convolve code */
 static void *generic_convolve(void *argument) {
@@ -98,25 +111,25 @@ static void *generic_convolve(void *argument) {
 	return NULL;
 }
 
-static int combine(struct image_t *s_x,
-			struct image_t *s_y,
-			struct image_t *newt) {
-	int i;
-	int out;
-
-	for(i=0;i<( s_x->depth * s_x->x * s_x->y );i++) {
- 
-		out=sqrt(
-			(s_x->pixels[i]*s_x->pixels[i])+
-			(s_y->pixels[i]*s_y->pixels[i])
-			);
-		if (out>255) out=255;
-		if (out<0) out=0;
-		newt->pixels[i]=out;
-	}
-
-	return 0;
-} 
+// static int combine(struct image_t *s_x,
+// 			struct image_t *s_y,
+// 			struct image_t *newt) {
+// 	int i;
+// 	int out;
+//
+// 	for(i=0;i<( s_x->depth * s_x->x * s_x->y );i++) {
+//
+// 		out=sqrt(
+// 			(s_x->pixels[i]*s_x->pixels[i])+
+// 			(s_y->pixels[i]*s_y->pixels[i])
+// 			);
+// 		if (out>255) out=255;
+// 		if (out<0) out=0;
+// 		newt->pixels[i]=out;
+// 	}
+//
+// 	return 0;
+// }
 
 static int load_jpeg(char *filename, struct image_t *image) {
 
@@ -244,6 +257,11 @@ int main(int argc, char **argv) {
 	long long copy_before,copy_after,copy2_before,copy2_after;
 	long long store_after,store_before;
 
+	long long cudaMalloc_after,cudaMalloc_before;
+
+	unsigned char *dev_x, *dev_y,*out;// Pointer to host & device arrays
+	long long n;// Number of pixels in a picture
+
 	/* Check command line usage */
 	if (argc<2) {
 		fprintf(stderr,"Usage: %s image_file\n",argv[0]);
@@ -259,24 +277,31 @@ int main(int argc, char **argv) {
 
 	load_time=PAPI_get_real_usec();
 
+/* Allocate device buffers for sobelx, sobely, and the output using cudaMalloc() */
 	/* Allocate space for output image */
 	new_image.x=image.x;
 	new_image.y=image.y;
 	new_image.depth=image.depth;
 	new_image.pixels=(unsigned char *)malloc(image.x*image.y*image.depth*sizeof(char));
+	// new_image.pixels=(unsigned char *)cudaMalloc(image.x*image.y*image.depth*sizeof(char));
 
 	/* Allocate space for output image */
 	sobel_x.x=image.x;
 	sobel_x.y=image.y;
 	sobel_x.depth=image.depth;
 	sobel_x.pixels=(unsigned char *)malloc(image.x*image.y*image.depth*sizeof(char));
+	// sobel_x.pixels=(unsigned char *)cudaMalloc(image.x*image.y*image.depth*sizeof(char));
 
 	/* Allocate space for output image */
 	sobel_y.x=image.x;
 	sobel_y.y=image.y;
 	sobel_y.depth=image.depth;
 	sobel_y.pixels=(unsigned char *)malloc(image.x*image.y*image.depth*sizeof(char));
+	// sobel_y.pixels=(unsigned char *)cudaMalloc(image.x*image.y*image.depth*sizeof(char));
 
+	n=image.x*image.y*image.depth*sizeof(char);//number of pixels of the picture
+
+/* PERFORM KERNEL: cuda_generic_convolve */
 	/* convolution */
 	sobel_data[0].old=&image;
 	sobel_data[0].newt=&sobel_x;
@@ -284,6 +309,9 @@ int main(int argc, char **argv) {
 	sobel_data[0].ystart=0;
 	sobel_data[0].yend=image.y;
 	generic_convolve((void *)&sobel_data[0]);
+	//cuda_generic_convolve (int n, char *in, int *matrix, char *out)
+	// first inside brackets is number of blocks, second is threads per block
+	// cuda_generic_convolve<<<dimGrid, dimBlock>>>(int n, char *in, int *matrix,	char *out);
 
 	sobel_data[1].old=&image;
 	sobel_data[1].newt=&sobel_y;
@@ -291,12 +319,40 @@ int main(int argc, char **argv) {
 	sobel_data[1].ystart=0;
 	sobel_data[1].yend=image.y;
 	generic_convolve((void *)&sobel_data[1]);
+	// cuda_generic_convolve<<<dimGrid, dimBlock>>>(int n, char *in, int *matrix,	char *out);
 
+	// make the host block until the device is finished
+	cudaDeviceSynchronize();
 	convolve_time=PAPI_get_real_usec();
 
-	/* Combine to form output */
+/* Allocate arrays on GPU */
+	cudaMalloc_before=PAPI_get_real_usec();
+	cudaMalloc((void**)&dev_x,n*sizeof(unsigned char));
+	cudaMalloc((void**)&dev_y,n*sizeof(unsigned char));
+	cudaMalloc((void**)&out,n*sizeof(unsigned char));
+	cudaMalloc_after=PAPI_get_real_usec();
 
-	combine(&sobel_x,&sobel_y,&new_image);
+/* Copy the local sobel_x.pixels and sobel_y.pixels to the device using cudaMemcpy() */
+	copy_before=PAPI_get_real_usec();
+	cudaMemcpy(dev_x,sobel_x.pixels,n*sizeof(unsigned char),cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_y,sobel_y.pixels,n*sizeof(unsigned char),cudaMemcpyHostToDevice);
+	copy_after=PAPI_get_real_usec();
+
+	/*  Some hints: to debug that your kernel works, you can first set all output to 0xff and verify you get an all-white image back. */
+	// new_image.pixels=0xff;
+
+	/* Combine to form output */
+	// combine(&sobel_x,&sobel_y,&new_image);
+	// cuda_combine (int n, unsigned char *in_x,	unsigned char *in_y, unsigned char *out)
+	// first inside brackets is number of blocks, second is threads per block
+	combine_before=PAPI_get_real_usec();
+	cuda_combine<<<(n+256)/256, 256>>>(n,dev_x,dev_y,out);
+	combine_after=PAPI_get_real_usec();
+
+	/* Copy the results back into new_image.pixels using cudaMemcpy() (be sure to get the direction right) */
+	copy2_before=PAPI_get_real_usec();
+	cudaMemcpy(new_image.pixels,out,n*sizeof(unsigned char),cudaMemcpyDeviceToHost);
+	copy2_after=PAPI_get_real_usec();
 
 	/* REPLACE THE ABOVE WITH YOUR CODE */
 	/* IT SHOULD ALLOCATE SPACE ON DEVICE */
@@ -304,22 +360,23 @@ int main(int argc, char **argv) {
 	/* RUN THE KERNEL */
 	/* THEN COPY THE RESULTS BACK */
 
-
-	store_before=PAPI_get_real_usec();
-
 	/* Write data back out to disk */
+	store_before=PAPI_get_real_usec();
 	store_jpeg("out.jpg",&new_image);
-
 	store_after=PAPI_get_real_usec();
 
 	/* Print timing results */
 	printf("Load time: %lld\n",load_time-start_time);
-        printf("Convolve time: %lld\n",convolve_time-load_time);
-	printf("Copy time: %lld\n",(copy_after-copy_before)+
-				(copy2_after-copy2_before));
-        printf("Combine time: %lld\n",combine_after-combine_before);
-        printf("Store time: %lld\n",store_after-store_before);
+  printf("Convolve time: %lld\n",convolve_time-load_time);
+	printf("cudaMalloc time: %lld\n",cudaMalloc_after-cudaMalloc_before);
+	printf("Copy time: %lld\n",(copy_after-copy_before)+(copy2_after-copy2_before));
+  printf("Combine time: %lld\n",combine_after-combine_before);
+  printf("Store time: %lld\n",store_after-store_before);
 	printf("Total time = %lld\n",store_after-start_time);
+
+	cudaFree(dev_x);//cudaFree device name
+	cudaFree(dev_y);
+	cudaFree(out);
 
 	return 0;
 }
