@@ -51,13 +51,13 @@ __global__ //coarse grained
 void cuda_combine (int n, unsigned char *in_x,unsigned char *in_y,unsigned char *out) {
 
 int i=blockIdx.x*blockDim.x+threadIdx.x;
-	// out[i]=sqrt(double(
-	// 	(in_x[i]*in_x[i])+
-	// 	(in_y[i]*in_y[i])
-	// ));
-	// if (out[i]>255) out[i]=255;
-	// if (out[i]<0) out[i]=0;
-	out[i]=0x00;
+	out[i]=sqrt(double(
+		(in_x[i]*in_x[i])+
+		(in_y[i]*in_y[i])
+	));
+	if (out[i]>255) out[i]=255;
+	if (out[i]<0) out[i]=0;
+	// out[i]=0xff;
 }
 
 
@@ -260,7 +260,7 @@ int main(int argc, char **argv) {
 	long long cudaMalloc_after,cudaMalloc_before;
 
 	unsigned char *dev_x, *dev_y,*out;// Pointer to host & device arrays
-	unsigned char n;// Number of pixels in a picture
+	long long n;// Number of pixels in a picture
 
 	/* Check command line usage */
 	if (argc<2) {
@@ -299,7 +299,7 @@ int main(int argc, char **argv) {
 	sobel_y.pixels=(unsigned char *)malloc(image.x*image.y*image.depth*sizeof(char));
 	// sobel_y.pixels=(unsigned char *)cudaMalloc(image.x*image.y*image.depth*sizeof(char));
 
-	n=image.x*image.y*image.depth*sizeof(char);
+	n=image.x*image.y*image.depth*sizeof(char);//number of pixels of the picture
 
 /* PERFORM KERNEL: cuda_generic_convolve */
 	/* convolution */
