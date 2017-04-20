@@ -34,10 +34,30 @@ CPY TIME: 502
 
 
 4.
+
+$ ./sobel_fine IMG_1733.JPG
+output_width=3888, output_height=2592, output_components=3
+Load time: 118858
+Convolve time: 95120
+cudaMalloc time: 85791
+Copy time: 18744
+Combine time: 2
+Store time: 101544
+Total time = 324965
+
+$ ./sobel_before IMG_1733.JPG
+output_width=3888, output_height=2592, output_components=3
+Load time: 179869
+Convolve time: 1097592
+Combine time: 126790
+Store time: 58379
+Total time = 1462637
+
 	IMG_1733.JPG
 
-	sobel_before:
+	sobel_before:1462637
 
-	sobel_fine:
+	sobel_fine:324965
 
 	Was it faster on the GPU?
+Yes it is way faster on GPU
