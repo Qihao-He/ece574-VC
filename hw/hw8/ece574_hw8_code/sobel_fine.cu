@@ -60,6 +60,7 @@ the first and last columns (which is three columns, remember RGB). */
 		out[i]+=in[i]*matrix[7];
 		out[i]+=in[i]*matrix[8];
 	}
+	out[i]=oxff;//test on all white
 
 /* Again it might be helpful to output the sobel_x output and run on the
 butterfinger input and getthat to match exactly before running with both sobel_y
