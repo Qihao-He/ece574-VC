@@ -56,7 +56,7 @@ int i=blockIdx.x*blockDim.x+threadIdx.x;
 		(in_y[i]*in_y[i])
 	));
 	if (out[i]>255) out[i]=255;
-	if (out[i]<0) out[i]=0;
+	// if (out[i]<0) out[i]=0;
 	// out[i]=0xff;
 }
 
