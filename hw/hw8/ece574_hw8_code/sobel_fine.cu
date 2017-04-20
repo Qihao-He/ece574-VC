@@ -37,7 +37,7 @@ struct convolve_data_t {
 /* For the generic convolve, you will also need to upload the sobelx and sobely
 matrices to the device. A simple array of 9 ints is probably best. */
 __global__ //fine grained
-void cuda_generic_convolve (int n,int x,int y,char *in,int *matrix,char *out) {
+void cuda_generic_convolve (int n,int x,int y,unsigned char *in,int *matrix,unsigned char *out) {
 	//Can get block number with blockIdx.x and thread index with threadIdx.x
 	/* The hardest part here is getting the grid/block/thread count right.s */
 	int blockId=blockIdx.y * gridDim.x + blockIdx.x;
