@@ -270,7 +270,7 @@ static int store_jpeg(const char *filename, struct image_t *image) {
 int main(int argc, char **argv) {
 
 	struct image_t image,sobel_x,sobel_y,new_image;
-	struct convolve_data_t sobel_data[2];
+	// struct convolve_data_t sobel_data[2];
 	long long start_time,load_time,convolve_time;
 	long long combine_after,combine_before;
 	long long copy_before,copy_after,copy2_before,copy2_after;
@@ -396,7 +396,7 @@ int main(int argc, char **argv) {
 	/* Print timing results */
 	printf("Load time: %lld\n",load_time-start_time);
   printf("Convolve time: %lld\n",convolve_time-load_time);
-	printf("cudaMalloc time: %lld\n",cudaMalloc_after-cudaMalloc_before);
+	printf("cudaMalloc time: %lld\n",cudaMalloc_after-cudaMalloc_before+cudaMalloc2_after-cudaMalloc2_before);
 	printf("Copy time: %lld\n",(copy_after-copy_before)+(copy2_after-copy2_before));
   printf("Combine time: %lld\n",combine_after-combine_before);
   printf("Store time: %lld\n",store_after-store_before);
