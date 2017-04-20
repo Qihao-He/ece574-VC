@@ -36,8 +36,6 @@ struct convolve_data_t {
 
 /* For the generic convolve, you will also need to upload the sobelx and sobely matrices to the
 device. A simple array of 9 ints is probably best. */
-/* you will also need to upload the sobelx and sobely matrices to the device.
-A simple array of 9 ints is probably best. */
 __global__ //fine grained
 void cuda_generic_convolve (int n, char *in, int *matrix, char *out) {
 //Can get block number with blockIdx.x and thread index with threadIdx.x
@@ -319,18 +317,18 @@ int main(int argc, char **argv) {
 	sobel_data[0].filter=&sobel_x_filter;
 	sobel_data[0].ystart=0;
 	sobel_data[0].yend=image.y;
-	generic_convolve((void *)&sobel_data[0]);
-	//cuda_generic_convolve (int n, char *in, int *matrix, char *out)
+	// generic_convolve((void *)&sobel_data[0]);
+	// cuda_generic_convolve (int n, char *in, int *matrix, char *out)
 	// first inside brackets is number of blocks, second is threads per block
-	// cuda_generic_convolve<<<dimGrid, dimBlock>>>(int n, char *in, int *matrix,	char *out);
+	cuda_generic_convolve<<<dimGrid, dimBlock>>>(int n, char *in, int *matrix,	char *out);
 
 	sobel_data[1].old=&image;
 	sobel_data[1].newt=&sobel_y;
 	sobel_data[1].filter=&sobel_y_filter;
 	sobel_data[1].ystart=0;
 	sobel_data[1].yend=image.y;
-	generic_convolve((void *)&sobel_data[1]);
-	// cuda_generic_convolve<<<dimGrid, dimBlock>>>(int n, char *in, int *matrix,	char *out);
+	// generic_convolve((void *)&sobel_data[1]);
+	cuda_generic_convolve<<<dimGrid, dimBlock>>>(int n, char *in, int *matrix,	char *out);
 
 	// make the host block until the device is finished
 	cudaDeviceSynchronize();
