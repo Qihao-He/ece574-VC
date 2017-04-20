@@ -34,30 +34,36 @@ struct convolve_data_t {
 	int yend;
 };
 
-/* For the generic convolve, you will also need to upload the sobelx and sobely matrices to the
-device. A simple array of 9 ints is probably best. */
+/* For the generic convolve, you will also need to upload the sobelx and sobely
+matrices to the device. A simple array of 9 ints is probably best. */
 __global__ //fine grained
-void cuda_generic_convolve (int n, char *in, int *matrix, char *out) {
+void cuda_generic_convolve (int n,int x,int y,char *in,int *matrix,char *out) {
 	//Can get block number with blockIdx.x and thread index with threadIdx.x
 	/* The hardest part here is getting the grid/block/thread count right.s */
 	int blockId=blockIdx.y * gridDim.x + blockIdx.x;
-
 	int i=blockId * blockDim.x + threadIdx.x;//thread index
-	int k;//index number for matrix int array
 
-/* Remember there are separate RGB colors so you will need to add in points -3, 0, +3 for example */
-/* Also make sure you have code that skips the first and last rows, as well as the first and last columns (which is three columns, remember RGB). */
-	if( ){}//filter out 1st last rows, 1st 3 and last 3 columns
+/* Remember there are separate RGB colors so you will need to add in points -3,
+0, +3 for example */
+/* Also make sure you have code that skips the first and last rows, as well as
+the first and last columns (which is three columns, remember RGB). */
+	if(i<x*3 || i>=(y-1)*x*3 || i%x==0 || (i+1)%x==0){}//filter out 1st last rows, 1st 3 and last 3 columns
 
 	else{/* For each point “i” add in the 9 scaled values. */
-		for(k=0;k<sizeof(matrix);k++){
-			out[i]+=in[i]*matrix[k];
-		}
+		out[i]=in[i]*matrix[0];
+		out[i]+=in[i]*matrix[1];
+		out[i]+=in[i]*matrix[2];
+		out[i]+=in[i]*matrix[3];
+		out[i]+=in[i]*matrix[4];
+		out[i]+=in[i]*matrix[5];
+		out[i]+=in[i]*matrix[6];
+		out[i]+=in[i]*matrix[7];
+		out[i]+=in[i]*matrix[8];
 	}
 
-/* Again it might be helpful to output the sobel_x output and run on the butterfinger input and get
-that to match exactly before running with both sobel_y and combine hooked up. */
-
+/* Again it might be helpful to output the sobel_x output and run on the
+butterfinger input and getthat to match exactly before running with both sobel_y
+ and combine hooked up. */
 }
 
 //some noise pixels
@@ -341,7 +347,7 @@ int main(int argc, char **argv) {
 	// generic_convolve((void *)&sobel_data[0]);
 	// cuda_generic_convolve (int n, char *in, int *matrix, char *out)
 	// first inside brackets is number of blocks, second is threads per block
-	cuda_generic_convolve<<<(n+256)/256, 256>>>(n,sobel_x.pixels,dev_x_filter,dev_x);
+	cuda_generic_convolve<<<(n+256)/256, 256>>>(n,image.x,image.y,sobel_x.pixels,dev_x_filter,dev_x);
 
 	// sobel_data[1].old=&image;
 	// sobel_data[1].newt=&sobel_y;
@@ -349,7 +355,7 @@ int main(int argc, char **argv) {
 	// sobel_data[1].ystart=0;
 	// sobel_data[1].yend=image.y;
 	// generic_convolve((void *)&sobel_data[1]);
-	cuda_generic_convolve<<<(n+256)/256, 256>>>(n,sobel_y.pixels,dev_y_filter,dev_y);
+	cuda_generic_convolve<<<(n+256)/256, 256>>>(n,image.x,image.y,sobel_y.pixels,dev_y_filter,dev_y);
 
 	// make the host block until the device is finished
 	cudaDeviceSynchronize();
