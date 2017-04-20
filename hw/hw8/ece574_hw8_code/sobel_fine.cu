@@ -47,20 +47,20 @@ void cuda_generic_convolve (int n,int x,int y,unsigned char *in,int *matrix,unsi
 0, +3 for example */
 /* Also make sure you have code that skips the first and last rows, as well as
 the first and last columns (which is three columns, remember RGB). */
-	// if(i<x*3 || i>=(y-1)*x*3){}//filter out 1st last rows, 1st 3 and last 3 columns
-	// else if(i%(3*x)<3 || i%(3*x)>((3*x)-3)){}
-	// else{/* For each point “i” add in the 9 scaled values. */
-	// 	out[i]=in[i]*matrix[0];
-	// 	out[i]+=in[i]*matrix[1];
-	// 	out[i]+=in[i]*matrix[2];
-	// 	out[i]+=in[i]*matrix[3];
-	// 	out[i]+=in[i]*matrix[4];
-	// 	out[i]+=in[i]*matrix[5];
-	// 	out[i]+=in[i]*matrix[6];
-	// 	out[i]+=in[i]*matrix[7];
-	// 	out[i]+=in[i]*matrix[8];
-	// }
-	out[i]=0xff;//test on all white
+	if(i<x*3 || i>=(y-1)*x*3){}//filter out 1st last rows, 1st 3 and last 3 columns
+	else if(i%(3*x)<3 || i%(3*x)>((3*x)-3)){}
+	else{/* For each point “i” add in the 9 scaled values. */
+		out[i]=in[i]*matrix[0];
+		out[i]+=in[i]*matrix[1];
+		out[i]+=in[i]*matrix[2];
+		out[i]+=in[i]*matrix[3];
+		out[i]+=in[i]*matrix[4];
+		out[i]+=in[i]*matrix[5];
+		out[i]+=in[i]*matrix[6];
+		out[i]+=in[i]*matrix[7];
+		out[i]+=in[i]*matrix[8];
+	}
+	// out[i]=0xff;//test on all white
 
 /* Again it might be helpful to output the sobel_x output and run on the
 butterfinger input and getthat to match exactly before running with both sobel_y
