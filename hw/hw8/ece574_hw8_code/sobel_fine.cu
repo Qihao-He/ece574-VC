@@ -81,54 +81,54 @@ void cuda_combine (int n, unsigned char *in_x,unsigned char *in_y,unsigned char 
 }
 
 /* very inefficient convolve code */
-static void *generic_convolve(void *argument) {
-
-	int x,y,k,l,d;
-	uint32_t color;
-	int sum,depth,width;
-
-	struct image_t *old;
-	struct image_t *newt;
-	int (*filter)[3][3];
-	struct convolve_data_t *data;
-	int ystart, yend;
-
-	/* Convert from void pointer to the actual data type */
-	data=(struct convolve_data_t *)argument;
-	old=data->old;
-	newt=data->newt;
-	filter=data->filter;
-
-	ystart=data->ystart;
-	yend=data->yend;
-
-	depth=old->depth;
-	width=old->x*old->depth;
-
-	if (ystart==0) ystart=1;
-	if (yend==old->y) yend=old->y-1;
-
-	for(d=0;d<3;d++) {
-	   for(x=1;x<old->x-1;x++) {
-	     for(y=ystart;y<yend;y++) {
-		sum=0;
-		for(k=-1;k<2;k++) {
-		   for(l=-1;l<2;l++) {
-			color=old->pixels[((y+l)*width)+(x*depth+d+k*depth)];
-			sum+=color * (*filter)[k+1][l+1];
-		   }
-		}
-
-		if (sum<0) sum=0;
-		if (sum>255) sum=255;
-
-		newt->pixels[(y*width)+x*depth+d]=sum;
-	     }
-	   }
-	}
-
-	return NULL;
-}
+// static void *generic_convolve(void *argument) {
+//
+// 	int x,y,k,l,d;
+// 	uint32_t color;
+// 	int sum,depth,width;
+//
+// 	struct image_t *old;
+// 	struct image_t *newt;
+// 	int (*filter)[3][3];
+// 	struct convolve_data_t *data;
+// 	int ystart, yend;
+//
+// 	/* Convert from void pointer to the actual data type */
+// 	data=(struct convolve_data_t *)argument;
+// 	old=data->old;
+// 	newt=data->newt;
+// 	filter=data->filter;
+//
+// 	ystart=data->ystart;
+// 	yend=data->yend;
+//
+// 	depth=old->depth;
+// 	width=old->x*old->depth;
+//
+// 	if (ystart==0) ystart=1;
+// 	if (yend==old->y) yend=old->y-1;
+//
+// 	for(d=0;d<3;d++) {
+// 	   for(x=1;x<old->x-1;x++) {
+// 	     for(y=ystart;y<yend;y++) {
+// 		sum=0;
+// 		for(k=-1;k<2;k++) {
+// 		   for(l=-1;l<2;l++) {
+// 			color=old->pixels[((y+l)*width)+(x*depth+d+k*depth)];
+// 			sum+=color * (*filter)[k+1][l+1];
+// 		   }
+// 		}
+//
+// 		if (sum<0) sum=0;
+// 		if (sum>255) sum=255;
+//
+// 		newt->pixels[(y*width)+x*depth+d]=sum;
+// 	     }
+// 	   }
+// 	}
+//
+// 	return NULL;
+// }
 
 // static int combine(struct image_t *s_x,
 // 			struct image_t *s_y,
