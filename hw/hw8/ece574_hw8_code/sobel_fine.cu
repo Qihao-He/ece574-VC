@@ -43,16 +43,17 @@ void cuda_generic_convolve (int n, char *in, int *matrix, char *out) {
 	int blockId=blockIdx.y * gridDim.x + blockIdx.x;
 
 	int i=blockId * blockDim.x + threadIdx.x;//thread index
-	int k;
-	/* For each point “i” add in the 9 scaled values. */
-	for(k=0;k<sizeof(matrix);k++){
-		out[i]+=in[i]*matrix[k];
-	}
-
+	int k;//index number for matrix int array
 
 /* Remember there are separate RGB colors so you will need to add in points -3, 0, +3 for example */
-/* Also make sure you have code that skips the first and last rows, as well as the first and last
-columns (which is three columns, remember RGB). */
+/* Also make sure you have code that skips the first and last rows, as well as the first and last columns (which is three columns, remember RGB). */
+	if( ){}//filter out 1st last rows, 1st 3 and last 3 columns
+
+	else{/* For each point “i” add in the 9 scaled values. */
+		for(k=0;k<sizeof(matrix);k++){
+			out[i]+=in[i]*matrix[k];
+		}
+	}
 
 /* Again it might be helpful to output the sobel_x output and run on the butterfinger input and get
 that to match exactly before running with both sobel_y and combine hooked up. */
@@ -60,9 +61,6 @@ that to match exactly before running with both sobel_y and combine hooked up. */
 }
 
 //some noise pixels
-/* How to get the grid/block/thread count right:
-int blockId = blockIdx.y* gridDim.x+ blockIdx.x;
-int i = blockId * blockDim.x + threadIdx.x; */
 __global__ //coarse grained
 void cuda_combine (int n, unsigned char *in_x,unsigned char *in_y,unsigned char *out) {
 
@@ -275,6 +273,7 @@ int main(int argc, char **argv) {
 	long long cudaMalloc_after,cudaMalloc_before,cudaMalloc2_after,cudaMalloc2_before;
 
 	unsigned char *dev_x, *dev_y,*out;// Pointer to host & device arrays
+	int *dev_x_filter, *dev_y_filter;// Pointer to host & device arrays
 	long long n;// Number of pixels in a picture
 
 	/* Check command line usage */
@@ -320,12 +319,16 @@ int main(int argc, char **argv) {
 	cudaMalloc_before=PAPI_get_real_usec();
 	cudaMalloc((void**)&dev_x,n*sizeof(unsigned char));
 	cudaMalloc((void**)&dev_y,n*sizeof(unsigned char));
+	cudaMalloc((void**)&dev_x_filter,9*sizeof(int));
+	cudaMalloc((void**)&dev_y_filter,9*sizeof(int));
 	cudaMalloc_after=PAPI_get_real_usec();
 
 /* Copy the local sobel_x.pixels and sobel_y.pixels to the device using cudaMemcpy() */
 	copy_before=PAPI_get_real_usec();
 	cudaMemcpy(dev_x,image.pixels,n*sizeof(unsigned char),cudaMemcpyHostToDevice);
 	cudaMemcpy(dev_y,iamge.pixels,n*sizeof(unsigned char),cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_x_filter,sobel_x_filter,9*sizeof(int),cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_y_filter,sobel_y_filter,9*sizeof(int),cudaMemcpyHostToDevice);
 	copy_after=PAPI_get_real_usec();
 
 /* PERFORM KERNEL: cuda_generic_convolve */
@@ -338,7 +341,7 @@ int main(int argc, char **argv) {
 	// generic_convolve((void *)&sobel_data[0]);
 	// cuda_generic_convolve (int n, char *in, int *matrix, char *out)
 	// first inside brackets is number of blocks, second is threads per block
-	cuda_generic_convolve<<<(n+256)/256, 256>>>(n,sobel_x.pixels,sobel_x_filter,dev_x);
+	cuda_generic_convolve<<<(n+256)/256, 256>>>(n,sobel_x.pixels,dev_x_filter,dev_x);
 
 	// sobel_data[1].old=&image;
 	// sobel_data[1].newt=&sobel_y;
@@ -346,7 +349,7 @@ int main(int argc, char **argv) {
 	// sobel_data[1].ystart=0;
 	// sobel_data[1].yend=image.y;
 	// generic_convolve((void *)&sobel_data[1]);
-	cuda_generic_convolve<<<(n+256)/256, 256>>>(n,sobel_y.pixels,sobel_y_filter,dev_y);
+	cuda_generic_convolve<<<(n+256)/256, 256>>>(n,sobel_y.pixels,dev_y_filter,dev_y);
 
 	// make the host block until the device is finished
 	cudaDeviceSynchronize();
