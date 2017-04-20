@@ -34,15 +34,26 @@ struct convolve_data_t {
 	int yend;
 };
 
-#if 0
 /* For the generic convolve, you will also need to upload the sobelx and sobely matrices to the
 device. A simple array of 9 ints is probably best. */
+/* you will also need to upload the sobelx and sobely matrices to the device.
+A simple array of 9 ints is probably best. */
 __global__ //fine grained
 void cuda_generic_convolve (int n, char *in, int *matrix, char *out) {
 //Can get block number with blockIdx.x and thread index with threadIdx.x
+/* The hardest part here is getting the grid/block/thread count right.s */
+int blockId=blockIdx.y*gridDim.x+blockIdx.x;
+/* For each point “i” add in the 9 scaled values. */
+int i =blockId*blockDim.x+threadIdx.x;
+
+/* Remember there are separate RGB colors so you will need to add in points -3, 0, +3 for example */
+/* Also make sure you have code that skips the first and last rows, as well as the first and last
+columns (which is three columns, remember RGB). */
+
+/* Again it might be helpful to output the sobel_x output and run on the butterfinger input and get
+that to match exactly before running with both sobel_y and combine hooked up. */
 
 }
-#endif
 
 //some noise pixels
 /* How to get the grid/block/thread count right:
@@ -51,14 +62,14 @@ int i = blockId * blockDim.x + threadIdx.x; */
 __global__ //coarse grained
 void cuda_combine (int n, unsigned char *in_x,unsigned char *in_y,unsigned char *out) {
 
-int i=blockIdx.x*blockDim.x+threadIdx.x;
+int i=blockIdx.x*blockDim.x+threadIdx.x;//thread index
 	out[i]=sqrt(double(
 		(in_x[i]*in_x[i])+
 		(in_y[i]*in_y[i])
 	));
 	if (out[i]>255) out[i]=255;
 	if (out[i]<0) out[i]=0;
-	// out[i]=0xff;
+	// out[i]=0xff;//not necessary
 }
 
 /* very inefficient convolve code */
