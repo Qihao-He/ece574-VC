@@ -4,14 +4,33 @@ Names of group memebers: Qihao He
 
 
 3.b
-I have the combine part working, but the output image is black. I have set the
-output to be 0xff to make it white. But it is still black. I wonder if the cudaMemcpy
-is not copying back right from the device.
-	butterfinger.jpg time
+$ ./sobel_coarse butterfinger.jpg
+output_width=320, output_height=320, output_components=3
+Load time: 2775
+Convolve time: 139956
+cudaMalloc time: 193
+Copy time: 502
+Combine time: 14
+Store time: 810
+Total time = 144250
 
-	sobel_before:
+$ ./sobel_before butterfinger.jpg
+output_width=320, output_height=320, output_components=3
+Load time: 2490
+Convolve time: 15560
+Combine time: 4459
+Store time: 2646
+Total time = 25168
 
-	sobel_coarse:
+COMBINE TIME:
+	butterfinger.jpg time:
+
+	sobel_before: 4459
+
+	sobel_coarse: 14
+
+ALLOCATE TIME: 193
+CPY TIME: 502
 
 
 4.
