@@ -40,9 +40,11 @@ __global__ //fine grained
 void cuda_generic_convolve (int n, char *in, int *matrix, char *out) {
 //Can get block number with blockIdx.x and thread index with threadIdx.x
 /* The hardest part here is getting the grid/block/thread count right.s */
-int blockId=blockIdx.y*gridDim.x+blockIdx.x;
+int blockId=blockIdx.y * gridDim.x + blockIdx.x;
 /* For each point “i” add in the 9 scaled values. */
-int i =blockId*blockDim.x+threadIdx.x;
+int i=blockId * blockDim.x + threadIdx.x;//thread index
+
+
 
 /* Remember there are separate RGB colors so you will need to add in points -3, 0, +3 for example */
 /* Also make sure you have code that skips the first and last rows, as well as the first and last
@@ -266,7 +268,7 @@ int main(int argc, char **argv) {
 	long long copy_before,copy_after,copy2_before,copy2_after;
 	long long store_after,store_before;
 
-	long long cudaMalloc_after,cudaMalloc_before;
+	long long cudaMalloc_after,cudaMalloc_before,cudaMalloc2_after,cudaMalloc2_before;
 
 	unsigned char *dev_x, *dev_y,*out;// Pointer to host & device arrays
 	long long n;// Number of pixels in a picture
@@ -310,42 +312,46 @@ int main(int argc, char **argv) {
 
 	n=image.x*image.y*image.depth*sizeof(char);//number of pixels of the picture
 
+/* Allocate arrays on GPU */
+	cudaMalloc_before=PAPI_get_real_usec();
+	cudaMalloc((void**)&dev_x,n*sizeof(unsigned char));
+	cudaMalloc((void**)&dev_y,n*sizeof(unsigned char));
+	cudaMalloc_after=PAPI_get_real_usec();
+
+/* Copy the local sobel_x.pixels and sobel_y.pixels to the device using cudaMemcpy() */
+	copy_before=PAPI_get_real_usec();
+	cudaMemcpy(dev_x,image.pixels,n*sizeof(unsigned char),cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_y,iamge.pixels,n*sizeof(unsigned char),cudaMemcpyHostToDevice);
+	copy_after=PAPI_get_real_usec();
+
 /* PERFORM KERNEL: cuda_generic_convolve */
 	/* convolution */
-	sobel_data[0].old=&image;
-	sobel_data[0].newt=&sobel_x;
-	sobel_data[0].filter=&sobel_x_filter;
-	sobel_data[0].ystart=0;
-	sobel_data[0].yend=image.y;
+	// sobel_data[0].old=&image;
+	// sobel_data[0].newt=&sobel_x;
+	// sobel_data[0].filter=&sobel_x_filter;
+	// sobel_data[0].ystart=0;
+	// sobel_data[0].yend=image.y;
 	// generic_convolve((void *)&sobel_data[0]);
 	// cuda_generic_convolve (int n, char *in, int *matrix, char *out)
 	// first inside brackets is number of blocks, second is threads per block
-	cuda_generic_convolve<<<dimGrid, dimBlock>>>(int n, char *in, int *matrix,	char *out);
+	cuda_generic_convolve<<<(n+256)/256, 256>>>(n,sobel_x.pixels,sobel_x_filter,dev_x);
 
-	sobel_data[1].old=&image;
-	sobel_data[1].newt=&sobel_y;
-	sobel_data[1].filter=&sobel_y_filter;
-	sobel_data[1].ystart=0;
-	sobel_data[1].yend=image.y;
+	// sobel_data[1].old=&image;
+	// sobel_data[1].newt=&sobel_y;
+	// sobel_data[1].filter=&sobel_y_filter;
+	// sobel_data[1].ystart=0;
+	// sobel_data[1].yend=image.y;
 	// generic_convolve((void *)&sobel_data[1]);
-	cuda_generic_convolve<<<dimGrid, dimBlock>>>(int n, char *in, int *matrix,	char *out);
+	cuda_generic_convolve<<<(n+256)/256, 256>>>(n,sobel_y.pixels,sobel_y_filter,dev_y);
 
 	// make the host block until the device is finished
 	cudaDeviceSynchronize();
 	convolve_time=PAPI_get_real_usec();
 
 /* Allocate arrays on GPU */
-	cudaMalloc_before=PAPI_get_real_usec();
-	cudaMalloc((void**)&dev_x,n*sizeof(unsigned char));
-	cudaMalloc((void**)&dev_y,n*sizeof(unsigned char));
+	cudaMalloc2_before=PAPI_get_real_usec();
 	cudaMalloc((void**)&out,n*sizeof(unsigned char));
-	cudaMalloc_after=PAPI_get_real_usec();
-
-/* Copy the local sobel_x.pixels and sobel_y.pixels to the device using cudaMemcpy() */
-	copy_before=PAPI_get_real_usec();
-	cudaMemcpy(dev_x,sobel_x.pixels,n*sizeof(unsigned char),cudaMemcpyHostToDevice);
-	cudaMemcpy(dev_y,sobel_y.pixels,n*sizeof(unsigned char),cudaMemcpyHostToDevice);
-	copy_after=PAPI_get_real_usec();
+	cudaMalloc2_after=PAPI_get_real_usec();
 
 	/*  Some hints: to debug that your kernel works, you can first set all output to 0xff and verify you get an all-white image back. */
 	// new_image.pixels=0xff;
