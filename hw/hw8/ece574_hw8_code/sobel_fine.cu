@@ -404,6 +404,8 @@ int main(int argc, char **argv) {
 
 	cudaFree(dev_x);//cudaFree device name
 	cudaFree(dev_y);
+	cudaFree(dev_x_filter);
+	cudaFree(dev_y_filter);
 	cudaFree(out);
 
 	return 0;
