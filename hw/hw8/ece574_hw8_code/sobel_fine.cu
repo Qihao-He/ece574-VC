@@ -38,12 +38,16 @@ struct convolve_data_t {
 device. A simple array of 9 ints is probably best. */
 __global__ //fine grained
 void cuda_generic_convolve (int n, char *in, int *matrix, char *out) {
-//Can get block number with blockIdx.x and thread index with threadIdx.x
-/* The hardest part here is getting the grid/block/thread count right.s */
-int blockId=blockIdx.y * gridDim.x + blockIdx.x;
-/* For each point “i” add in the 9 scaled values. */
-int i=blockId * blockDim.x + threadIdx.x;//thread index
+	//Can get block number with blockIdx.x and thread index with threadIdx.x
+	/* The hardest part here is getting the grid/block/thread count right.s */
+	int blockId=blockIdx.y * gridDim.x + blockIdx.x;
 
+	int i=blockId * blockDim.x + threadIdx.x;//thread index
+	int k;
+	/* For each point “i” add in the 9 scaled values. */
+	for(k=0;k<sizeof(matrix);k++){
+		out[i]+=in[i]*matrix[k];
+	}
 
 
 /* Remember there are separate RGB colors so you will need to add in points -3, 0, +3 for example */
@@ -62,14 +66,14 @@ int i = blockId * blockDim.x + threadIdx.x; */
 __global__ //coarse grained
 void cuda_combine (int n, unsigned char *in_x,unsigned char *in_y,unsigned char *out) {
 
-int i=blockIdx.x*blockDim.x+threadIdx.x;//thread index
+	int i=blockIdx.x*blockDim.x+threadIdx.x;//thread index
 	out[i]=sqrt(double(
 		(in_x[i]*in_x[i])+
 		(in_y[i]*in_y[i])
 	));
 	if (out[i]>255) out[i]=255;
-	if (out[i]<0) out[i]=0;
-	// out[i]=0xff;//not necessary
+	if (out[i]<0) out[i]=0;//not necessary
+	// out[i]=0xff;
 }
 
 /* very inefficient convolve code */
