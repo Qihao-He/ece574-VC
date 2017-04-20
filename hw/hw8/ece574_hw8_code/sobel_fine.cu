@@ -332,7 +332,7 @@ int main(int argc, char **argv) {
 /* Copy the local sobel_x.pixels and sobel_y.pixels to the device using cudaMemcpy() */
 	copy_before=PAPI_get_real_usec();
 	cudaMemcpy(dev_x,image.pixels,n*sizeof(unsigned char),cudaMemcpyHostToDevice);
-	cudaMemcpy(dev_y,iamge.pixels,n*sizeof(unsigned char),cudaMemcpyHostToDevice);
+	cudaMemcpy(dev_y,image.pixels,n*sizeof(unsigned char),cudaMemcpyHostToDevice);
 	cudaMemcpy(dev_x_filter,sobel_x_filter,9*sizeof(int),cudaMemcpyHostToDevice);
 	cudaMemcpy(dev_y_filter,sobel_y_filter,9*sizeof(int),cudaMemcpyHostToDevice);
 	copy_after=PAPI_get_real_usec();
