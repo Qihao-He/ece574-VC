@@ -76,7 +76,7 @@ void cuda_combine (int n, unsigned char *in_x,unsigned char *in_y,unsigned char 
 		(in_y[i]*in_y[i])
 	));
 	if (out[i]>255) out[i]=255;
-	if (out[i]<0) out[i]=0;//not necessary
+	// if (out[i]<0) out[i]=0;//not necessary
 	// out[i]=0xff;
 }
 
