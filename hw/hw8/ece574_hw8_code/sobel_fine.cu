@@ -48,7 +48,7 @@ void cuda_generic_convolve (int n,int x,int y,unsigned char *in,int *matrix,unsi
 /* Also make sure you have code that skips the first and last rows, as well as
 the first and last columns (which is three columns, remember RGB). */
 	if(i<x*3 || i>=(y-1)*x*3){}//filter out 1st last rows, 1st 3 and last 3 columns
-	else if(i%(3*x)<2 || (i+1)%(3*x)<2){}
+	else if(i%(3*x)<3 || i%(3*x)>((3*x)-3)){}
 	else{/* For each point “i” add in the 9 scaled values. */
 		out[i]=in[i]*matrix[0];
 		out[i]+=in[i]*matrix[1];
