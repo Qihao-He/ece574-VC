@@ -1,23 +1,160 @@
 ece574-10 hw9
 Name:Qihao He
+--------------------------------------------------------------------------------
 3. CUDA vs C (2 pts)
+ece574-10@Quadro:~/QH_repository/ece574-VC/hw/hw9/ece574_hw09_code$ time ./saxpy_c 1
+y[100]=1000.000000
+
+real	0m0.080s
+user	0m0.040s
+sys	0m0.036s
+ece574-10@Quadro:~/QH_repository/ece574-VC/hw/hw9/ece574_hw09_code$ time ./saxpy_c 4
+y[100]=1600.000000
+
+real	0m0.131s
+user	0m0.084s
+sys	0m0.044s
+ece574-10@Quadro:~/QH_repository/ece574-VC/hw/hw9/ece574_hw09_code$ time ./saxpy_c 16
+y[100]=13000.000000
+
+real	0m0.251s
+user	0m0.224s
+sys	0m0.024s
+ece574-10@Quadro:~/QH_repository/ece574-VC/hw/hw9/ece574_hw09_code$ time ./saxpy_c 64
+y[100]=202600.000000
+
+real	0m0.506s
+user	0m0.456s
+sys	0m0.048s
+ece574-10@Quadro:~/QH_repository/ece574-VC/hw/hw9/ece574_hw09_code$ time ./saxpy_c 256
+y[100]=3265000.000000
+
+real	0m1.508s
+user	0m1.496s
+sys	0m0.008s
+ece574-10@Quadro:~/QH_repository/ece574-VC/hw/hw9/ece574_hw09_code$ time ./saxpy_c 1024
+y[100]=52378600.000000
+
+real	0m6.028s
+user	0m5.996s
+sys	0m0.032s
+ece574-10@Quadro:~/QH_repository/ece574-VC/hw/hw9/ece574_hw09_code$ time ./saxpy_c 2048
+y[100]=209612032.000000
+
+real	0m11.321s
+user	0m11.276s
+sys	0m0.044s
+
+--------------------------------------------------------------------------------
+ece574-10@Quadro:~/QH_repository/ece574-VC/hw/hw9/ece574_hw09_code$ time ./saxpy 1
+Size: 31250
+y[100]=1000.000000 1010.000000
+
+real	0m0.240s
+user	0m0.052s
+sys	0m0.184s
+ece574-10@Quadro:~/QH_repository/ece574-VC/hw/hw9/ece574_hw09_code$ time ./saxpy 4
+Size: 31250
+y[100]=1600.000000 1616.000000
+
+real	0m0.247s
+user	0m0.056s
+sys	0m0.188s
+ece574-10@Quadro:~/QH_repository/ece574-VC/hw/hw9/ece574_hw09_code$ time ./saxpy 16
+Size: 31250
+y[100]=13000.000000 13130.000000
+
+real	0m0.240s
+user	0m0.072s
+sys	0m0.164s
+ece574-10@Quadro:~/QH_repository/ece574-VC/hw/hw9/ece574_hw09_code$ time ./saxpy 64
+Size: 31250
+y[100]=202600.000000 204626.000000
+
+real	0m0.331s
+user	0m0.136s
+sys	0m0.192s
+ece574-10@Quadro:~/QH_repository/ece574-VC/hw/hw9/ece574_hw09_code$ time ./saxpy 256
+Size: 31250
+y[100]=3265000.000000 3297650.000000
+
+real	0m0.587s
+user	0m0.376s
+sys	0m0.208s
+ece574-10@Quadro:~/QH_repository/ece574-VC/hw/hw9/ece574_hw09_code$ time ./saxpy 1024
+Size: 31250
+y[100]=52378600.000000 52902164.000000
+
+real	0m1.759s
+user	0m1.316s
+sys	0m0.440s
+ece574-10@Quadro:~/QH_repository/ece574-VC/hw/hw9/ece574_hw09_code$ time ./saxpy 2048
+Size: 31250
+y[100]=209612032.000000 211709200.000000
+
+real	0m3.283s
+user	0m2.332s
+sys	0m0.948s
+
 (a) Why is the C version faster with only 1 repetition?
+
+$ time ./saxpy_c 1
+y[100]=1000.000000
+real	0m0.080s
+
+$ time ./saxpy 1
+Size: 31250
+y[100]=1000.000000 1010.000000
+real	0m0.240s
+
+The CPU process the serial code with low latency and low through put, so at the
+low through put condition as the 1 repetition, the C version is faster.
+
 (b) Why is the Cuda version faster for 2048 repetitions?
+
+$ time ./saxpy_c 2048
+y[100]=209612032.000000
+real	0m11.321s
+
+$ time ./saxpy 2048
+Size: 31250
+y[100]=209612032.000000 211709200.000000
+real	0m3.283s
+
+The GPU process the data with parallel computing, it is high latency and high
+through put, so when there is huge amount of data that is 2048 repetitions, it
+is doing way faster than the CPU.
+
 (c) What is the crossover point where Cuda is faster than C?
+
+$ time ./saxpy_c 16
+y[100]=13000.000000
+real	0m0.251s
+
+$ time ./saxpy 16
+Size: 31250
+y[100]=13000.000000 13130.000000
+real	0m0.240s
+
+At the repetitions around 16, the Cuda is faster than c.
+
 (d) How could you improve the performance of the C version?
 
+--------------------------------------------------------------------------------
 4. Power/Energy (4 points)
 (a) How much total CPU energy is consumed by the C implementation?
 (b) How much total CPU+GPU energy is consumed by the GPU implementation?
 (c) Which implementation would you choose if speed were most important? If Energy were most
 important? If Energy delay were most important?
 
+--------------------------------------------------------------------------------
 5. Reliability / Checkpointing (2 points)
 (a) Why might a cluster located at an observatory at the top of Mauna Kea in Hawaii have a higher
 failure rate than an identical cluster located at UMaine?
 (b) List a benefit to using application-level checkpointing in your code.
 (c) List a downside to using application-level checkpointing in your code.
 
+--------------------------------------------------------------------------------
 6. Big Data / Hadoop (2 points)
 (a) What two major operations are used by Hadoop?
 (b) What language is used when writing Hadoop code?
