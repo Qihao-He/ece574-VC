@@ -412,6 +412,8 @@ int main(int argc, char **argv) {
 	cudaFree(dev_y);
 	cudaFree(dev_x_filter);
 	cudaFree(dev_y_filter);
+	cudaFree(dev_x_convolve);
+	cudaFree(dev_y_convolve);
 	cudaFree(out);
 
 	return 0;
