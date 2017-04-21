@@ -283,6 +283,7 @@ int main(int argc, char **argv) {
 
 	unsigned char *dev_x, *dev_y,*out;// Pointer to host & device arrays
 	int *dev_x_filter, *dev_y_filter;// Pointer to host & device arrays
+	unsigned char *dev_x_convolve,*dev_y_convolve;// Pointer to host & device arrays
 	long long n;// Number of pixels in a picture
 
 	/* Check command line usage */
