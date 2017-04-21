@@ -380,7 +380,7 @@ int main(int argc, char **argv) {
 	// cuda_combine (int n, unsigned char *in_x,	unsigned char *in_y, unsigned char *out)
 	// first inside brackets is number of blocks, second is threads per block
 	combine_before=PAPI_get_real_usec();
-	cuda_combine<<<(n+256)/256, 256>>>(n,dev_x,dev_y,out);
+	cuda_combine<<<(n+256)/256, 256>>>(n,dev_x_convolve,dev_y_convolve,out);
 	combine_after=PAPI_get_real_usec();
 
 	/* Copy the results back into new_image.pixels using cudaMemcpy() (be sure to get the direction right) */
