@@ -281,7 +281,7 @@ int main(int argc, char **argv) {
 
 	long long cudaMalloc_after,cudaMalloc_before,cudaMalloc2_after,cudaMalloc2_before;
 
-	unsigned char *dev_x, *dev_y,*out;// Pointer to host & device arrays
+	unsigned char *dev, *out;// Pointer to host & device arrays
 	int *dev_x_filter, *dev_y_filter;// Pointer to host & device arrays
 	unsigned char *dev_x_convolve,*dev_y_convolve;// Pointer to host & device arrays
 	long long n;// Number of pixels in a picture
@@ -327,8 +327,7 @@ int main(int argc, char **argv) {
 
 /* Allocate arrays on GPU */
 	cudaMalloc_before=PAPI_get_real_usec();
-	cudaMalloc((void**)&dev_x,n*sizeof(unsigned char));
-	cudaMalloc((void**)&dev_y,n*sizeof(unsigned char));
+	cudaMalloc((void**)&dev,n*sizeof(unsigned char));
 	cudaMalloc((void**)&dev_x_convolve,n*sizeof(unsigned char));
 	cudaMalloc((void**)&dev_y_convolve,n*sizeof(unsigned char));
 	cudaMalloc((void**)&dev_x_filter,9*sizeof(int));
@@ -337,8 +336,7 @@ int main(int argc, char **argv) {
 
 /* Copy the local sobel_x.pixels and sobel_y.pixels to the device using cudaMemcpy() */
 	copy_before=PAPI_get_real_usec();
-	cudaMemcpy(dev_x,image.pixels,n*sizeof(unsigned char),cudaMemcpyHostToDevice);
-	cudaMemcpy(dev_y,image.pixels,n*sizeof(unsigned char),cudaMemcpyHostToDevice);
+	cudaMemcpy(dev,image.pixels,n*sizeof(unsigned char),cudaMemcpyHostToDevice);
 	cudaMemcpy(dev_x_filter,sobel_x_filter,9*sizeof(int),cudaMemcpyHostToDevice);
 	cudaMemcpy(dev_y_filter,sobel_y_filter,9*sizeof(int),cudaMemcpyHostToDevice);
 	copy_after=PAPI_get_real_usec();
@@ -353,7 +351,7 @@ int main(int argc, char **argv) {
 	// generic_convolve((void *)&sobel_data[0]);
 	// cuda_generic_convolve (int n, char *in, int *matrix, char *out)
 	// first inside brackets is number of blocks, second is threads per block
-	cuda_generic_convolve<<<(n+256)/256, 256>>>(n,image.x,image.y,dev_x,dev_x_filter,dev_x_convolve);
+	cuda_generic_convolve<<<(n+256)/256, 256>>>(n,image.x,image.y,dev,dev_x_filter,dev_x_convolve);
 
 	// sobel_data[1].old=&image;
 	// sobel_data[1].newt=&sobel_y;
@@ -361,7 +359,7 @@ int main(int argc, char **argv) {
 	// sobel_data[1].ystart=0;
 	// sobel_data[1].yend=image.y;
 	// generic_convolve((void *)&sobel_data[1]);
-	cuda_generic_convolve<<<(n+256)/256, 256>>>(n,image.x,image.y,dev_y,dev_y_filter,dev_y_convolve);
+	cuda_generic_convolve<<<(n+256)/256, 256>>>(n,image.x,image.y,dev,dev_y_filter,dev_y_convolve);
 
 	// make the host block until the device is finished
 	cudaDeviceSynchronize();
@@ -408,8 +406,7 @@ int main(int argc, char **argv) {
   printf("Store time: %lld\n",store_after-store_before);
 	printf("Total time = %lld\n",store_after-start_time);
 
-	cudaFree(dev_x);//cudaFree device name
-	cudaFree(dev_y);
+	cudaFree(dev);//cudaFree device name
 	cudaFree(dev_x_filter);
 	cudaFree(dev_y_filter);
 	cudaFree(dev_x_convolve);
