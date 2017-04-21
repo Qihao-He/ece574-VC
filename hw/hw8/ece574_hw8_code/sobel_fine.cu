@@ -60,6 +60,8 @@ the first and last columns (which is three columns, remember RGB). */
 		out[i]+=in[i]*matrix[7];
 		out[i]+=in[i]*matrix[8];
 	}
+	if (out[i]>255) out[i]=255;
+	else if (out[i]<0) out[i]=0;//not necessary
 	// out[i]=0xff;//test on all white
 
 /* Again it might be helpful to output the sobel_x output and run on the
