@@ -328,6 +328,8 @@ int main(int argc, char **argv) {
 	cudaMalloc_before=PAPI_get_real_usec();
 	cudaMalloc((void**)&dev_x,n*sizeof(unsigned char));
 	cudaMalloc((void**)&dev_y,n*sizeof(unsigned char));
+	cudaMalloc((void**)&dev_x_convolve,n*sizeof(unsigned char));
+	cudaMalloc((void**)&dev_y_convolve,n*sizeof(unsigned char));
 	cudaMalloc((void**)&dev_x_filter,9*sizeof(int));
 	cudaMalloc((void**)&dev_y_filter,9*sizeof(int));
 	cudaMalloc_after=PAPI_get_real_usec();
@@ -350,7 +352,7 @@ int main(int argc, char **argv) {
 	// generic_convolve((void *)&sobel_data[0]);
 	// cuda_generic_convolve (int n, char *in, int *matrix, char *out)
 	// first inside brackets is number of blocks, second is threads per block
-	cuda_generic_convolve<<<(n+256)/256, 256>>>(n,image.x,image.y,sobel_x.pixels,dev_x_filter,dev_x);
+	cuda_generic_convolve<<<(n+256)/256, 256>>>(n,image.x,image.y,dev_x,dev_x_filter,dev_x_convolve);
 
 	// sobel_data[1].old=&image;
 	// sobel_data[1].newt=&sobel_y;
@@ -358,7 +360,7 @@ int main(int argc, char **argv) {
 	// sobel_data[1].ystart=0;
 	// sobel_data[1].yend=image.y;
 	// generic_convolve((void *)&sobel_data[1]);
-	cuda_generic_convolve<<<(n+256)/256, 256>>>(n,image.x,image.y,sobel_y.pixels,dev_y_filter,dev_y);
+	cuda_generic_convolve<<<(n+256)/256, 256>>>(n,image.x,image.y,dev_y,dev_y_filter,dev_y_convolve);
 
 	// make the host block until the device is finished
 	cudaDeviceSynchronize();
