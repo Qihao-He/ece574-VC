@@ -139,7 +139,8 @@ real	0m0.240s
 At the repetitions around 16, the Cuda is faster than c.
 
 (d) How could you improve the performance of the C version?
-
+Change the loop order that will fit the order how the arrays are stored, decrease
+the cache misses and that would increase the C version performance.
 --------------------------------------------------------------------------------
 4. Power/Energy (4 points)
 (a) How much total CPU energy is consumed by the C implementation?
