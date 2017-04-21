@@ -61,7 +61,7 @@ the first and last columns (which is three columns, remember RGB). */
 		out[i]+=in[i]*matrix[8];
 	}
 	if (out[i]>255) out[i]=255;
-	else if (out[i]<0) out[i]=0;//not necessary
+	// else if (out[i]<0) out[i]=0;//not necessary
 	// out[i]=0xff;//test on all white
 
 /* Again it might be helpful to output the sobel_x output and run on the
@@ -272,7 +272,8 @@ static int store_jpeg(const char *filename, struct image_t *image) {
 
 int main(int argc, char **argv) {
 
-	struct image_t image,sobel_x,sobel_y,new_image;
+	struct image_t image,new_image;
+	// struct image_t image,sobel_x,sobel_y,new_image;
 	// struct convolve_data_t sobel_data[2];
 	long long start_time,load_time,convolve_time;
 	long long combine_after,combine_before;
