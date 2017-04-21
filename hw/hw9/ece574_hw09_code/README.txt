@@ -1,6 +1,6 @@
 ece574-10 hw9
 Name:Qihao He
---------------------------------------------------------------------------------
+================================================================================
 3. CUDA vs C (2 pts)
 ece574-10@Quadro:~/QH_repository/ece574-VC/hw/hw9/ece574_hw09_code$ time ./saxpy_c 1
 y[100]=1000.000000
@@ -95,7 +95,7 @@ y[100]=209612032.000000 211709200.000000
 real	0m3.283s
 user	0m2.332s
 sys	0m0.948s
-
+--------------------------------------------------------------------------------
 (a) Why is the C version faster with only 1 repetition?
 
 $ time ./saxpy_c 1
@@ -109,7 +109,7 @@ real	0m0.240s
 
 The CPU process the serial code with low latency and low through put, so at the
 low through put condition as the 1 repetition, the C version is faster.
-
+--------------------------------------------------------------------------------
 (b) Why is the Cuda version faster for 2048 repetitions?
 
 $ time ./saxpy_c 2048
@@ -124,7 +124,7 @@ real	0m3.283s
 The GPU process the data with parallel computing, it is high latency and high
 through put, so when there is huge amount of data that is 2048 repetitions, it
 is doing way faster than the CPU.
-
+--------------------------------------------------------------------------------
 (c) What is the crossover point where Cuda is faster than C?
 
 $ time ./saxpy_c 16
@@ -137,26 +137,99 @@ y[100]=13000.000000 13130.000000
 real	0m0.240s
 
 At the repetitions around 16, the Cuda is faster than c.
-
-(d) How could you improve the performance of the C version?
-Change the loop order that will fit the order how the arrays are stored, decrease
-the cache misses and that would increase the C version performance.
 --------------------------------------------------------------------------------
+(d) How could you improve the performance of the C version?
+In this program, the loop order cannot improve the performance that will
+lower the cache misses. But the C version currently is using 1 core calculating,
+it can use OpenCL and fully utilize the other cores to improve the performance.
+To do that, it should be making the code into parallel code instead of serial code.
+
+================================================================================
 4. Power/Energy (4 points)
+
+$ perf stat -a -e cycles,power/energy-pkg/ ./saxpy_c 2048
+y[100]=209612032.000000
+
+ Performance counter stats for 'system wide':
+
+    46,298,891,954        cycles
+            333.19 Joules power/energy-pkg/
+
+      11.603618695 seconds time elapsed
+--------------------------------------------------------------------------------
+$ perf stat -a -e cycles,power/energy-pkg/ ./saxpy 2048
+Size: 31250
+y[100]=209612032.000000 211709200.000000
+
+ Performance counter stats for 'system wide':
+
+    13,728,890,417        cycles
+             83.29 Joules power/energy-pkg/
+
+       3.251979013 seconds time elapsed
+--------------------------------------------------------------------------------
+ nvidia-smi --query-gpu=utilization.gpu,power.draw --format=csv -lms 100
+utilization.gpu [%], power.draw [W]
+ 42 %, 10.23 W
+ 42 %, 14.09 W
+ 100 %, 14.10 W
+ 100 %, 16.67 W
+ 100 %, 16.67 W
+ 100 %, 16.68 W
+ 100 %, 16.68 W
+ 100 %, 16.69 W
+ 100 %, 16.70 W
+ 100 %, 16.72 W
+ 100 %, 16.71 W
+ 100 %, 16.71 W
+ 100 %, 16.72 W
+ 100 %, 16.73 W
+ 100 %, 16.73 W
+ 100 %, 16.75 W
+ 100 %, 16.73 W
+ 100 %, 16.75 W
+ 100 %, 16.74 W
+ 100 %, 16.75 W
+ 100 %, 16.75 W
+ 100 %, 16.76 W
+ 100 %, 16.75 W
+ 100 %, 16.77 W
+ 100 %, 16.75 W
+ 100 %, 16.76 W
+ 100 %, 16.77 W
+ 100 %, 16.77 W
+ 100 %, 16.81 W
+ 100 %, 16.96 W
+ 100 %, 16.95 W
+ 100 %, 3.30 W
+ 2 %, 3.24 W
+
+ AVG=15.9578125
+--------------------------------------------------------------------------------
 (a) How much total CPU energy is consumed by the C implementation?
+333.19 Joules
+
+--------------------------------------------------------------------------------
 (b) How much total CPU+GPU energy is consumed by the GPU implementation?
+83.29 Joules,15.9578125*3.2=51.065, total:83.29+51.07=134.36 Joules
+--------------------------------------------------------------------------------
 (c) Which implementation would you choose if speed were most important? If Energy were most
 important? If Energy delay were most important?
 
---------------------------------------------------------------------------------
+
+================================================================================
 5. Reliability / Checkpointing (2 points)
 (a) Why might a cluster located at an observatory at the top of Mauna Kea in Hawaii have a higher
 failure rate than an identical cluster located at UMaine?
+--------------------------------------------------------------------------------
 (b) List a benefit to using application-level checkpointing in your code.
+--------------------------------------------------------------------------------
 (c) List a downside to using application-level checkpointing in your code.
 
---------------------------------------------------------------------------------
+================================================================================
 6. Big Data / Hadoop (2 points)
 (a) What two major operations are used by Hadoop?
+--------------------------------------------------------------------------------
 (b) What language is used when writing Hadoop code?
+--------------------------------------------------------------------------------
 (c) Name one benefit of a distributed
