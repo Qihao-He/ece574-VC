@@ -272,8 +272,7 @@ static int store_jpeg(const char *filename, struct image_t *image) {
 
 int main(int argc, char **argv) {
 
-	struct image_t image,new_image;
-	// struct image_t image,sobel_x,sobel_y,new_image;
+	struct image_t image,sobel_x,sobel_y,new_image;
 	// struct convolve_data_t sobel_data[2];
 	long long start_time,load_time,convolve_time;
 	long long combine_after,combine_before;
