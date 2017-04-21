@@ -208,15 +208,15 @@ utilization.gpu [%], power.draw [W]
 --------------------------------------------------------------------------------
 (a) How much total CPU energy is consumed by the C implementation?
 333.19 Joules
-
 --------------------------------------------------------------------------------
 (b) How much total CPU+GPU energy is consumed by the GPU implementation?
 83.29 Joules,15.9578125*3.2=51.065, total:83.29+51.07=134.36 Joules
 --------------------------------------------------------------------------------
 (c) Which implementation would you choose if speed were most important? If Energy were most
 important? If Energy delay were most important?
-
-
+The GPU one saxpy.cu would be the priority one if the speed is the most important.
+saxpy.cu is also a good choice for Energy were most important. Energy delay is
+the most important would also make the saxpy.cu a better choice.
 ================================================================================
 5. Reliability / Checkpointing (2 points)
 (a) Why might a cluster located at an observatory at the top of Mauna Kea in Hawaii have a higher
