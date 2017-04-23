@@ -217,19 +217,30 @@ important? If Energy delay were most important?
 The GPU one saxpy.cu would be the priority one if the speed is the most important.
 saxpy.cu is also a good choice for Energy were most important. Energy delay is
 the most important would also make the saxpy.cu a better choice.
+
 ================================================================================
 5. Reliability / Checkpointing (2 points)
 (a) Why might a cluster located at an observatory at the top of Mauna Kea in Hawaii have a higher
 failure rate than an identical cluster located at UMaine?
+It should be the Radiation. Locating at an observatory at the top of Mauna Kea
+in Hawaii should be receiving a higher rate of catching alpha particles and cause
+flip bits.
 --------------------------------------------------------------------------------
 (b) List a benefit to using application-level checkpointing in your code.
+If a failure takes down a program or hardware node, you can restore to last
+checkpoint rather than starting from scratch.
 --------------------------------------------------------------------------------
 (c) List a downside to using application-level checkpointing in your code.
+Checkpoints have high overhead. It takes much additional time to run it.
 
 ================================================================================
 6. Big Data / Hadoop (2 points)
 (a) What two major operations are used by Hadoop?
+Distributed Processing and Distributed storage on commodity clusters.
+
 --------------------------------------------------------------------------------
 (b) What language is used when writing Hadoop code?
+Java
 --------------------------------------------------------------------------------
-(c) Name one benefit of a distributed
+(c) Name one benefit of a distributed filesystem (such as the hadoop HDFS
+filesystem) over a centralized filesystem such as NFS.
