@@ -244,3 +244,6 @@ Java
 --------------------------------------------------------------------------------
 (c) Name one benefit of a distributed filesystem (such as the hadoop HDFS
 filesystem) over a centralized filesystem such as NFS.
+It can handle big data storage, however, NFS cannot handle big data storage.
+It has the function of distributed processing and distributed storage that can
+fully utilize the processors.
