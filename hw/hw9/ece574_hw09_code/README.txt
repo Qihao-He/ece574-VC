@@ -236,7 +236,7 @@ Checkpoints have high overhead. It takes much additional time to run it.
 ================================================================================
 6. Big Data / Hadoop (2 points)
 (a) What two major operations are used by Hadoop?
-Distributed Processing and Distributed storage on commodity clusters.
+Map and reduce
 
 --------------------------------------------------------------------------------
 (b) What language is used when writing Hadoop code?
