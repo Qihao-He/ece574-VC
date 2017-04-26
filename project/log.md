@@ -351,7 +351,16 @@ HYDRA build details:
     Checkpointing libraries available:       blcr
     Demux engines available:                 poll select
 ________________________________________________________________________________
-4/23/2017
+4/25/2017
+Reading:
+Article
+A Raspberry Pi Cluster Instrumented for Fine-Grained Power Measurement †
+Michael F. Cloutier, Chad Paradis and Vincent M. Weaver *
+Keywords: Raspberry Pi; embedded supercomputers; GFLOPS/W; cluster construction; power measurement
+
+Fine-Grained Power Measurement is essential for accurate results.
+
+
 
 ________________________________________________________________________________
 ________________________________________________________________________________
