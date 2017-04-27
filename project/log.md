@@ -361,6 +361,7 @@ Keywords: Raspberry Pi; embedded supercomputers; GFLOPS/W; cluster construction;
 Fine-Grained Power Measurement is essential for accurate results.
 ________________________________________________________________________________
 4/26/2017
+ODE Matlab work reference, also using the MPI to spread the work to clusters.
 
 ________________________________________________________________________________
 ________________________________________________________________________________
