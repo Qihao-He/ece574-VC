@@ -359,10 +359,9 @@ Michael F. Cloutier, Chad Paradis and Vincent M. Weaver *
 Keywords: Raspberry Pi; embedded supercomputers; GFLOPS/W; cluster construction; power measurement
 
 Fine-Grained Power Measurement is essential for accurate results.
-
-
-
 ________________________________________________________________________________
+4/26/2017
+
 ________________________________________________________________________________
 ________________________________________________________________________________
 ________________________________________________________________________________

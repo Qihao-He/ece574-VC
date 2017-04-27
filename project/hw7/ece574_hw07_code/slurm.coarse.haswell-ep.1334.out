@@ -1,0 +1,21 @@
+R4: Number of tasks= 8 My rank= 4
+output_width=3888, output_height=2592, output_components=3
+R1: Number of tasks= 8 My rank= 1
+R3: Number of tasks= 8 My rank= 3
+R2: Number of tasks= 8 My rank= 2
+R0: Number of tasks= 8 My rank= 0
+output_width=3888, output_height=2592, output_components=3
+output_width=3888, output_height=2592, output_components=3
+output_width=3888, output_height=2592, output_components=3
+output_width=3888, output_height=2592, output_components=3
+R5: Number of tasks= 8 My rank= 5
+output_width=3888, output_height=2592, output_components=3
+R6: Number of tasks= 8 My rank= 6
+R7: Number of tasks= 8 My rank= 7
+output_width=3888, output_height=2592, output_components=3
+output_width=3888, output_height=2592, output_components=3
+Load time: 0.211057
+Convolve time: 0.268430
+Combine time: 0.178561
+Store time: 0.076807
+Total time = 0.734855

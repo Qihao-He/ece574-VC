@@ -1,0 +1,37 @@
+R3: Number of tasks= 16 My rank= 3
+R5: Number of tasks= 16 My rank= 5
+R14: Number of tasks= 16 My rank= 14
+R1: Number of tasks= 16 My rank= 1
+R4: Number of tasks= 16 My rank= 4
+output_width=3888, output_height=2592, output_components=3
+R8: Number of tasks= 16 My rank= 8
+R9: Number of tasks= 16 My rank= 9
+R10: Number of tasks= 16 My rank= 10
+R11: Number of tasks= 16 My rank= 11
+R12: Number of tasks= 16 My rank= 12
+output_width=3888, output_height=2592, output_components=3
+R2: Number of tasks= 16 My rank= 2
+output_width=3888, output_height=2592, output_components=3
+output_width=3888, output_height=2592, output_components=3
+R7: Number of tasks= 16 My rank= 7
+R0: Number of tasks= 16 My rank= 0
+output_width=3888, output_height=2592, output_components=3
+output_width=3888, output_height=2592, output_components=3
+output_width=3888, output_height=2592, output_components=3
+output_width=3888, output_height=2592, output_components=3
+output_width=3888, output_height=2592, output_components=3
+R6: Number of tasks= 16 My rank= 6
+output_width=3888, output_height=2592, output_components=3
+R13: Number of tasks= 16 My rank= 13
+output_width=3888, output_height=2592, output_components=3
+R15: Number of tasks= 16 My rank= 15
+output_width=3888, output_height=2592, output_components=3
+output_width=3888, output_height=2592, output_components=3
+output_width=3888, output_height=2592, output_components=3
+output_width=3888, output_height=2592, output_components=3
+output_width=3888, output_height=2592, output_components=3
+Load time: 0.245618
+Convolve time: 0.177774
+Combine time: 0.234790
+Store time: 0.128822
+Total time = 0.787004
