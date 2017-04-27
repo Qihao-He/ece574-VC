@@ -21,7 +21,8 @@ ylabel('Analytic results');
 [FE_a_tspan,FE_a_xc,FE_a_exitflag]=FE(M,xo,0.01,0,1);
 [FE_b_tspan,FE_b_xc,FE_b_exitflag]=FE(M,xo,0.001,0,1);
 [FE_c1_tspan,FE_c1_xc,FE_c1_exitflag]=FE(M,xo,0.001,0,0.1);
-[FE_c2_tspan,FE_c2_xc,FE_c2_exitflag]=FE(M,FE_c1_xc(:,size(FE_c1_tspan,2)),0.01,0.1,1);
+[FE_c2_tspan,FE_c2_xc,FE_c2_exitflag]=FE(M,FE_c1_xc(:,...
+    size(FE_c1_tspan,2)),0.01,0.1,1);
 figure(2)
 plot(FE_a_tspan,FE_a_xc);
 title('FE time step=0.01 vs time');
@@ -53,7 +54,8 @@ ylabel('FE 0.01')
 [HA_a_tspan,HA_a_xc,HA_a_exitflag]=HA(M,xo,0.01,0,1);
 [HA_b_tspan,HA_b_xc,HA_b_exitflag]=HA(M,xo,0.001,0,1);
 [HA_c1_tspan,HA_c1_xc,HA_c1_exitflag]=HA(M,xo,0.001,0,0.1);
-[HA_c2_tspan,HA_c2_xc,HA_c2_exitflag]=HA(M,HA_c1_xc(:,size(HA_c1_tspan,2)),0.01,0.1,1);
+[HA_c2_tspan,HA_c2_xc,HA_c2_exitflag]=HA(M,HA_c1_xc(:,...
+    size(HA_c1_tspan,2)),0.01,0.1,1);
 figure(6)
 plot(HA_a_tspan,HA_a_xc);
 title('HA time step=0.01 vs time');
@@ -79,7 +81,8 @@ ylabel('HA 0.01')
 [TR_a_tspan,TR_a_xc,TR_a_exitflag]=TR(M,xo,0.01,0,1);
 [TR_b_tspan,TR_b_xc,TR_b_exitflag]=TR(M,xo,0.001,0,1);
 [TR_c1_tspan,TR_c1_xc,TR_c1_exitflag]=TR(M,xo,0.001,0,0.1);
-[TR_c2_tspan,TR_c2_xc,TR_c2_exitflag]=TR(M,TR_c1_xc(:,size(TR_c1_tspan,2)),0.01,0.1,1);
+[TR_c2_tspan,TR_c2_xc,TR_c2_exitflag]=TR(M,TR_c1_xc(:,...
+    size(TR_c1_tspan,2)),0.01,0.1,1);
 figure(10)
 plot(TR_a_tspan,TR_a_xc);
 title('TR time step=0.01 vs time');
