@@ -21,7 +21,8 @@ ylabel('Analytic results');
 [FE_a_tspan,FE_a_xc,FE_a_exitflag]=FE(M,xo,0.01,0,1);
 [FE_b_tspan,FE_b_xc,FE_b_exitflag]=FE(M,xo,0.001,0,1);
 [FE_c1_tspan,FE_c1_xc,FE_c1_exitflag]=FE(M,xo,0.001,0,0.1);
-[FE_c2_tspan,FE_c2_xc,FE_c2_exitflag]=FE(M,FE_c1_xc(:,size(FE_c1_tspan,2)),0.01,0.1,1);
+[FE_c2_tspan,FE_c2_xc,FE_c2_exitflag]=FE(M,FE_c1_xc(:,...
+  size(FE_c1_tspan,2)),0.01,0.1,1);
 figure(2)
 plot(FE_a_tspan,FE_a_xc);
 title('FE time step=0.01 vs time');
@@ -44,7 +45,7 @@ xlabel('time');
 ylabel('FE 0.01')
 
 % The FE results are stable when the time step is selected as 0.001.
-% Because the time constant of the ODEs is 1s and 1ms,the FE algorithm is 
+% Because the time constant of the ODEs is 1s and 1ms,the FE algorithm is
 % unstable for step sizes greater than 2 time constants.
 % Making the time step back to 0.01 after using 0.001 as time step for a
 % certain time does not guarantee the stability of the resutls.
@@ -53,7 +54,8 @@ ylabel('FE 0.01')
 [HA_a_tspan,HA_a_xc,HA_a_exitflag]=HA(M,xo,0.01,0,1);
 [HA_b_tspan,HA_b_xc,HA_b_exitflag]=HA(M,xo,0.001,0,1);
 [HA_c1_tspan,HA_c1_xc,HA_c1_exitflag]=HA(M,xo,0.001,0,0.1);
-[HA_c2_tspan,HA_c2_xc,HA_c2_exitflag]=HA(M,HA_c1_xc(:,size(HA_c1_tspan,2)),0.01,0.1,1);
+[HA_c2_tspan,HA_c2_xc,HA_c2_exitflag]=HA(M,HA_c1_xc(:,...
+  size(HA_c1_tspan,2)),0.01,0.1,1);
 figure(6)
 plot(HA_a_tspan,HA_a_xc);
 title('HA time step=0.01 vs time');
@@ -79,7 +81,8 @@ ylabel('HA 0.01')
 [TR_a_tspan,TR_a_xc,TR_a_exitflag]=TR(M,xo,0.01,0,1);
 [TR_b_tspan,TR_b_xc,TR_b_exitflag]=TR(M,xo,0.001,0,1);
 [TR_c1_tspan,TR_c1_xc,TR_c1_exitflag]=TR(M,xo,0.001,0,0.1);
-[TR_c2_tspan,TR_c2_xc,TR_c2_exitflag]=TR(M,TR_c1_xc(:,size(TR_c1_tspan,2)),0.01,0.1,1);
+[TR_c2_tspan,TR_c2_xc,TR_c2_exitflag]=TR(M,TR_c1_xc(:,...
+  size(TR_c1_tspan,2)),0.01,0.1,1);
 figure(10)
 plot(TR_a_tspan,TR_a_xc);
 title('TR time step=0.01 vs time');
@@ -213,11 +216,11 @@ ylabel('Global Truncation Error')
 % Compare the results of using the non-stiff method ode45 to the stiff
 % method ode15s.
 % The step size of the non-stiff method is at a very small scale for almost
-% the whole period. The step size of the stiff method increases greatly as 
+% the whole period. The step size of the stiff method increases greatly as
 % the function gets more flat.
 % The global truncation error is bouncing  when choosing the non-stiff
 % method, and it is more smooth when using the stiff method.
-% 
+%
 % Compare the loose tolerance results to the tight tolerance results.
 % When choosing the loose tolerance, the scale of the GTE is 1e-3, and the
 % tight tolerance GTE is 1e-6.
