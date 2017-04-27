@@ -81,3 +81,7 @@ https://medium.com/@bossjones/how-i-setup-a-raspberry-pi-3-cluster-using-the-new
 Build a Compact 4 Node Raspberry Pi Cluster
 By Alasdair Allan Time Required: 3-8 HoursDifficulty: Moderate
 http://makezine.com/projects/build-a-compact-4-node-raspberry-pi-cluster/
+
+How to solve differential equations?
+
+http://zh.wikihow.com/%E8%A7%A3%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B
