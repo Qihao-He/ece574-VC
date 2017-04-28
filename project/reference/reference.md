@@ -85,3 +85,39 @@ http://makezine.com/projects/build-a-compact-4-node-raspberry-pi-cluster/
 How to solve differential equations?
 
 http://zh.wikihow.com/%E8%A7%A3%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B
+
+A Finite Difference Parallel Scheme Based on MPI Implementation for Fourth Order Parabolic Equations
+Yuyang Gao, Haiming Gu
+●Abstract
+●Full-Text PDF
+●Full-Text HTML
+●Full-Text ePUB
+●Linked References
+●How to Cite this Article
+Qingdao University of Science and Technology, Qingdao Shandong
+
+Received: Feb. 27th, 2017; accepted: Mar. 18th, 2017; published: Mar. 21st, 2017
+ABSTRACT
+
+Parallel computing can save a lot of time in the field of large-scale scientific computing. In this paper, the main idea is that a finite difference parallel scheme for fourth order parabolic equations. The scheme is constructed by Saul’yev asymmetric difference schemes which called the four-point scheme. It’s one explicit difference scheme, the computational domain can be divided into a number of large areas; each sub-region computes themselves, and the parallel scheme is unconditionally stable. Then, the paper focuses on the numerical calculation of the four-point scheme in MPI parallel environment. Two different MPI parallel algorithms are constructed, one is blocking com- munication (wait communication) mode, and the other is non-blocking communication (non-wait communication) mode. These two parallel algorithms both better than serial algorithm to calculate numerical solutions use four-point scheme, and the non-blocking communication mode is higher computational than the other, because the wait time in non-blocking communication mode is less than blocking communication mode.
+Keywords:Fourth Order Parabolic Equations, Finite Difference Parallel Scheme, MPI (Message Passing Interface)
+https://image.hanspub.org/Html/2-2620378_19924.htm
+
+Experiments with an ordinary differential equation solver in the parallel solution of method of lines problems on a shared-memory parallel computer
+D.K. Kahaner. Author links open the author workspace.
+National Institute of Standards and Technology, Gaithersburg, MD 20899, United States
+E. Ng. Author links open the author workspace.
+Oak Ridge National Laboratory, Oak Ridge, TN, United States
+W.E. Schiesser. Author links open the author workspace.
+Lehigh University, Bethlehem, PA, United States
+S. Thompson. Author links open the author workspace.
+Radford University, Radford, VA, United States
+Show more
+https://doi.org/10.1016/0377-0427(91)90173-H
+
+Abstract
+We consider method of lines solutions of partial differential equations on shared-memory parallel computers. Solutions using the ordinary differential equation solver SDRIV3 (which is similar to the well-known LSODE solver) are considered. It is shown that portions of the solver may be implemented in parallel. In particular, formation of the Jacobian matrix and the linear algebra required to solve the corrector equations are natural candidates for parallel implementation since these portions dominate the cost of solving large systems of equations. A variant of Gaussian elimination is described which allows efficient parallel solution of systems of linear equations. An implementation of SDRIV3 which performs the Jacobian related calculations in parallel and which uses this variant of Gaussian elimination is described. The modified solver is used to solve a model hyperbolic fluid flow problem. Timing results, obtained using a Sequent Balance parallel computer, are given which demonstrate that substantial speedups are possible. Extensions of the techniques to sparse problems are discussed and illustrated for a problem involving a humidification column which contacts air and water.
+
+Keywords
+Ordinary differential equationsODEnumerical analysismethod of linesMOLmathematical software
+http://www.sciencedirect.com/science/article/pii/037704279190173H
