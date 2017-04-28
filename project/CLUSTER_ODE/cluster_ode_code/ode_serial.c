@@ -10,8 +10,6 @@
 
 #include <jpeglib.h>
 
-#include <mpi.h>
-
 /* Filters */
 static int sobel_x_filter[3][3]={{-1,0,+1},{-2,0,+2},{-1,0,+1}};
 static int sobel_y_filter[3][3]={{-1,-2,-1},{0,0,0},{1,2,+1}};
