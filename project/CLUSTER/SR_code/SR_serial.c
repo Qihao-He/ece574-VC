@@ -8,7 +8,7 @@
 #include <errno.h>
 #include <math.h>
 
-#define n 1e9
+#define n 1e8
 
 double f (int i){
 	double x;
@@ -22,6 +22,6 @@ int main(int argc, char *argv[]) {
 	area=f(0)-f(n);
 	for(i=1;i<=n/2;i++) area+=4.0*f(2*i-1)+2*f(2*i);
 	area/=(3.0*n);
-	printf("Approximation of pi: %1.16f\n",area);
+	printf("Approximation of pi: %f\n",area);
 	return 0;
 }
