@@ -22,7 +22,7 @@ double f(int i){
 
 int main(int argc, char *argv[]) {
 	double area;
-	int i;
+	double i;
 	double Rerror;//Relative error
 	double error;
 
