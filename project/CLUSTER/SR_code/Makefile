@@ -25,8 +25,7 @@ SR_serial:	SR_serial.o
 SR_serial.o:	SR_serial.c
 		$(CC) $(CFLAGS) -c SR_serial.c
 
-clean:
-	      #  rm -f *~ *.o sobel_coarse SR_serial sobel_before out.jpg
+clean:   #  rm -f *~ *.o sobel_coarse SR_serial sobel_before out.jpg
 				 rm -f *~ *.o SR_serial
 
 
