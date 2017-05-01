@@ -27,7 +27,9 @@ int main(int argc, char *argv[]) {
 	double i;
 	double Rerror;//Relative error
 	double error;
+
 	double start_time,load_time=0,store_time,convolve_time=0,combine_time;
+
 	int numtasks,rank;//# of tasks, rank index
 
 	/* Check command line usage */
@@ -55,8 +57,12 @@ int main(int argc, char *argv[]) {
 	printf("R%d: Number of tasks= %d My rank= %d\n",
 		rank,numtasks,rank);
 
+		/* kernel */
 
-		load_time=MPI_Wtime();
+
+
+
+
 
 /* Use MPI_Gather() to gather results in rank 0 */
 MPI_Gather(sobel_y.pixels,	/* send buffer */
