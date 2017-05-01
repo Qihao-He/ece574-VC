@@ -9,6 +9,7 @@
 #include <math.h>
 
 #define n 1e9 //iteration times
+#define epsilon 2.220446e-16
 
 /* True value of Pi from Wolfwww.wolframalpha.com */
 #define truePIvalue 3.1415926535897932384626433832795028841971693993751058209749445923
@@ -30,7 +31,7 @@ int main(int argc, char *argv[]) {
 	printf("Approximation of pi: %13.64f\n",area);//print pi
 
 	/* Relative error in epsilon */
-	Rerror=abs(area-(double)truePIvalue);
+	Rerror=abs(area-(double)truePIvalue)/(double)epsilon;
 	printf("Relative error in epsilon is: %f\n",Rerror);
 	return 0;
 }
