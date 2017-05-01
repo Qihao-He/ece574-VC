@@ -2,8 +2,8 @@ CC = mpicc
 CFLAGS = -O2 -Wall -g
 LFLAGS = -ljpeg -lm
 
-# all:   sobel_before sobel_coarse sobel_fine
-all:   sobel_fine
+# all:   sobel_before sobel_coarse SR_serial
+all:   SR_serial
 
 # sobel_before:	sobel_before.o
 # 		$(CC) -o sobel_before sobel_before.o $(LFLAGS)
@@ -19,15 +19,15 @@ all:   sobel_fine
 # 		$(CC) $(CFLAGS) -c sobel_coarse.c
 
 
-sobel_fine:	sobel_fine.o
-		$(CC) -o sobel_fine sobel_fine.o $(LFLAGS)
+SR_serial:	SR_serial.o
+		$(CC) -o SR_serial SR_serial.o $(LFLAGS)
 
-sobel_fine.o:	sobel_fine.c
-		$(CC) $(CFLAGS) -c sobel_fine.c
+SR_serial.o:	SR_serial.c
+		$(CC) $(CFLAGS) -c SR_serial.c
 
 clean:
-	      #  rm -f *~ *.o sobel_coarse sobel_fine sobel_before out.jpg
-				 rm -f *~ *.o sobel_fine
+	      #  rm -f *~ *.o sobel_coarse SR_serial sobel_before out.jpg
+				 rm -f *~ *.o SR_serial
 
 
 # submit:

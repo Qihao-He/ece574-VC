@@ -1,6 +1,6 @@
-/* Example sobel code for ECE574 -- Fall 2015 */
-/* By Vince Weaver <vincent.weaver@maine.edu> */
-/* A C program that uses Simpson's Rule to compute PI. */
+/* By Qihao He <qi.he@maine.edu> */
+/* This program uses Simpson's Rule to compute PI */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -8,9 +8,20 @@
 #include <errno.h>
 #include <math.h>
 
-#include <jpeglib.h>
+#define n 50
 
-int main(int argc, char **argv) {
+double f (int i){
+	double x;
+	x=(double)i/(double)n;
+	return 4.0/(1.0+x*x);
+}
 
+int main(int argc, char *argv[]) {
+	double area;
+	int i;
+	area=f(0)-f(n);
+	for(i=1;i<=n/2;i++) area+=4.0*f(2*i-1)+2*f(2*i);
+	area/=(3.0*n);
+	printf("Approximation of pi: %13.11f\n",area);
 	return 0;
 }
