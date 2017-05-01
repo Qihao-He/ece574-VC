@@ -14,7 +14,7 @@
 /* True value of Pi from Wolfwww.wolframalpha.com */
 #define truePIvalue 3.1415926535897932384626433832795028841971693993751058209749445923
 
-double f (int i){
+double f(int i){
 	double x;
 	x=(double)i/(double)n;
 	return 4.0/(1.0+x*x);
@@ -31,6 +31,7 @@ int main(int argc, char *argv[]) {
 	printf("Approximation of pi: %13.64f\n",area);//print pi
 
 	/* Relative error in epsilon */
+	printf("epsilon is: %f\n",(double)epsilon);
 	Rerror=abs(area-(double)truePIvalue)/(double)epsilon;
 	printf("Relative error in epsilon is: %f\n",Rerror);
 	return 0;
