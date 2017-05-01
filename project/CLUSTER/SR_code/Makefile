@@ -30,5 +30,5 @@ clean:
 				 rm -f *~ *.o SR_serial
 
 
-# submit:
-# 	tar -czvf hw07_submit.tar.gz Makefile README *.c
+submit:
+	tar -czvf SR_submit.tar.gz Makefile README *.c
