@@ -8,7 +8,12 @@
 #include <errno.h>
 #include <math.h>
 
-#define n 1e9
+#define n 1e9 //iteration times
+
+/* True value of Pi from Wolfwww.wolframalpha.com */
+#define truePIvalue 3.1415926535897932384626433832795028841971693993751058209749
+44592307816406286208998628034825342117067982148086513282306647093844609550582231
+72535940812848111745028410270193852110555964462294895493038196442881097566593344
 
 double f (int i){
 	double x;
@@ -19,9 +24,15 @@ double f (int i){
 int main(int argc, char *argv[]) {
 	double area;
 	int i;
+	double Rerror;//Relative error
+
 	area=f(0)-f(n);
 	for(i=1;i<=n/2;i++) area+=4.0*f(2*i-1)+2*f(2*i);
 	area/=(3.0*n);
-	printf("Approximation of pi: %13.64f\n",area);
+	printf("Approximation of pi: %13.64f\n",area);//print pi
+
+	/* Relative error in epsilon */
+	Rerror=abs(area-(double)truePIvalue);
+	printf("Relative error in epsilon is: %f\n",Rerror)
 	return 0;
 }
