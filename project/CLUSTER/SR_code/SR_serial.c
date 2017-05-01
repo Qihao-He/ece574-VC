@@ -13,7 +13,7 @@
 
 /* True value of Pi from Wolfwww.wolframalpha.com */
 //64 data points after decimal point
-#define truePIvalue 3.1415926535897932384626433832795028841971693993751058209749445923
+#define truepivalue 3.1415926535897932384626433832795028841971693993751058209749445923
 
 double f(int i){
 	double x;
@@ -34,8 +34,8 @@ int main(int argc, char *argv[]) {
 
 	/* Relative error in epsilon */
 	// printf("epsilon is: %f\n",(double)epsilon);
-	Rerror=abs(area-(double)truePIvalue)/(double)epsilon;
-	error=abs(area-(double)truePIvalue);
+	Rerror=abs(area-(double)truepivalue)/(double)epsilon;
+	error=abs(area-(double)truepivalue);
 	printf("Relative error in epsilon is: %13.64f\n",Rerror);
 	printf("error is: %13.64f\n",error);
 	return 0;
