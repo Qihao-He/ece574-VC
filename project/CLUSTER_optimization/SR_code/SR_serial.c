@@ -1,6 +1,6 @@
 /* Example sobel code for ECE574 -- Fall 2015 */
 /* By Vince Weaver <vincent.weaver@maine.edu> */
-
+/* A C program that uses Simpson's Rule to compute PI. */
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
