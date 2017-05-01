@@ -23,6 +23,19 @@ double f(int i){
 
 int main(int argc, char *argv[]) {
 
+	double area;
+	double i;
+	double Rerror;//Relative error
+	double error;
+	double start_time,load_time=0,store_time,convolve_time=0,combine_time;
+	int numtasks,rank;//# of tasks, rank index
+
+	/* Check command line usage */
+	if (argc<2) {
+		fprintf(stderr,"Usage: %s image_file\n",argv[0]);
+		return -1;
+	}
+
 	/* Initialize MPI */
 	result = MPI_Init(&argc,&argv);
 	if (result != MPI_SUCCESS) {
@@ -42,8 +55,6 @@ int main(int argc, char *argv[]) {
 	printf("R%d: Number of tasks= %d My rank= %d\n",
 		rank,numtasks,rank);
 
-/* Reading the image from all nodes rather than just rank 0 */
-		load_jpeg(argv[1],&image);
 
 		load_time=MPI_Wtime();
 
