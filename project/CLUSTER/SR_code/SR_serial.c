@@ -8,7 +8,7 @@
 #include <errno.h>
 #include <math.h>
 
-#define n 1e7
+#define n 1e9
 
 double f (int i){
 	double x;
