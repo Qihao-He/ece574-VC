@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
-#include <errno.h>
+// #include <errno.h>
 #include <math.h>
 
 #define n 1e8 //iteration times
