@@ -12,6 +12,7 @@
 #define epsilon 2.220446e-16//epsilon
 
 /* True value of Pi from Wolfwww.wolframalpha.com */
+//64 data points after decimal point
 #define truePIvalue 3.1415926535897932384626433832795028841971693993751058209749445923
 
 double f(int i){
