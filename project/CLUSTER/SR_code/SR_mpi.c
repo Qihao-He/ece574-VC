@@ -1,5 +1,5 @@
-/* Example sobel code for ECE574 -- Fall 2015 */
-/* By Vince Weaver <vincent.weaver@maine.edu> */
+/* By Qihao He <qi.he@maine.edu> */
+/* This program uses Simpson's Rule to compute PI */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -7,13 +7,21 @@
 #include <stdint.h>
 #include <errno.h>
 #include <math.h>
-
-#include <jpeglib.h>
-
 #include <mpi.h>
-#define ARRAYSIZE 3//image.x, image.y,image.depth are the 3 element of the array
 
-int main(int argc, char **argv) {
+#define n 1e8 //iteration times
+#define epsilon 2.220446e-16//epsilon
+
+/* True value of Pi from Wolfwww.wolframalpha.com */
+#define truePIvalue 3.1415926535897932384626433832795028841971693993751058209749445923
+
+double f(int i){
+	double x;
+	x=(double)i/(double)n;
+	return 4.0/(1.0+x*x);
+}
+
+int main(int argc, char *argv[]) {
 
 	/* Initialize MPI */
 	result = MPI_Init(&argc,&argv);

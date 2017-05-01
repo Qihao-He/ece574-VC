@@ -24,6 +24,7 @@ int main(int argc, char *argv[]) {
 	double area;
 	int i;
 	double Rerror;//Relative error
+	double error;
 
 	area=f(0)-f(n);
 	for(i=1;i<=n/2;i++) area+=4.0*f(2*i-1)+2*f(2*i);
@@ -31,8 +32,10 @@ int main(int argc, char *argv[]) {
 	printf("Approximation of pi: %13.64f\n",area);//print pi
 
 	/* Relative error in epsilon */
-	printf("epsilon is: %f\n",(double)epsilon);
+	// printf("epsilon is: %f\n",(double)epsilon);
 	Rerror=abs(area-(double)truePIvalue)/(double)epsilon;
-	printf("Relative error in epsilon is: %f\n",Rerror);
+	error=abs(area-(double)truePIvalue);
+	printf("Relative error in epsilon is: %1.64f\n",Rerror);
+	printf("error is: %1.64f\n",error);
 	return 0;
 }
