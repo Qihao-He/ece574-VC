@@ -69,6 +69,9 @@ int main(int argc, char *argv[]) {
 		/* kernel */
 // rank*image.y/numtasks;//rank*(size_img)
 // (rank+1)*image.y/numtasks;//(rank+1)*(size_img)/numtasks
+/* Only at rank 0 */
+
+/* Send xstart and xend (array) to other nodes*/
 
 
 
