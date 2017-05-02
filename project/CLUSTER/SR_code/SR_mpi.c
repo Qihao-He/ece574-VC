@@ -28,6 +28,7 @@ int main(int argc, char *argv[]) {
 	double i;
 	double Rerror;//Relative error
 	double error;
+	
 	//count
 	//receive buffer, send buffer
 
