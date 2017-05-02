@@ -39,6 +39,7 @@ int main(int argc, char *argv[]) {
 	// long double truepivalue=3.141592653589793;
 
 	area=SR_f(0,1);//SR_f(start, end)
+	area/=(3.0*n);
 
 	printf("Appr pi: %13.15f\n",area);//print Approximate pi
 	printf("True pi: %13.15f\n",truepivalue);//true value of pi
