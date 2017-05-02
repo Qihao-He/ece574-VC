@@ -10,10 +10,11 @@
 #include <mpi.h>
 
 #define n 1e8 //iteration times
-#define epsilon 2.220446e-16//epsilon
+// #define epsilon 2.220446e-16//epsilon
+#define epsilon 1e-17//epsilon
 
 /* True value of Pi from Wolfwww.wolframalpha.com */
-#define truepivalue 3.1415926535897932384626433832795028841971693993751058209749445923
+#define truepivalue 3.14159265358979323
 
 double f(int i){
 	double x;
