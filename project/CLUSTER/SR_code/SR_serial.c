@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
 	// printf("epsilon is: %f\n",(double)epsilon);
 	Rerror=abs(area-(double)truepivalue)/(double)epsilon;
 	error=abs(area-(double)truepivalue);
-	printf("Relative error in epsilon is: %13.17f\n",Rerror);
-	printf("error is: %13.17f\n",error);
+	printf("Relative error in epsilon is: %f\n",Rerror);
+	printf("error is: %f\n",error);
 	return 0;
 }
