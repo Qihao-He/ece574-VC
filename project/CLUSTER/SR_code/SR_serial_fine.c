@@ -17,7 +17,7 @@
 #define truepivalue 3.141592653589793
 
 double SR_f(double start, double end){
-	double x;
+	double x,y;
 	double temp1,temp2;
 	double area=0;
 	int i;
@@ -33,11 +33,12 @@ double SR_f(double start, double end){
 }
 
 int main(int argc, char *argv[]) {
+	double area;
 	double Rerror;//Relative error
 	double error;
 	// long double truepivalue=3.141592653589793;
 
-	SR_f(0,1);//SR_f(start, end)
+	area=SR_f(0,1);//SR_f(start, end)
 
 	printf("Appr pi: %13.15f\n",area);//print Approximate pi
 	printf("True pi: %13.15f\n",truepivalue);//true value of pi
