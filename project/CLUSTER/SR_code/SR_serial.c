@@ -15,7 +15,7 @@
 //64 data points after decimal point
 #define truepivalue 3.1415926535897932384626433832795028841971693993751058209749445923
 
-double f(int i){
+double f(double i){
 	double x;
 	x=(double)i/(double)n;
 	return 4.0/(1.0+x*x);
