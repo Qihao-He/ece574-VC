@@ -41,8 +41,7 @@ int main(int argc, char *argv[]) {
 	//count
 	//receive buffer, send buffer
 	/* measure time */
-	double start_time,convolve_time,combine_time;
-
+	double start_time,convolve_start,convolve_end,reduce_start,reduce_end;
 	int numtasks,rank;//# of tasks, rank index
 
 	/* Check command line usage */
@@ -65,16 +64,7 @@ int main(int argc, char *argv[]) {
 
 	/* Get number of tasks and our process number (rank) */
 	MPI_Comm_size(MPI_COMM_WORLD,&numtasks);//number os tasks
-	MPI_Comm_rank(MPI_COMM_WORLD,&rank);//process number(rank)
-
-	printf("R%d: Number of tasks= %d My rank= %d\n",
-		rank,numtasks,rank);
-
-	convolve_start=MPI_Wtime();
-	/* Each rank should work on part of the image ranging form ystart to yend. */
-	// SR_f(start, end);//Call SR_f function
-	sum=SR_f(rank*n/numtasks, (rank+1)*n/numtasks);//Call SR_f function
-	convolve_end=MPI_Wtime();
+	MPI_Comm_rank(MPI_COMM_WORLD,&rank)	total
 
 	reduce_start=MPI_Wtime();
 	/* MPI_reduce */
@@ -86,7 +76,9 @@ int main(int argc, char *argv[]) {
 		0,		/* root */
 		MPI_COMM_WORLD);
 
-	total_sum/=(3.0*n);
+	if(rank==0){
+		total_sum/=(3.0*n);
+	}
 	reduce_end=MPI_Wtime();
 
 	/* print result on rank 0 */
