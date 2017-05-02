@@ -13,7 +13,7 @@
 
 /* True value of Pi from Wolfwww.wolframalpha.com */
 //64 data points after decimal point
-#define truepivalue 3.1415926535897932384626433832795028841971693993751058209749445923
+// #define truepivalue 3.1415926535897932384626433832795028841971693993751058209749445923
 
 double f(int i){
 	double x;
@@ -26,6 +26,7 @@ int main(int argc, char *argv[]) {
 	int i;
 	double Rerror;//Relative error
 	double error;
+	double truepivalue=3.1415926535897932384626433832795028841971693993751058209749445923;
 
 	area=f(0)-f(n);
 	for(i=1;i<=n/2;i++) area+=4.0*f(2*i-1)+2*f(2*i);
