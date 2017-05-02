@@ -27,6 +27,8 @@ int main(int argc, char *argv[]) {
 	double i;
 	double Rerror;//Relative error
 	double error;
+	//count
+	//receive buffer, send buffer
 
 	double start_time,load_time=0,store_time,convolve_time=0,combine_time;
 
@@ -56,6 +58,12 @@ int main(int argc, char *argv[]) {
 
 	printf("R%d: Number of tasks= %d My rank= %d\n",
 		rank,numtasks,rank);
+
+	MPI_Bcast(image.pixels,	/* buffer */
+		arraysize_image,			/* count */
+		MPI_CHAR,							/* type */
+		0,										/* root source */
+		MPI_COMM_WORLD);
 
 		/* kernel */
 
