@@ -26,7 +26,7 @@ double SR_f(double start, double end){
 		x=(double)(2*i-1)/(double)n;
 		temp1= 4.0/(1.0+x*x);
 		y=(double)(2*i)/(double)n;
-		temp2= 4.0/(1.0+x*x);
+		temp2= 4.0/(1.0+y*y);
 		area+= 4.0*temp1+2*temp2;
 	}
 	return area;
