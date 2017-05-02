@@ -11,13 +11,13 @@
 
 #define n 1e8 //iteration times
 // #define epsilon 2.220446e-16//epsilon
-#define epsilon 1e-17//epsilon
+#define epsilon 1e-15//epsilon
 
 /* True value of Pi from Wolfwww.wolframalpha.com */
 #define truepivalue 3.14159265358979323
 
-double SR_f(int i,double start, double end){
-	double x;
+double SR_f(double start, double end){
+	double x,y;
 	double temp1,temp2;
 	double area=0;
 	int i;
@@ -26,7 +26,7 @@ double SR_f(int i,double start, double end){
 		x=(double)(2*i-1)/(double)n;
 		temp1= 4.0/(1.0+x*x);
 		y=(double)(2*i)/(double)n;
-		temp2= 4.0/(1.0+x*x);
+		temp2= 4.0/(1.0+y*y);
 		area+= 4.0*temp1+2*temp2;
 	}
 	return area;
@@ -35,13 +35,12 @@ double SR_f(int i,double start, double end){
 int main(int argc, char *argv[]) {
 
 	double area;
-	int i;
 	double Rerror;//Relative error
 	double error;
 
 	//count
 	//receive buffer, send buffer
-
+	/* measure time */
 	double start_time,load_time=0,store_time,convolve_time=0,combine_time;
 
 	int numtasks,rank;//# of tasks, rank index
@@ -71,36 +70,21 @@ int main(int argc, char *argv[]) {
 	printf("R%d: Number of tasks= %d My rank= %d\n",
 		rank,numtasks,rank);
 
+	/* Each rank should work on part of the image ranging form ystart to yend. */
+	// SR_f(start, end);//Call SR_f function
+	SR_f(rank*n/numtasks, (rank+1)*n/numtasks);//Call SR_f function
 
-
-
-	MPI_Bcast(image.pixels,	/* buffer */
-		arraysize_image,			/* count */
-		MPI_CHAR,							/* type */
-		0,										/* root source */
+	/* Use MPI_Gather() to gather results in rank 0 */
+	MPI_Gather(sobel_y.pixels,	/* send buffer */
+		arraysize_image/numtasks,	/* count */
+		MPI_CHAR,									/* type */
+		gather_sobel_y,						/* receive buffer */
+		arraysize_image/numtasks,	/* count */
+		MPI_CHAR,									/* type */
+		0,												/* root source */
 		MPI_COMM_WORLD);
 
-		/* kernel */
-	/* Each rank should work on part of the image ranging form ystart to yend. */
-	rank*image.y/numtasks;//rank*(size_img)
-	(rank+1)*image.y/numtasks;//(rank+1)*(size_img)/numtasks
-	// SR_f(i,start, end);//Call SR_f function
-	SR_f(i, rank*image.y/numtasks, (rank+1)*image.y/numtasks);//Call SR_f function
-
-
-
-
-/* Use MPI_Gather() to gather results in rank 0 */
-MPI_Gather(sobel_y.pixels,	/* send buffer */
-	arraysize_image/numtasks,	/* count */
-	MPI_CHAR,									/* type */
-	gather_sobel_y,						/* receive buffer */
-	arraysize_image/numtasks,	/* count */
-	MPI_CHAR,									/* type */
-	0,												/* root source */
-	MPI_COMM_WORLD);
-
-/* MPI_Finalize at the end */
-MPI_Finalize();
-return 0;
+	/* MPI_Finalize at the end */
+	MPI_Finalize();
+	return 0;
 }
