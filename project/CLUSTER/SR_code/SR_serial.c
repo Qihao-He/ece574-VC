@@ -30,7 +30,8 @@ int main(int argc, char *argv[]) {
 	area=f(0)-f(n);
 	for(i=1;i<=n/2;i++) area+=4.0*f(2*i-1)+2*f(2*i);
 	area/=(3.0*n);
-	printf("Appr pi: %13.64f\n",area);//print pi
+
+	printf("Appr pi: %13.64f\n",area);//print Approximate pi
 	printf("True pi: %13.64f\n",truepivalue);//true value of pi
 
 	/* Relative error in epsilon */
