@@ -74,16 +74,20 @@ int main(int argc, char *argv[]) {
 	// SR_f(start, end);//Call SR_f function
 	SR_f(rank*n/numtasks, (rank+1)*n/numtasks);//Call SR_f function
 
-	/* Use MPI_Gather() to gather results in rank 0 */
-	MPI_Gather(sobel_y.pixels,	/* send buffer */
-		arraysize_image/numtasks,	/* count */
-		MPI_CHAR,									/* type */
-		gather_sobel_y,						/* receive buffer */
-		arraysize_image/numtasks,	/* count */
-		MPI_CHAR,									/* type */
-		0,												/* root source */
+	/* MPI_reduce */
+	MPI_Reduce(&sum,	/* send data */
+		&total_sum,	/* receive data */
+		1,		/* count */
+		MPI_INT,	/* type */
+		MPI_SUM,	/* reduce type */
+		0,		/* root */
 		MPI_COMM_WORLD);
 
+
+	/* print result on rank 0 */
+	if(rank==0){
+		printf("Rank%d: Total: %d\n",rank,total_sum);
+	}
 	/* MPI_Finalize at the end */
 	MPI_Finalize();
 	return 0;
