@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
 	//count
 	//receive buffer, send buffer
 	/* measure time */
-	double start_time,load_time=0,store_time,convolve_time=0,combine_time;
+	double start_time,convolve_time,combine_time;
 
 	int numtasks,rank;//# of tasks, rank index
 
@@ -70,10 +70,13 @@ int main(int argc, char *argv[]) {
 	printf("R%d: Number of tasks= %d My rank= %d\n",
 		rank,numtasks,rank);
 
+	convolve_start=MPI_Wtime();
 	/* Each rank should work on part of the image ranging form ystart to yend. */
 	// SR_f(start, end);//Call SR_f function
 	sum=SR_f(rank*n/numtasks, (rank+1)*n/numtasks);//Call SR_f function
+	convolve_end=MPI_Wtime();
 
+	reduce_start=MPI_Wtime();
 	/* MPI_reduce */
 	MPI_Reduce(&sum,	/* send data */
 		&total_sum,	/* receive data */
@@ -84,11 +87,17 @@ int main(int argc, char *argv[]) {
 		MPI_COMM_WORLD);
 
 	total_sum/=(3.0*n);
+	reduce_end=MPI_Wtime();
 
 	/* print result on rank 0 */
 	if(rank==0){
 		printf("Rank%d: Total: %d\n",rank,total_sum);
+		printf("Load time: %lf\n",convolve_start-start_time);
+		printf("Convolve time: %lf\n",convolve_end-convolve_start);
+		printf("Reduce time: %lf\n",reduce_end-reduce_start);
+		printf("Total time = %lf\n",reduce_end-start_time);
 	}
+
 	/* MPI_Finalize at the end */
 	MPI_Finalize();
 	return 0;
