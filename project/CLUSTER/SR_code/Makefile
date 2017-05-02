@@ -3,7 +3,7 @@ CFLAGS = -O2 -Wall -g
 LFLAGS = -ljpeg -lm
 
 # all:   sobel_before sobel_coarse SR_serial
-all:   SR_serial
+all:   SR_serial SR_mpi SR_serial_fine
 
 # sobel_before:	sobel_before.o
 # 		$(CC) -o sobel_before sobel_before.o $(LFLAGS)
@@ -32,8 +32,15 @@ SR_mpi:	SR_mpi.o
 SR_mpi.o:	SR_mpi.c
 		$(CC) $(CFLAGS) -c SR_mpi.c
 
+
+SR_serial_fine:	SR_serial_fine.o
+		$(CC) -o SR_serial_fine SR_serial_fine.o $(LFLAGS)
+
+SR_serial_fine.o:	SR_serial_fine.c
+		$(CC) $(CFLAGS) -c SR_serial_fine.c
+
 clean:   #  rm -f *~ *.o sobel_coarse SR_serial sobel_before out.jpg
-				 rm -f *~ *.o SR_serial SR_mpi
+				 rm -f *~ *.o SR_serial SR_mpi SR_serial_fine
 
 
 submit:
