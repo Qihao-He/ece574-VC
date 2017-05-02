@@ -2,8 +2,7 @@ CC = mpicc
 CFLAGS = -O2 -Wall -g
 LFLAGS = -ljpeg -lm
 
-all:   SR_serial SR_serial_fine
-	SR_mpi
+all:   SR_serial SR_serial_fine	SR_mpi
 
 SR_serial:	SR_serial.o
 		$(CC) -o SR_serial SR_serial.o $(LFLAGS)
