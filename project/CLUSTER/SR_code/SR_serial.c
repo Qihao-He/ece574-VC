@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
 	area/=(3.0*n);
 
 	printf("Appr pi: %13.64f\n",area);//print Approximate pi
-	printf("True pi: %13.64f\n",truepivalue);//true value of pi
+	printf("True pi: %13.64Lf\n",truepivalue);//true value of pi
 
 	/* Relative error in epsilon */
 	// printf("epsilon is: %f\n",(double)epsilon);
