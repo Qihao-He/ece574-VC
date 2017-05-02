@@ -34,7 +34,7 @@ double SR_f(double start, double end){
 
 int main(int argc, char *argv[]) {
 
-	double area;
+	double sum=0.total_sum=0;
 	double Rerror;//Relative error
 	double error;
 
@@ -72,7 +72,7 @@ int main(int argc, char *argv[]) {
 
 	/* Each rank should work on part of the image ranging form ystart to yend. */
 	// SR_f(start, end);//Call SR_f function
-	SR_f(rank*n/numtasks, (rank+1)*n/numtasks);//Call SR_f function
+	sum=SR_f(rank*n/numtasks, (rank+1)*n/numtasks);//Call SR_f function
 
 	/* MPI_reduce */
 	MPI_Reduce(&sum,	/* send data */
@@ -83,6 +83,7 @@ int main(int argc, char *argv[]) {
 		0,		/* root */
 		MPI_COMM_WORLD);
 
+	total_sum/=(3.0*n);
 
 	/* print result on rank 0 */
 	if(rank==0){
