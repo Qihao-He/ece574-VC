@@ -3,7 +3,8 @@ CFLAGS = -O2 -Wall -g
 LFLAGS = -ljpeg -lm
 
 # all:   sobel_before sobel_coarse SR_serial
-all:   SR_serial SR_mpi SR_serial_fine
+all:   SR_serial SR_serial_fine
+	# SR_mpi
 
 # sobel_before:	sobel_before.o
 # 		$(CC) -o sobel_before sobel_before.o $(LFLAGS)
