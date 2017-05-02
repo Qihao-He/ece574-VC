@@ -64,7 +64,9 @@ int main(int argc, char *argv[]) {
 
 	/* Get number of tasks and our process number (rank) */
 	MPI_Comm_size(MPI_COMM_WORLD,&numtasks);//number os tasks
-	MPI_Comm_rank(MPI_COMM_WORLD,&rank)	total
+	MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+
+	sum=SR_f(rank*n/numtasks,(rank+1)*n/numtasks);
 
 	reduce_start=MPI_Wtime();
 	/* MPI_reduce */
