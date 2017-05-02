@@ -16,19 +16,29 @@
 /* True value of Pi from Wolfwww.wolframalpha.com */
 #define truepivalue 3.14159265358979323
 
-double f(int i){
+double SR_f(int i,double start, double end){
 	double x;
-	x=(double)i/(double)n;
-	return 4.0/(1.0+x*x);
+	double temp1,temp2;
+	double area=0;
+	int i;
+
+	for(i=1;i<=n/2;i++){
+		x=(double)(2*i-1)/(double)n;
+		temp1= 4.0/(1.0+x*x);
+		y=(double)(2*i)/(double)n;
+		temp2= 4.0/(1.0+x*x);
+		area+= 4.0*temp1+2*temp2;
+	}
+	return area;
 }
 
 int main(int argc, char *argv[]) {
 
 	double area;
-	double i;
+	int i;
 	double Rerror;//Relative error
 	double error;
-	
+
 	//count
 	//receive buffer, send buffer
 
@@ -61,6 +71,9 @@ int main(int argc, char *argv[]) {
 	printf("R%d: Number of tasks= %d My rank= %d\n",
 		rank,numtasks,rank);
 
+
+
+
 	MPI_Bcast(image.pixels,	/* buffer */
 		arraysize_image,			/* count */
 		MPI_CHAR,							/* type */
@@ -68,12 +81,11 @@ int main(int argc, char *argv[]) {
 		MPI_COMM_WORLD);
 
 		/* kernel */
-// rank*image.y/numtasks;//rank*(size_img)
-// (rank+1)*image.y/numtasks;//(rank+1)*(size_img)/numtasks
-/* Only at rank 0 */
-
-/* Send xstart and xend (array) to other nodes*/
-
+	/* Each rank should work on part of the image ranging form ystart to yend. */
+	rank*image.y/numtasks;//rank*(size_img)
+	(rank+1)*image.y/numtasks;//(rank+1)*(size_img)/numtasks
+	// SR_f(i,start, end);//Call SR_f function
+	SR_f(i, rank*image.y/numtasks, (rank+1)*image.y/numtasks);//Call SR_f function
 
 
 
