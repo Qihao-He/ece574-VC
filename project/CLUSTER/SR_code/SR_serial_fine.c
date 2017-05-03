@@ -19,7 +19,7 @@
 double SR_f(double start, double end){
 	double x,y;
 	double temp1,temp2;
-	double area=0;
+	double sum=0;
 	int i;
 
 	for(i=start;i<=end/2;i++){
@@ -27,13 +27,13 @@ double SR_f(double start, double end){
 		temp1= 4.0/(1.0+x*x);
 		y=(double)(2*i)/(double)n;
 		temp2= 4.0/(1.0+y*y);
-		area+= 4.0*temp1+2*temp2;
+		sum+= 4.0*temp1+2*temp2;
 	}
-	return area;
+	return sum;
 }
 
 int main(int argc, char *argv[]) {
-	double area;
+	double total_sum;
 	double Rerror;//Relative error
 	double error;
 	double temp1,temp2;
@@ -41,20 +41,20 @@ int main(int argc, char *argv[]) {
 
 	temp1=(double)0/(double)n;
 	temp2=(double)n/(double)n;
-	area=4.0/(1+temp1*temp1)-4.0/(1+temp2*temp2);
+	total_sum=4.0/(1+temp1*temp1)-4.0/(1+temp2*temp2);
 
-	area+=SR_f(1,n);//SR_f(start, end)
+	total_sum+=SR_f(1,n);//SR_f(start, end)
 
-	area/=(3.0*n);
+	total_sum/=(3.0*n);
 
-	printf("Appr pi: %13.15f\n",area);//print Approximate pi
+	printf("Appr pi: %13.15f\n",total_sum);//print Approximate pi
 	printf("True pi: %13.15f\n",truepivalue);//true value of pi
 	printf("Epsilon: %1.15f\n",epsilon);//epsilon
 
 	/* Relative error in epsilon */
 	// printf("epsilon is: %f\n",(double)epsilon);
-	Rerror=abs(area-(double)truepivalue)/(double)epsilon;
-	error=abs(area-(double)truepivalue);
+	Rerror=abs(total_sum-(double)truepivalue)/(double)epsilon;
+	error=abs(total_sum-(double)truepivalue);
 	printf("Relative error in epsilon is: %f\n",Rerror);
 	printf("error is: %f\n",error);
 	return 0;
