@@ -34,7 +34,8 @@ double SR_f(double start, double end){
 
 int main(int argc, char *argv[]) {
 
-	double sum=0.total_sum=0;
+	double sum=0;
+	double total_sum=0;
 	double Rerror;//Relative error
 	double error;
 
