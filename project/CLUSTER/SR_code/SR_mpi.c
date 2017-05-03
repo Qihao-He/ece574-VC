@@ -9,7 +9,7 @@
 #include <math.h>
 #include <mpi.h>
 
-#define n 100 //iteration times
+#define n 1e8 //iteration times
 // #define epsilon 2.220446e-16//epsilon
 #define epsilon 1e-15//epsilon
 
