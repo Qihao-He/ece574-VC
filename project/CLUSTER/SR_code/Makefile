@@ -22,8 +22,9 @@ SR_mpi:	SR_mpi.o
 SR_mpi.o:	SR_mpi.c
 		$(CC) $(CFLAGS) -c SR_mpi.c
 
-clean:   -f *~ *.o SR_serial SR_mpi SR_serial_fine
+clean:
+	rm -f *~ *.o SR_serial SR_mpi SR_serial_fine
 
 
 submit:
-	tar -czvf SR_submit.tar.gz SR_serial.c SR_mpi.c Makefile README *.c
+	tar -czvf SR_project.tar.gz Makefile README *.c
