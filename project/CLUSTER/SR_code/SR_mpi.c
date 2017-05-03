@@ -40,8 +40,6 @@ int main(int argc, char *argv[]) {
 	double error;
 	int result;
 
-	//count
-	//receive buffer, send buffer
 	/* measure time */
 	double start_time,convolve_start,convolve_end,reduce_start,reduce_end;
 	int numtasks,rank;//# of tasks, rank index
