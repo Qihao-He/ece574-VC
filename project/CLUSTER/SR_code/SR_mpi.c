@@ -9,7 +9,7 @@
 #include <math.h>
 #include <mpi.h>
 
-#define n 1e8 //iteration times
+#define n 100 //iteration times
 // #define epsilon 2.220446e-16//epsilon
 #define epsilon 1e-15//epsilon
 
@@ -22,7 +22,7 @@ double SR_f(int rank,double start,double end){
 	double area=0;
 	int i;
 
-	for(i=start;i<=end/2;i++){
+	for(i=start;i<=end;i++){
 		x=(double)(2*i-1)/(double)n;
 		temp1= 4.0/(1.0+x*x);
 		y=(double)(2*i)/(double)n;
@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
 		total_sum=4.0/(1+temp1*temp1)-4.0/(1+temp2*temp2);
 	}
 
-	sum=SR_f(rank,rank*n/numtasks+1,(rank+1)*n/numtasks);
+	sum=SR_f(rank,rank*n/2/numtasks+1,(rank+1)*n/2/numtasks);
 
 	convolve_end=MPI_Wtime();
 
