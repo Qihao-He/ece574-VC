@@ -16,7 +16,7 @@
 /* True value of Pi from Wolframalpha www.wolframalpha.com */
 #define truepivalue 3.14159265358979323
 
-double SR_f(double start, double end){
+double SR_f(int rank,double start,double end){
 	double x,y;
 	double temp1,temp2;
 	double area=0;
@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
 		total_sum=4.0/(1+temp1*temp1)-4.0/(1+temp2*temp2);
 	}
 
-	sum=SR_f(rank*n/numtasks+1,(rank+1)*n/numtasks);
+	sum=SR_f(rank,rank*n/numtasks+1,(rank+1)*n/numtasks);
 
 	convolve_end=MPI_Wtime();
 
