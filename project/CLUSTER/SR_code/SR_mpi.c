@@ -44,12 +44,6 @@ int main(int argc, char *argv[]) {
 	double start_time,convolve_start,convolve_end,reduce_start,reduce_end;
 	int numtasks,rank;//# of tasks, rank index
 
-	/* Check command line usage */
-	if (argc<2) {
-		fprintf(stderr,"Usage: %s image_file\n",argv[0]);
-		return -1;
-	}
-
 	/* Initialize MPI */
 	result = MPI_Init(&argc,&argv);
 	if (result != MPI_SUCCESS) {
