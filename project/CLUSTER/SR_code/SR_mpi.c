@@ -29,6 +29,7 @@ double SR_f(double start, double end){
 		temp2= 4.0/(1.0+y*y);
 		area+= 4.0*temp1+2*temp2;
 	}
+	printf("Rank:%d range from%f to %f,area:%d\n",rank,start,end/2,area);
 	return area;
 }
 
