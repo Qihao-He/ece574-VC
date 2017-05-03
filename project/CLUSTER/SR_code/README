@@ -215,7 +215,7 @@ thread:   EP:
 32        0.4084794586
 
 ================================================================================
-VW 24 nodes pi cluster
+VW 24 nodes PI2B+ cluster
 performance measure:
 job size: 1e9
 --------------------------------------------------------------------------------
@@ -429,11 +429,10 @@ Convolve time: 3.577836
 Reduce time: 0.023052
 Total time = 4.082200
 --------------------------------------------------------------------------------
-Serial code on PI
+Serial code on VW 24 nodes PI2B+ cluster
 real	1m17.973s
 
 Convolve time:
-serial code convolve time: 8.367s
 thread:   convolve time:
 1         100.859031
 2         50.074105
@@ -464,10 +463,222 @@ thread:   EP:
 28        1.0067840589
 
 ================================================================================
+Kent, Nick, Maxx 4 nodes pi3 cluster
+job size 1e9
+--------------------------------------------------------------------------------
+1 thread:
+time mpirun -f ~/machinefile -n 1 ./SR_mpi
+Rank0,total_sum:2.000000
+Rank0 range from 1 to 500000000,area:9424777958.770544
+Rank0:
+Appr pi: 3.141592652923515
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
+Load time: 0.000067
+Convolve time: 44.685984
+Reduce time: 0.000069
+Total time = 44.686184
+
+real	0m44.728s
+user	0m44.690s
+sys	0m0.030s
+--------------------------------------------------------------------------------
+2 threads:
+$ time mpirun -f ~/machinefile -n 2 ./SR_mpi
+Rank0,total_sum:2.000000
+Rank1 range from 250000001 to 500000000,area:3861006651.560257
+Rank0 range from 1 to 250000000,area:5563771307.210589
+Rank0:
+Appr pi: 3.141592652923616
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
+Load time: 0.000073
+Convolve time: 21.540989
+Reduce time: 0.000205
+Total time = 21.542840
+
+real	0m22.049s
+user	0m21.730s
+sys	0m0.020s
+--------------------------------------------------------------------------------
+4 threads:
+$ time mpirun -f ~/machinefile -n 4 ./SR_mpi
+Rank0,total_sum:2.000000
+Rank2 range from 250000001 to 375000000,area:2158241996.870094
+Rank1 range from 125000001 to 250000000,area:2624027349.922636
+Rank3 range from 375000001 to 500000000,area:1702764654.689917
+Rank0 range from 1 to 125000000,area:2939743957.287066
+Rank0:
+Appr pi: 3.141592652923237
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
+Load time: 0.000071
+Convolve time: 13.089581
+Reduce time: 0.001876
+Total time = 13.093834
+
+real	0m13.605s
+user	0m13.620s
+sys	0m0.030s
+
+--------------------------------------------------------------------------------
+$ time mpirun -f ~/machinefile -n 8 ./SR_mpi
+Rank0,total_sum:2.000000
+Rank6 range from 375000001 to 437500000,area:903946689.645615
+Rank3 range from 187500001 to 250000000,area:1258523264.456019
+Rank1 range from 62500001 to 125000000,area:1447484022.787563
+Rank2 range from 125000001 to 187500000,area:1365504085.466685
+Rank7 range from 437500001 to 500000000,area:798817965.044456
+Rank5 range from 312500001 to 375000000,area:1018821521.080551
+Rank0 range from 1 to 62500000,area:1492259934.499627
+Rank4 range from 250000001 to 312500000,area:1139420475.789528
+Rank0:
+Appr pi: 3.141592652923348
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
+Load time: 0.000078
+Convolve time: 8.786957
+Reduce time: 0.012842
+Total time = 8.859109
+
+real	0m9.374s
+user	0m18.160s
+sys	0m0.100s
+
+--------------------------------------------------------------------------------
+
+$ time mpirun -f ~/machinefile -n 16 ./SR_mpi
+Rank0,total_sum:2.000000
+Rank11 range from 343750001 to 375000000,area:494565151.743967
+Rank15 range from 468750001 to 500000000,area:386962589.094185
+Rank7 range from 218750001 to 250000000,area:614846008.683607
+Rank3 range from 93750001 to 125000000,area:715568557.474489
+Rank9 range from 281250001 to 312500000,area:554518260.231706
+Rank10 range from 312500001 to 343750000,area:524256369.336584
+Rank2 range from 62500001 to 93750000,area:731915465.312919
+Rank1 range from 31250001 to 62500000,area:743234214.563631
+Rank13 range from 406250001 to 437500000,area:438161336.818581
+Rank6 range from 187500001 to 218750000,area:643677255.772308
+Rank12 range from 375000001 to 406250000,area:465785352.826968
+Rank14 range from 437500001 to 468750000,area:411855375.950287
+Rank5 range from 156250001 to 187500000,area:670629622.609898
+Rank0 range from 1 to 31250000,area:749025719.935948
+Rank4 range from 125000001 to 156250000,area:694874462.856753
+Rank8 range from 250000001 to 281250000,area:584902215.557736
+Rank0:
+Appr pi: 3.141592652923189
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
+Load time: 0.000065
+Convolve time: 4.861245
+Reduce time: 0.001552
+Total time = 4.884060
+
+real	0m5.500s
+user	0m20.270s
+sys	0m0.110s
+--------------------------------------------------------------------------------
+
+$ time mpirun -f ~/machinefile -n 32 ./SR_mpi
+Rank0,total_sum:2.000000
+Rank14 range from 218750001 to 234375000,area:311113419.048866
+Rank18 range from 281250001 to 296875000,area:281061331.715540
+Rank12 range from 187500001 to 203125000,area:325343989.456538
+Rank5 range from 78125001 to 93750000,area:364214496.820504
+Rank11 range from 171875001 to 187500000,area:332095122.726843
+Rank3 range from 46875001 to 62500000,area:370538560.631396
+Rank23 range from 359375001 to 375000000,area:243621346.233064
+Rank27 range from 421875001 to 437500000,area:215707100.774998
+Rank30 range from 468750001 to 484375000,area:196502393.256160
+Rank15 range from 234375001 to 250000000,area:303732589.634754
+Rank6 range from 93750001 to 109375000,area:360116996.377700
+Rank7 range from 109375001 to 125000000,area:355451561.096870
+Rank25 range from 390625001 to 406250000,area:229362745.949341
+Rank29 range from 453125001 to 468750000,area:202726223.701837
+Rank31 range from 484375001 to 500000000,area:190460195.838008
+Rank19 range from 296875001 to 312500000,area:273456928.516180
+Rank26 range from 406250001 to 421875000,area:222454236.043577
+Rank1 range from 15625001 to 31250000,area:374147718.776612
+Rank20 range from 312500001 to 328125000,area:265884458.608794
+Rank17 range from 265625001 to 281250000,area:288666110.970974
+Rank10 range from 156250001 to 171875000,area:338534499.883091
+Rank8 range from 125000001 to 140625000,area:350265455.855635
+Rank21 range from 328125001 to 343750000,area:258371910.727801
+Rank9 range from 140625001 to 156250000,area:344609007.001093
+Rank13 range from 203125001 to 218750000,area:318333266.315775
+Rank16 range from 250000001 to 265625000,area:296236104.586757
+Rank4 range from 62500001 to 78125000,area:367700968.492384
+Rank28 range from 437500001 to 453125000,area:209129152.248406
+Rank24 range from 375000001 to 390625000,area:236422606.877636
+Rank22 range from 343750001 to 359375000,area:250943805.510512
+Rank2 range from 31250001 to 46875000,area:372695653.932290
+Rank0 range from 1 to 15625000,area:374878001.159316
+Rank0:
+Appr pi: 3.141592652923085
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
+Load time: 0.000054
+Convolve time: 5.361659
+Reduce time: 0.057049
+Total time = 5.429586
+
+real	0m6.165s
+user	0m22.220s
+sys	0m0.150s
+
+--------------------------------------------------------------------------------
+Serial code on Kent, Nick, Maxx 4 nodes pi3 cluster
+
+$ time mpirun -f ~/machinefile ./SR_serial_fine
+Appr pi: 3.141592653590181
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
+
+real	0m44.857s
+user	0m45.220s
+sys	0m0.030s
+real	1m17.973s
 
 
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
+Convolve time:
+thread:   convolve time:
+1         44.685984
+2         21.540989
+4         13.089581
+8         8.786957
+16        4.861245
+32        5.361659
+
+Speedup
+thread:   speedup:
+1         1
+2         2.0741851732
+4         3.4134018499
+8         5.0854902329
+16        9.192292098
+32        8.3343577053
+
+Parallel efficiency
+thread:   EP:
+1         1
+2         1.0370925866
+4         0.8533504625
+8         0.6356862791
+16        0.5745182561
+32        0.2604486783
+
 --------------------------------------------------------------------------------
