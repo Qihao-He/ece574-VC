@@ -387,6 +387,8 @@ Convolve time: 4.212755
 Reduce time: 0.014630
 Total time = 4.284662
 --------------------------------------------------------------------------------
+Serial code on PI
+real	1m17.973s
 
 Convolve time:
 serial code convolve time: 8.367s
