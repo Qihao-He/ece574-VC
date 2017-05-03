@@ -22,7 +22,7 @@ double SR_f(double start, double end){
 	double area=0;
 	int i;
 
-	for(i=start+1;i<=end/2;i++){
+	for(i=start;i<=end/2;i++){
 		x=(double)(2*i-1)/(double)n;
 		temp1= 4.0/(1.0+x*x);
 		y=(double)(2*i)/(double)n;
@@ -36,9 +36,15 @@ int main(int argc, char *argv[]) {
 	double area;
 	double Rerror;//Relative error
 	double error;
+	double temp1,temp2;
 	// long double truepivalue=3.141592653589793;
 
-	area=SR_f(0,1);//SR_f(start, end)
+	temp1=(double)0/(double)n;
+	temp2=(double)n/(double)n;
+	area=4.0/(1+temp1*temp1)-4.0/(1+temp2*temp2);
+
+	area+=SR_f(1,n);//SR_f(start, end)
+
 	area/=(3.0*n);
 
 	printf("Appr pi: %13.15f\n",area);//print Approximate pi
