@@ -22,7 +22,7 @@ double SR_f(double start, double end){
 	double area=0;
 	int i;
 
-	for(i=1;i<=n/2;i++){
+	for(i=start+1;i<=end/2;i++){
 		x=(double)(2*i-1)/(double)n;
 		temp1= 4.0/(1.0+x*x);
 		y=(double)(2*i)/(double)n;
