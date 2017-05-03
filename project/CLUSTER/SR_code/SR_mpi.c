@@ -68,7 +68,9 @@ int main(int argc, char *argv[]) {
 	MPI_Comm_size(MPI_COMM_WORLD,&numtasks);//number os tasks
 	MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
+	convolve_start=MPI_Wtime();
 	sum=SR_f(rank*n/numtasks,(rank+1)*n/numtasks);
+	convolve_end=MPI_Wtime();
 
 	reduce_start=MPI_Wtime();
 	/* MPI_reduce */
@@ -87,7 +89,17 @@ int main(int argc, char *argv[]) {
 
 	/* print result on rank 0 */
 	if(rank==0){
-		printf("Rank%d: Total: %d\n",rank,total_sum);
+		printf("Rank%d: Total: %f\n",rank,total_sum);
+		printf("True pi: %13.15f\n",truepivalue);//true value of pi
+		printf("Epsilon: %1.15f\n",epsilon);//epsilon
+
+		/* Relative error in epsilon */
+		// printf("epsilon is: %f\n",(double)epsilon);
+		Rerror=abs(area-(double)truepivalue)/(double)epsilon;
+		error=abs(area-(double)truepivalue);
+		printf("Relative error in epsilon is: %f\n",Rerror);
+		printf("error is: %f\n",error);
+
 		printf("Load time: %lf\n",convolve_start-start_time);
 		printf("Convolve time: %lf\n",convolve_end-convolve_start);
 		printf("Reduce time: %lf\n",reduce_end-reduce_start);
