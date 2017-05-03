@@ -5,8 +5,13 @@ usage:
 $sbatch -n X time_SR_mpi.sh
 X replace with the desired number of cores to compute.
 --------------------------------------------------------------------------------
+================================================================================
+Haswell machine
 performance measure:
 job size: 1e9
+--------------------------------------------------------------------------------
+Serial code on Haswell machine:
+
 --------------------------------------------------------------------------------
 1 thread:
 $ cat slurm.coarse.haswell-ep.1475.out
@@ -170,13 +175,169 @@ Load time: 0.000005
 Convolve time: 0.642813
 Reduce time: 0.000069
 Total time = 0.658833
+================================================================================
+VW pi cluster
+performance measure:
+job size: 1e9
+--------------------------------------------------------------------------------
+Serial code on PI
 
 --------------------------------------------------------------------------------
+1 threads:
+sbatch -n 1 time_SR_mpi.sh
+Submitted batch job 260
+$ cat slurm.coarse.pi-node00-0.260.out
+Rank0,total_sum:2.000000
+Rank0 range from 1 to 500000000,area:9424777958.770544
+Rank0:
+Appr pi: 3.141592652923515
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
+Load time: 0.011654
+Convolve time: 100.859031
+Reduce time: 0.013682
+Total time = 100.891081
 --------------------------------------------------------------------------------
+2 threads:
+$ sbatch -n 2 time_SR_mpi.sh
+Submitted batch job 261
+ece574-10@pi-cluster:~/ece574-VC/project/CLUSTER/SR_code$ cat slurm.coarse.pi-node00-0.261.out
+Rank0,total_sum:2.000000
+Rank0 range from 1 to 250000000,area:5563771307.210589
+Rank1 range from 250000001 to 500000000,area:3861006651.560257
+Rank0:
+Appr pi: 3.141592652923616
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
+Load time: 0.000083
+Convolve time: 50.074105
+Reduce time: 0.000266
+Total time = 50.447811
+
 --------------------------------------------------------------------------------
+4 threads:
+$ sbatch -n 4 time_SR_mpi.sh
+Submitted batch job 262
+ece574-10@pi-cluster:~/ece574-VC/project/CLUSTER/SR_code$ cat slurm.coarse.pi-node00-0.262.out
+Rank0,total_sum:2.000000
+Rank1 range from 125000001 to 250000000,area:2624027349.922636
+Rank2 range from 250000001 to 375000000,area:2158241996.870094
+Rank0 range from 1 to 125000000,area:2939743957.287066
+Rank3 range from 375000001 to 500000000,area:1702764654.689917
+Rank0:
+Appr pi: 3.141592652923237
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
+Load time: 0.000091
+Convolve time: 25.226250
+Reduce time: 0.000430
+Total time = 25.228446
+
 --------------------------------------------------------------------------------
+8 threads:
+$ sbatch -n 8 time_SR_mpi.sh
+Submitted batch job 263
+ece574-10@pi-cluster:~/ece574-VC/project/CLUSTER/SR_code$ cat slurm.coarse.pi-node00-0.263.out
+Rank0,total_sum:2.000000
+Rank2 range from 125000001 to 187500000,area:1365504085.466685
+Rank6 range from 375000001 to 437500000,area:903946689.645615
+Rank0 range from 1 to 62500000,area:1492259934.499627
+Rank7 range from 437500001 to 500000000,area:798817965.044456
+Rank1 range from 62500001 to 125000000,area:1447484022.787563
+Rank3 range from 187500001 to 250000000,area:1258523264.456019
+Rank5 range from 312500001 to 375000000,area:1018821521.080551
+Rank4 range from 250000001 to 312500000,area:1139420475.789528
+Rank0:
+Appr pi: 3.141592652923348
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
+Load time: 0.000108
+Convolve time: 12.580807
+Reduce time: 0.010414
+Total time = 12.691349
+
 --------------------------------------------------------------------------------
+16 threads:
+$ sbatch -n 16 time_SR_mpi.sh
+Submitted batch job 264
+ece574-10@pi-cluster:~/ece574-VC/project/CLUSTER/SR_code$ cat slurm.coarse.pi-node00-0.264.out
+Rank0,total_sum:2.000000
+Rank12 range from 375000001 to 406250000,area:465785352.826968
+Rank0 range from 1 to 31250000,area:749025719.935948
+Rank6 range from 187500001 to 218750000,area:643677255.772308
+Rank15 range from 468750001 to 500000000,area:386962589.094185
+Rank9 range from 281250001 to 312500000,area:554518260.231706
+Rank1 range from 31250001 to 62500000,area:743234214.563631
+Rank5 range from 156250001 to 187500000,area:670629622.609898
+Rank8 range from 250000001 to 281250000,area:584902215.557736
+Rank7 range from 218750001 to 250000000,area:614846008.683607
+Rank2 range from 62500001 to 93750000,area:731915465.312919
+Rank4 range from 125000001 to 156250000,area:694874462.856753
+Rank3 range from 93750001 to 125000000,area:715568557.474489
+Rank13 range from 406250001 to 437500000,area:438161336.818581
+Rank11 range from 343750001 to 375000000,area:494565151.743967
+Rank14 range from 437500001 to 468750000,area:411855375.950287
+Rank10 range from 312500001 to 343750000,area:524256369.336584
+Rank0:
+Appr pi: 3.141592652923190
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
+Load time: 0.000094
+Convolve time: 6.289296
+Reduce time: 0.014556
+Total time = 6.365056
+
 --------------------------------------------------------------------------------
+24 threads:
+$ sbatch -n 24 time_SR_mpi.sh
+Submitted batch job 265
+ece574-10@pi-cluster:~/ece574-VC/project/CLUSTER/SR_code$ cat slurm.coarse.pi-node00-0.265.out
+Rank0,total_sum:2.000000
+Rank8 range from 166666667 to 187500000,area:444241404.793982
+Rank1 range from 20833334 to 41666666,area:497983825.554050
+Rank20 range from 416666667 to 437500000,area:289100690.446485
+Rank3 range from 62500001 to 83333333,area:489524186.584088
+Rank10 range from 208333334 to 229166666,area:419653906.254662
+Rank2 range from 41666667 to 62500000,area:494565167.755581
+Rank6 range from 125000001 to 145833333,area:465785345.526474
+Rank11 range from 229166667 to 250000000,area:406623971.966188
+Rank9 range from 187500001 to 208333333,area:432245386.235138
+Rank22 range from 458333334 to 479166666,area:266130108.328015
+Rank18 range from 375000001 to 395833333,area:313654037.581327
+Rank0 range from 1 to 20833333,area:499710941.190002
+Rank14 range from 291666667 to 312500000,area:366298414.836192
+Rank13 range from 270833334 to 291666666,area:379820334.396973
+Rank7 range from 145833334 to 166666666,area:455477335.146197
+Rank19 range from 395833334 to 416666666,area:301191961.617743
+Rank5 range from 104166667 to 125000000,area:474999302.510739
+Rank23 range from 479166667 to 500000000,area:255280640.543926
+Rank4 range from 83333334 to 104166666,area:482960533.692763
+Rank21 range from 437500001 to 458333333,area:277407216.172442
+Rank17 range from 354166667 to 375000000,area:326450067.317082
+Rank15 range from 312500001 to 333333333,area:352839452.802421
+Rank16 range from 333333334 to 354166666,area:339532000.960529
+Rank12 range from 250000001 to 270833333,area:393301726.556275
+Rank0:
+Appr pi: 3.141592652923091
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
+Load time: 0.000093
+Convolve time: 4.212755
+Reduce time: 0.014630
+Total time = 4.284662
+
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
