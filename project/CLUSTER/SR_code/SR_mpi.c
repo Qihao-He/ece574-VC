@@ -95,8 +95,8 @@ int main(int argc, char *argv[]) {
 
 		/* Relative error in epsilon */
 		// printf("epsilon is: %f\n",(double)epsilon);
-		Rerror=abs(area-(double)truepivalue)/(double)epsilon;
-		error=abs(area-(double)truepivalue);
+		Rerror=abs(total_sum-(double)truepivalue)/(double)epsilon;
+		error=abs(total_sum-(double)truepivalue);
 		printf("Relative error in epsilon is: %f\n",Rerror);
 		printf("error is: %f\n",error);
 
