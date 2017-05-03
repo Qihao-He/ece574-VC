@@ -38,6 +38,7 @@ int main(int argc, char *argv[]) {
 	double total_sum=0;
 	double Rerror;//Relative error
 	double error;
+	int result;
 
 	//count
 	//receive buffer, send buffer
