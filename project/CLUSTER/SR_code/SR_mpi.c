@@ -16,7 +16,7 @@
 /* True value of Pi from Wolframalpha www.wolframalpha.com */
 #define truepivalue 3.14159265358979323
 
-double SR_f(int rank,double start,double end){
+double SR_f(int rank,int start,int end){
 	double x,y;
 	double temp1,temp2;
 	double area=0;
@@ -29,7 +29,7 @@ double SR_f(int rank,double start,double end){
 		temp2= 4.0/(1.0+y*y);
 		area+= 4.0*temp1+2*temp2;
 	}
-	printf("Rank%d range from %f to %f,area:%f\n",rank,start,end,area);
+	printf("Rank%d range from %d to %d,area:%f\n",rank,start,end,area);
 	return area;
 }
 
@@ -68,6 +68,7 @@ int main(int argc, char *argv[]) {
 		temp1=(double)0/(double)n;
 		temp2=(double)n/(double)n;
 		total_sum=4.0/(1+temp1*temp1)-4.0/(1+temp2*temp2);
+		printf("Rank%d,total_sum:%f\n",rank,total_sum);
 	}
 
 	sum=SR_f(rank,rank*n/2/numtasks+1,(rank+1)*n/2/numtasks);
