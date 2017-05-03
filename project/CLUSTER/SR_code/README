@@ -6,11 +6,21 @@ $sbatch -n X time_SR_mpi.sh
 X replace with the desired number of cores to compute.
 --------------------------------------------------------------------------------
 ================================================================================
-Haswell machine
+VW 32 nodes Haswell machine
 performance measure:
 job size: 1e9
 --------------------------------------------------------------------------------
 Serial code on Haswell machine:
+$ ./time_SR_serial_fine.sh
+Appr pi: 3.141592653590181
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
+
+real	0m8.367s
+user	0m8.360s
+sys	0m0.000s
 
 --------------------------------------------------------------------------------
 1 thread:
@@ -176,11 +186,21 @@ Convolve time: 0.642813
 Reduce time: 0.000069
 Total time = 0.658833
 ================================================================================
-VW pi cluster
+VW 24 nodes pi cluster
 performance measure:
 job size: 1e9
 --------------------------------------------------------------------------------
 Serial code on PI
+$ ./time_SR_serial_fine.sh
+Appr pi: 3.141592653590181
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
+
+real	1m17.973s
+user	1m17.930s
+sys	0m0.010s
 
 --------------------------------------------------------------------------------
 1 threads:
