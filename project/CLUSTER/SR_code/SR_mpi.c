@@ -9,7 +9,7 @@
 #include <math.h>
 #include <mpi.h>
 
-#define n 1e9 //iteration times
+#define n 1e8 //iteration times
 // #define epsilon 2.220446e-16//epsilon
 #define epsilon 1e-15//epsilon
 
@@ -39,6 +39,7 @@ int main(int argc, char *argv[]) {
 	double Rerror;//Relative error
 	double error;
 	int result;
+	double temp1,temp2;
 
 	/* measure time */
 	double start_time,convolve_start,convolve_end,reduce_start,reduce_end;
@@ -61,7 +62,15 @@ int main(int argc, char *argv[]) {
 	MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
 	convolve_start=MPI_Wtime();
-	sum=SR_f(rank*n/numtasks,(rank+1)*n/numtasks);
+	/* Only on rank 0 */
+	if(rank==0){
+		temp1=(double)0/(double)n;
+		temp2=(double)n/(double)n;
+		total_sum=4.0/(1+temp1*temp1)-4.0/(1+temp2*temp2);
+	}
+
+	sum=SR_f(rank*n/numtasks+1,(rank+1)*n/numtasks);
+
 	convolve_end=MPI_Wtime();
 
 	reduce_start=MPI_Wtime();
