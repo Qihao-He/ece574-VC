@@ -185,6 +185,28 @@ Load time: 0.000005
 Convolve time: 0.642813
 Reduce time: 0.000069
 Total time = 0.658833
+--------------------------------------------------------------------------------
+Convolve time:
+serial code convolve time: 8.367s
+thread:   convolve time:
+1         8.402429
+2         4.251305
+4         2.370677
+8         1.315111
+16        1.100724
+32        0.642813
+
+Speedup
+thread:   speedup:
+1         1
+2         1.976435236
+4
+8
+16
+32
+
+
+
 ================================================================================
 VW 24 nodes pi cluster
 performance measure:
