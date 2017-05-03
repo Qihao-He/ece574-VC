@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
 
 	/* print result on rank 0 */
 	if(rank==0){
-		printf("Rank%d:\n Appr pi: %13.15f\n",rank,total_sum);
+		printf("Rank%d:\nAppr pi: %13.15f\n",rank,total_sum);
 		printf("True pi: %13.15f\n",truepivalue);//true value of pi
 		printf("Epsilon: %1.15f\n",epsilon);//epsilon
 
