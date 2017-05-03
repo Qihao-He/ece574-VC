@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
 	MPI_Reduce(&sum,	/* send data */
 		&total_sum,	/* receive data */
 		1,		/* count */
-		MPI_INT,	/* type */
+		MPI_DOUBLE,	/* type */
 		MPI_SUM,	/* reduce type */
 		0,		/* root */
 		MPI_COMM_WORLD);
