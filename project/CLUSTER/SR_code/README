@@ -386,6 +386,48 @@ Load time: 0.000093
 Convolve time: 4.212755
 Reduce time: 0.014630
 Total time = 4.284662
+
+--------------------------------------------------------------------------------
+$ cat slurm.coarse.pi-node02-0.267.out
+Rank0,total_sum:2.000000
+Rank17 range from 303571429 to 321428571,area:308189106.329820
+Rank21 range from 375000001 to 392857142,area:269617530.223851
+Rank22 range from 392857143 to 410714285,area:260424226.313817
+Rank1 range from 17857143 to 35714285,area:427300228.745789
+Rank0 range from 1 to 17857142,area:428389331.601569
+Rank18 range from 321428572 to 339285714,area:298339940.057557
+Rank27 range from 482142858 to 500000000,area:218157782.579639
+Rank23 range from 410714286 to 428571428,area:251460195.314964
+Rank26 range from 464285715 to 482142857,area:226083611.441768
+Rank20 range from 357142858 to 375000000,area:279019475.906925
+Rank19 range from 339285715 to 357142857,area:288604138.558806
+Rank2 range from 35714286 to 53571428,area:425138497.838195
+Rank3 range from 53571429 to 71428571,area:421936586.904381
+Rank16 range from 285714286 to 303571428,area:318107286.175459
+Rank25 range from 446428572 to 464285714,area:234279854.813918
+Rank9 range from 160714286 to 178571428,area:384307921.078682
+Rank24 range from 428571429 to 446428571,area:242741454.002016
+Rank10 range from 178571429 to 196428571,area:375716110.212644
+Rank7 range from 125000001 to 142857142,area:399851931.453523
+Rank8 range from 142857143 to 160714285,area:392383462.613783
+Rank5 range from 89285715 to 107142857,area:412613729.147703
+Rank4 range from 71428572 to 89285714,area:417741620.981669
+Rank11 range from 196428572 to 214285714,area:366698046.361501
+Rank6 range from 107142858 to 125000000,area:406623962.067804
+Rank14 range from 250000001 to 267857142,area:337938787.778577
+Rank13 range from 232142858 to 250000000,area:347728728.948631
+Rank15 range from 267857143 to 285714285,area:328043262.062308
+Rank12 range from 214285715 to 232142857,area:357341149.253908
+Rank0:
+Appr pi: 3.141592652923069
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
+Load time: 0.008174
+Convolve time: 3.577836
+Reduce time: 0.023052
+Total time = 4.082200
 --------------------------------------------------------------------------------
 Serial code on PI
 real	1m17.973s
@@ -399,6 +441,7 @@ thread:   convolve time:
 8         12.580807
 16        6.289296
 24        4.212755
+28        3.577836
 
 Speedup
 thread:   speedup:
@@ -408,6 +451,7 @@ thread:   speedup:
 8         8.0168967698
 16        16.0366169759
 24        23.9413474081
+28        28.189953648
 
 Parallel efficiency
 thread:   EP:
@@ -417,6 +461,7 @@ thread:   EP:
 8         1.0021120962
 16        1.002288561
 24        0.997556142
+28        1.0067840589
 
 ================================================================================
 
