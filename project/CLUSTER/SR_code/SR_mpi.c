@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
 		total_sum=4.0/(1+temp1*temp1)-4.0/(1+temp2*temp2);
 		printf("Rank%d,total_sum:%f\n",rank,total_sum);
 	}
-s
+
 	sum=SR_f(rank,rank*n/2/numtasks+1,(rank+1)*n/2/numtasks);
 	convolve_end=MPI_Wtime();
 
