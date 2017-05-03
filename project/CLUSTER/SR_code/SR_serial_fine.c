@@ -22,7 +22,7 @@ double SR_f(double start, double end){
 	double sum=0;
 	int i;
 
-	for(i=start;i<=end/2;i++){
+	for(i=start;i<=end;i++){
 		x=(double)(2*i-1)/(double)n;
 		temp1= 4.0/(1.0+x*x);
 		y=(double)(2*i)/(double)n;
@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
 	temp2=(double)n/(double)n;
 	total_sum=4.0/(1+temp1*temp1)-4.0/(1+temp2*temp2);
 
-	total_sum+=SR_f(1,n);//SR_f(start, end)
+	total_sum+=SR_f(1,n/2);//SR_f(start, end)
 
 	total_sum/=(3.0*n);
 
