@@ -25,6 +25,5 @@ SR_mpi.o:	SR_mpi.c
 clean:
 	rm -f *~ *.o SR_serial SR_mpi SR_serial_fine
 
-
 submit:
 	tar -czvf SR_project.tar.gz Makefile README *.c
