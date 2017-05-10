@@ -8,7 +8,7 @@
 // #include <errno.h>
 #include <math.h>
 
-#define n 1e8 //iteration times
+#define n 1e9 //iteration times
 // #define epsilon 2.220446e-16//epsilon
 #define epsilon 1e-15//epsilon
 /* True value of Pi from Wolfwww.wolframalpha.com */
