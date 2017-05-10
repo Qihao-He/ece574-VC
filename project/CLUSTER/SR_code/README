@@ -272,6 +272,19 @@ performance measure:
 job size: 1e9
 --------------------------------------------------------------------------------
 Serial code on PI
+
+$ ./time_SR_serial.sh
+Appr pi: 3.141592653590181
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
+
+real	1m18.783s
+user	1m18.590s
+sys	0m0.060s
+
+
 $ ./time_SR_serial_fine.sh
 Appr pi: 3.141592653590181
 True pi: 3.141592653589793
@@ -282,6 +295,7 @@ error is: 0.000000
 real	1m17.973s
 user	1m17.930s
 sys	0m0.010s
+
 
 --------------------------------------------------------------------------------
 1 threads:
