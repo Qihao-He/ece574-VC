@@ -49,7 +49,7 @@ Total time = 8.402465
 2 threads:
 $ sbatch -n 2 time_SR_mpi.sh
 Submitted batch job 1476
-ece574-10@haswell-ep:~/QH_repository/ece574-VC/project/CLUSTER/SR_code$ cat slurm.coarse.haswell-ep.1476.out
+$ cat slurm.coarse.haswell-ep.1476.out
 Rank0,total_sum:2.000000
 Rank0 range from 1 to 250000000,area:5563771307.210589
 Rank1 range from 250000001 to 500000000,area:3861006651.560257
@@ -89,7 +89,7 @@ Total time = 2.375687
 8 threads:
 $ sbatch -n 8 time_SR_mpi.sh
 Submitted batch job 1478
-ece574-10@haswell-ep:~/QH_repository/ece574-VC/project/CLUSTER/SR_code$ cat slurm.coarse.haswell-ep.1478.out
+$ cat slurm.coarse.haswell-ep.1478.out
 Rank0,total_sum:2.000000
 Rank5 range from 312500001 to 375000000,area:1018821521.080551
 Rank7 range from 437500001 to 500000000,area:798817965.044456
@@ -114,7 +114,7 @@ Total time = 1.315674
 16 threads:
 $ sbatch -n 16 time_SR_mpi.sh
 Submitted batch job 1490
-ece574-10@haswell-ep:~/QH_repository/ece574-VC/project/CLUSTER/SR_code$ cat slurm.coarse.haswell-ep.1490.out
+$ cat slurm.coarse.haswell-ep.1490.out
 Rank0,total_sum:2.000000
 Rank14 range from 437500001 to 468750000,area:411855375.950287
 Rank10 range from 312500001 to 343750000,area:524256369.336584
@@ -148,7 +148,7 @@ Total time = 1.198519
 32 threads:
 $ sbatch -n 32 time_SR_mpi.sh
 Submitted batch job 1480
-ece574-10@haswell-ep:~/QH_repository/ece574-VC/project/CLUSTER/SR_code$ cat slurm.coarse.haswell-ep.1480.out
+$ cat slurm.coarse.haswell-ep.1480.out
 Rank0,total_sum:2.000000
 Rank9 range from 140625001 to 156250000,area:344609007.001093
 Rank28 range from 437500001 to 453125000,area:209129152.248406
@@ -318,7 +318,7 @@ Total time = 100.891081
 2 threads:
 $ sbatch -n 2 time_SR_mpi.sh
 Submitted batch job 261
-ece574-10@pi-cluster:~/ece574-VC/project/CLUSTER/SR_code$ cat slurm.coarse.pi-node00-0.261.out
+$ cat slurm.coarse.pi-node00-0.261.out
 Rank0,total_sum:2.000000
 Rank0 range from 1 to 250000000,area:5563771307.210589
 Rank1 range from 250000001 to 500000000,area:3861006651.560257
@@ -337,7 +337,7 @@ Total time = 50.447811
 4 threads:
 $ sbatch -n 4 time_SR_mpi.sh
 Submitted batch job 262
-ece574-10@pi-cluster:~/ece574-VC/project/CLUSTER/SR_code$ cat slurm.coarse.pi-node00-0.262.out
+$ cat slurm.coarse.pi-node00-0.262.out
 Rank0,total_sum:2.000000
 Rank1 range from 125000001 to 250000000,area:2624027349.922636
 Rank2 range from 250000001 to 375000000,area:2158241996.870094
@@ -358,7 +358,7 @@ Total time = 25.228446
 8 threads:
 $ sbatch -n 8 time_SR_mpi.sh
 Submitted batch job 263
-ece574-10@pi-cluster:~/ece574-VC/project/CLUSTER/SR_code$ cat slurm.coarse.pi-node00-0.263.out
+$ cat slurm.coarse.pi-node00-0.263.out
 Rank0,total_sum:2.000000
 Rank2 range from 125000001 to 187500000,area:1365504085.466685
 Rank6 range from 375000001 to 437500000,area:903946689.645615
@@ -383,7 +383,7 @@ Total time = 12.691349
 16 threads:
 $ sbatch -n 16 time_SR_mpi.sh
 Submitted batch job 264
-ece574-10@pi-cluster:~/ece574-VC/project/CLUSTER/SR_code$ cat slurm.coarse.pi-node00-0.264.out
+$ cat slurm.coarse.pi-node00-0.264.out
 Rank0,total_sum:2.000000
 Rank12 range from 375000001 to 406250000,area:465785352.826968
 Rank0 range from 1 to 31250000,area:749025719.935948
@@ -416,7 +416,7 @@ Total time = 6.365056
 24 threads:
 $ sbatch -n 24 time_SR_mpi.sh
 Submitted batch job 265
-ece574-10@pi-cluster:~/ece574-VC/project/CLUSTER/SR_code$ cat slurm.coarse.pi-node00-0.265.out
+$ cat slurm.coarse.pi-node00-0.265.out
 Rank0,total_sum:2.000000
 Rank8 range from 166666667 to 187500000,area:444241404.793982
 Rank1 range from 20833334 to 41666666,area:497983825.554050
@@ -689,7 +689,7 @@ K.S, N.L, M.G 4-node pi3 cluster
 job size 1e9
 --------------------------------------------------------------------------------
 1 thread:
-time mpirun -f ~/machinefile -n 1 ./SR_mpi
+$ time mpirun -f ~/machinefile -n 1 ./SR_mpi
 Rank0,total_sum:2.000000
 Rank0 range from 1 to 500000000,area:9424777958.770544
 Rank0:
