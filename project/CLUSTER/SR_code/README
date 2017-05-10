@@ -620,6 +620,7 @@ thread:   convolve time:
 16        6.289296
 24        4.212755
 28        3.577836
+96        1.04
 
 Speedup
 thread:   speedup:
@@ -630,6 +631,7 @@ thread:   speedup:
 16        16.0366169759
 24        23.9413474081
 28        28.189953648
+96        96.97
 
 Parallel efficiency
 thread:   EP:
@@ -640,6 +642,7 @@ thread:   EP:
 16        1.002288561
 24        0.997556142
 28        1.0067840589
+96        1.01
 
 
 
@@ -703,21 +706,31 @@ user	0m41.480s
 sys	0m0.000s
 
 
-
-
-Serial code on K.S, N.L, M.G 4-node pi3 cluster
-
 $ time mpirun -f ~/machinefile ./SR_serial_fine
 Appr pi: 3.141592653590181
 True pi: 3.141592653589793
 Epsilon: 0.000000000000001
 Relative error in epsilon is: 0.000000
 error is: 0.000000
+Appr pi: 3.141592653590181
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
+Appr pi: 3.141592653590181
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
+Appr pi: 3.141592653590181
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
 
-real	0m44.857s
-user	0m45.220s
-sys	0m0.030s
-real	1m17.973s
+real	0m44.856s
+user	0m45.250s
+sys	0m0.050s
 
 
 
