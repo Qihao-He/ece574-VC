@@ -13,7 +13,7 @@ X replace with the desired number of cores to compute.
 
 
 ================================================================================
-VW 32 nodes Haswell machine
+VW 32-node Haswell machine
 performance measure:
 job size: 1e9
 --------------------------------------------------------------------------------
