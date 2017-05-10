@@ -454,6 +454,7 @@ Reduce time: 0.014630
 Total time = 4.284662
 
 --------------------------------------------------------------------------------
+28 threads:
 $ cat slurm.coarse.pi-node02-0.267.out
 Rank0,total_sum:2.000000
 Rank17 range from 303571429 to 321428571,area:308189106.329820
@@ -497,6 +498,7 @@ Total time = 4.082200
 
 
 --------------------------------------------------------------------------------
+96 threads:
 $ cat slurm.coarse.pi-node00-0.275.out
 Rank0,total_sum:2.000000
 Rank7 range from 36458334 to 41666666,area:124240591.475770
@@ -688,6 +690,38 @@ thread:   EP:
 K.S, N.L, M.G 4-node pi3 cluster
 job size 1e9
 --------------------------------------------------------------------------------
+serial code:
+$ ./time_SR_serial_fine.sh
+Appr pi: 3.141592653590181
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
+
+real	0m41.547s
+user	0m41.480s
+sys	0m0.000s
+
+
+
+
+Serial code on K.S, N.L, M.G 4-node pi3 cluster
+
+$ time mpirun -f ~/machinefile ./SR_serial_fine
+Appr pi: 3.141592653590181
+True pi: 3.141592653589793
+Epsilon: 0.000000000000001
+Relative error in epsilon is: 0.000000
+error is: 0.000000
+
+real	0m44.857s
+user	0m45.220s
+sys	0m0.030s
+real	1m17.973s
+
+
+
+--------------------------------------------------------------------------------
 1 thread:
 $ time mpirun -f ~/machinefile -n 1 ./SR_mpi
 Rank0,total_sum:2.000000
@@ -706,6 +740,8 @@ Total time = 44.686184
 real	0m44.728s
 user	0m44.690s
 sys	0m0.030s
+
+
 --------------------------------------------------------------------------------
 2 threads:
 $ time mpirun -f ~/machinefile -n 2 ./SR_mpi
@@ -726,6 +762,8 @@ Total time = 21.542840
 real	0m22.049s
 user	0m21.730s
 sys	0m0.020s
+
+
 --------------------------------------------------------------------------------
 4 threads:
 $ time mpirun -f ~/machinefile -n 4 ./SR_mpi
@@ -748,6 +786,7 @@ Total time = 13.093834
 real	0m13.605s
 user	0m13.620s
 sys	0m0.030s
+
 
 --------------------------------------------------------------------------------
 8 threads
@@ -862,19 +901,7 @@ user	0m22.220s
 sys	0m0.150s
 
 --------------------------------------------------------------------------------
-Serial code on K.S, N.L, M.G 4-node pi3 cluster
 
-$ time mpirun -f ~/machinefile ./SR_serial_fine
-Appr pi: 3.141592653590181
-True pi: 3.141592653589793
-Epsilon: 0.000000000000001
-Relative error in epsilon is: 0.000000
-error is: 0.000000
-
-real	0m44.857s
-user	0m45.220s
-sys	0m0.030s
-real	1m17.973s
 
 
 Convolve time:
